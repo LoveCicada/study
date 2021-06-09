@@ -54,6 +54,8 @@ void MusicInfoModel::loadData(/*const QString& strKeyWord*/)
 		QBrush brush(itemBackbroundDarkColor);
 		QList<QStandardItem*> listItems;
 		QStandardItem* pTitle = new QStandardItem(songItem.strName);
+		int id = 123456;
+		pTitle->setData(id);
 		pTitle->setBackground(brush);
 		pTitle->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
@@ -213,6 +215,12 @@ void Widget::openSelect(const QModelIndex &index)
 		QModelIndex nIndex = index.sibling(nRow, i);
 		QVariant qIndexData = nIndex.data();
 		qDebug() << "qIndexData = " << qIndexData;
+
+		QVariant id = nIndex.data(Qt::UserRole + 1);
+		if (!id.isValid())
+			continue;
+		qDebug() << "id = " << id;
+		
 	}
 	qDebug() << "------------------";
 }
