@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QTableView>
 #include <QStandardItemModel>
+#include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -45,7 +46,7 @@ private slots:
 	void searchOnlineSlot();            //网上搜索
 	void searchAndSelcLocalSlot();      //本地搜索并选择
 	void searchAndFilterLocalSlot();	//本地搜索并过滤
-
+	void openSelect(const QModelIndex &index);
 private:
 	//ctrl
 	QHBoxLayout* m_pHLayoutNet;
@@ -65,6 +66,7 @@ private:
 
 
 	//data
+	QItemSelectionModel* m_pSelectModel;
 	MusicInfoModel* m_pInfoModel;
 	QSortFilterProxyModel* m_pFilterModel;
 };

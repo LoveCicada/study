@@ -1,5 +1,6 @@
 #include "widget.h"
 #include <QList>
+#include <QDebug>
 
 MusicInfoModel::MusicInfoModel(QObject *parent)
 	:QStandardItemModel(parent)
@@ -54,10 +55,16 @@ void MusicInfoModel::loadData(/*const QString& strKeyWord*/)
 		QList<QStandardItem*> listItems;
 		QStandardItem* pTitle = new QStandardItem(songItem.strName);
 		pTitle->setBackground(brush);
+		pTitle->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
 		QStandardItem* pSinger = new QStandardItem(songItem.strSinger);
 		pSinger->setBackground(brush);
+		pSinger->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
 		QStandardItem* pAlbum = new QStandardItem(songItem.strAlbum);
 		pAlbum->setBackground(brush);
+		pAlbum->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
 		listItems << pTitle << pSinger << pAlbum;
 		appendRow(listItems);
 	}
@@ -120,11 +127,18 @@ void Widget::initCtrl()
 void Widget::initData()
 {
 	m_pInfoModel = new MusicInfoModel(this);
+	m_pSelectModel = new QItemSelectionModel(m_pInfoModel);
 	m_pFilterModel = new QSortFilterProxyModel(this);
 	m_pFilterModel->setSourceModel(m_pInfoModel);
 	m_pTableView->setModel(m_pFilterModel);
 
+	m_pTableView->setSelectionModel(m_pSelectModel);
+	m_pTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	m_pTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
 	m_pInfoModel->loadData();
+
+	connect(m_pTableView, &QTableView::doubleClicked, this, &Widget::openSelect);
 }
 
 void Widget::searchOnlineSlot()
@@ -179,4 +193,17 @@ void Widget::searchAndFilterLocalSlot()
 
 	QString strKeyword = m_pLocalSearchFiltEdit->text();
 	m_pFilterModel->setFilterFixedString(strKeyword);
+}
+
+void Widget::openSelect(const QModelIndex &index)
+{
+	int nRow = index.row();
+	qDebug() << "row = " << nRow;
+	if (!index.isValid())
+		return;
+
+	QVariant data = m_pFilterModel->data(index);
+	qDebug() << "data = " << data;
+
+
 }
