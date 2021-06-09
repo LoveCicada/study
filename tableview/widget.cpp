@@ -133,8 +133,9 @@ void Widget::initData()
 	m_pTableView->setModel(m_pFilterModel);
 
 	m_pTableView->setSelectionModel(m_pSelectModel);
-	m_pTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	m_pTableView->setSelectionMode(QAbstractItemView::SingleSelection);
 	m_pTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+	m_pTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	m_pInfoModel->loadData();
 
@@ -198,12 +199,32 @@ void Widget::searchAndFilterLocalSlot()
 void Widget::openSelect(const QModelIndex &index)
 {
 	int nRow = index.row();
+
 	qDebug() << "row = " << nRow;
 	if (!index.isValid())
 		return;
+	QVariant indexData = index.data();
+	qDebug() << "indexData = " << indexData;
+
+	int nColumnCount = m_pFilterModel->columnCount();
+	qDebug() << "nColumnCount = " << nColumnCount;
+
+	qDebug() << "------------------";
+	for (int i = 0; i < nColumnCount; ++i)
+	{
+		QModelIndex nIndex = index.sibling(nRow, i);
+		QVariant qIndexData = nIndex.data();
+		qDebug() << "qIndexData = " << qIndexData;
+	}
+	qDebug() << "------------------";
 
 	QVariant data = m_pFilterModel->data(index);
 	qDebug() << "data = " << data;
 
-
+	QModelIndex selIndex = m_pSelectModel->currentIndex();
+	if (!selIndex.isValid())
+		return;
+	QStandardItem* item = m_pInfoModel->item(selIndex.row(), 1);
+	QString selText = item->text();
+	qDebug() << "selText = " << selText;
 }
