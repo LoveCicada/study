@@ -198,13 +198,11 @@ void Widget::searchAndFilterLocalSlot()
 
 void Widget::openSelect(const QModelIndex &index)
 {
-	int nRow = index.row();
-
-	qDebug() << "row = " << nRow;
 	if (!index.isValid())
 		return;
-	QVariant indexData = index.data();
-	qDebug() << "indexData = " << indexData;
+
+	int nRow = index.row();
+	qDebug() << "row = " << nRow;
 
 	int nColumnCount = m_pFilterModel->columnCount();
 	qDebug() << "nColumnCount = " << nColumnCount;
@@ -217,14 +215,4 @@ void Widget::openSelect(const QModelIndex &index)
 		qDebug() << "qIndexData = " << qIndexData;
 	}
 	qDebug() << "------------------";
-
-	QVariant data = m_pFilterModel->data(index);
-	qDebug() << "data = " << data;
-
-	QModelIndex selIndex = m_pSelectModel->currentIndex();
-	if (!selIndex.isValid())
-		return;
-	QStandardItem* item = m_pInfoModel->item(selIndex.row(), 1);
-	QString selText = item->text();
-	qDebug() << "selText = " << selText;
 }
