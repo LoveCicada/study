@@ -9,6 +9,7 @@
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
 #include <QPushButton>
+#include "CXETableView.h"
 
 #define SONGNUM 10
 
@@ -60,7 +61,7 @@ private:
 	QPushButton* m_pLocalSearchFiltBtn;
 	
 	QVBoxLayout* m_pVLayout;
-	QTableView* m_pTableView;
+	CXETableView* m_pTableView;
 
 
 	//data

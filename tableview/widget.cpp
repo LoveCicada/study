@@ -40,12 +40,24 @@ void MusicInfoModel::loadData(/*const QString& strKeyWord*/)
 
 	QList<SongInfo> listSongInfo;
 	intiData(listSongInfo);
+
+	//ÉîÉ«
+	QColor itemBackbroundDarkColor(100, 100, 100);
+	//Ç³É«
+	QColor itemBackbroundLightColor(121, 121, 121);
+	QColor itemFontColor(255, 255, 255);
+
 	for (SongInfo songItem : listSongInfo)
 	{
+
+		QBrush brush(itemBackbroundDarkColor);
 		QList<QStandardItem*> listItems;
 		QStandardItem* pTitle = new QStandardItem(songItem.strName);
+		pTitle->setBackground(brush);
 		QStandardItem* pSinger = new QStandardItem(songItem.strSinger);
+		pSinger->setBackground(brush);
 		QStandardItem* pAlbum = new QStandardItem(songItem.strAlbum);
+		pAlbum->setBackground(brush);
 		listItems << pTitle << pSinger << pAlbum;
 		appendRow(listItems);
 	}
@@ -98,7 +110,7 @@ void Widget::initCtrl()
 	m_pVLayout->addLayout(m_pHLayoutLocalSel);
 	m_pVLayout->addLayout(m_pHLayoutLocalFilt);
 
-	m_pTableView = new QTableView();
+	m_pTableView = new CXETableView();
 	m_pVLayout->addWidget(m_pTableView);
 
 	connect(m_pLocalSearchSelBtn, &QPushButton::clicked, this, &Widget::searchAndSelcLocalSlot);
