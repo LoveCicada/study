@@ -129,11 +129,28 @@ void Widget::initCtrl()
 	m_pHLayoutPSort->addWidget(m_pSortPEdit);
 	m_pHLayoutPSort->addWidget(m_pSortPBtn);
 
+	m_pHLayoutPSearch = new QHBoxLayout(this);
+	m_pBeginEdit = new QLineEdit();
+	m_pBeginEdit->setPlaceholderText(QStringLiteral("中国2"));
+	m_pBeginEdit->setAlignment(Qt::AlignCenter);
+	m_pLable = new QLabel(this);
+	m_pLable->setText("--");
+	m_pLable->setAlignment(Qt::AlignCenter);
+	m_pEndEdit = new QLineEdit();
+	m_pEndEdit->setPlaceholderText(QStringLiteral("中国7"));
+	m_pEndEdit->setAlignment(Qt::AlignCenter);
+	m_pSearchBtn = new QPushButton(this);
+	m_pHLayoutPSearch->addWidget(m_pBeginEdit);
+	m_pHLayoutPSearch->addWidget(m_pLable);
+	m_pHLayoutPSearch->addWidget(m_pEndEdit);
+	m_pHLayoutPSearch->addWidget(m_pSearchBtn);
+
 	m_pVLayout->addLayout(m_pHLayoutNet);
 	m_pVLayout->addLayout(m_pHLayoutLocalSel);
 	m_pVLayout->addLayout(m_pHLayoutLocalFilt);
 	m_pVLayout->addLayout(m_pHLayoutNSort);
 	m_pVLayout->addLayout(m_pHLayoutPSort);
+	m_pVLayout->addLayout(m_pHLayoutPSearch);
 
 	m_pTableView = new CXETableView();
 	m_pVLayout->addWidget(m_pTableView);
@@ -142,6 +159,8 @@ void Widget::initCtrl()
 	connect(m_pLocalSearchFiltBtn, &QPushButton::clicked, this, &Widget::searchAndFilterLocalSlot);
 	connect(m_pSortNBtn, &QPushButton::clicked, this, &Widget::sortNSlot);
 	connect(m_pSortPBtn, &QPushButton::clicked, this, &Widget::sortPSlot);
+	connect(m_pSearchBtn, &QPushButton::clicked, this, &Widget::searchSlot);
+
 }
 
 void Widget::initData()
@@ -224,6 +243,12 @@ void Widget::sortNSlot()
 void Widget::sortPSlot()
 {
 	m_pFilterModel->sort(0, Qt::AscendingOrder);
+}
+
+void Widget::searchSlot()
+{
+	static int i = 0;
+	i++;
 }
 
 void Widget::openSelect(const QModelIndex &index)

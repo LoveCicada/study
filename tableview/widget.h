@@ -9,6 +9,7 @@
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
+#include <QLabel>
 #include <QPushButton>
 #include "CXETableView.h"
 
@@ -48,6 +49,7 @@ private slots:
 	void searchAndFilterLocalSlot();	//本地搜索并过滤
 	void sortNSlot();
 	void sortPSlot();
+	void searchSlot();
 	void openSelect(const QModelIndex &index);
 private:
 	//ctrl
@@ -72,6 +74,12 @@ private:
 	QHBoxLayout* m_pHLayoutPSort;
 	QLineEdit* m_pSortPEdit;
 	QPushButton* m_pSortPBtn;
+
+	QHBoxLayout* m_pHLayoutPSearch;
+	QLineEdit* m_pBeginEdit;
+	QLabel* m_pLable;
+	QLineEdit* m_pEndEdit;
+	QPushButton* m_pSearchBtn;
 
 	QVBoxLayout* m_pVLayout;
 	CXETableView* m_pTableView;
