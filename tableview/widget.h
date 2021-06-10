@@ -46,6 +46,8 @@ private slots:
 	void searchOnlineSlot();            //网上搜索
 	void searchAndSelcLocalSlot();      //本地搜索并选择
 	void searchAndFilterLocalSlot();	//本地搜索并过滤
+	void sortNSlot();
+	void sortPSlot();
 	void openSelect(const QModelIndex &index);
 private:
 	//ctrl
@@ -61,6 +63,16 @@ private:
 	QLineEdit* m_pLocalSearchFiltEdit;
 	QPushButton* m_pLocalSearchFiltBtn;
 	
+	//逆序
+	QHBoxLayout* m_pHLayoutNSort;
+	QLineEdit* m_pSortNEdit;
+	QPushButton* m_pSortNBtn;
+
+	//正序
+	QHBoxLayout* m_pHLayoutPSort;
+	QLineEdit* m_pSortPEdit;
+	QPushButton* m_pSortPBtn;
+
 	QVBoxLayout* m_pVLayout;
 	CXETableView* m_pTableView;
 

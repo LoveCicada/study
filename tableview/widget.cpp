@@ -115,15 +115,33 @@ void Widget::initCtrl()
 	m_pHLayoutLocalFilt->addWidget(m_pLocalSearchFiltEdit);
 	m_pHLayoutLocalFilt->addWidget(m_pLocalSearchFiltBtn);
 
+	m_pHLayoutNSort = new QHBoxLayout(this);
+	m_pSortNEdit = new QLineEdit();
+	m_pSortNBtn = new QPushButton();
+	m_pSortNBtn->setText(QStringLiteral("ÅÅÐò-µÝ¼õ"));
+	m_pHLayoutNSort->addWidget(m_pSortNEdit);
+	m_pHLayoutNSort->addWidget(m_pSortNBtn);
+
+	m_pHLayoutPSort = new QHBoxLayout(this);
+	m_pSortPEdit = new QLineEdit();
+	m_pSortPBtn = new QPushButton();
+	m_pSortPBtn->setText(QStringLiteral("ÅÅÐò-µÝÔö"));
+	m_pHLayoutPSort->addWidget(m_pSortPEdit);
+	m_pHLayoutPSort->addWidget(m_pSortPBtn);
+
 	m_pVLayout->addLayout(m_pHLayoutNet);
 	m_pVLayout->addLayout(m_pHLayoutLocalSel);
 	m_pVLayout->addLayout(m_pHLayoutLocalFilt);
+	m_pVLayout->addLayout(m_pHLayoutNSort);
+	m_pVLayout->addLayout(m_pHLayoutPSort);
 
 	m_pTableView = new CXETableView();
 	m_pVLayout->addWidget(m_pTableView);
 
 	connect(m_pLocalSearchSelBtn, &QPushButton::clicked, this, &Widget::searchAndSelcLocalSlot);
 	connect(m_pLocalSearchFiltBtn, &QPushButton::clicked, this, &Widget::searchAndFilterLocalSlot);
+	connect(m_pSortNBtn, &QPushButton::clicked, this, &Widget::sortNSlot);
+	connect(m_pSortPBtn, &QPushButton::clicked, this, &Widget::sortPSlot);
 }
 
 void Widget::initData()
@@ -198,6 +216,16 @@ void Widget::searchAndFilterLocalSlot()
 	m_pFilterModel->setFilterFixedString(strKeyword);
 }
 
+void Widget::sortNSlot()
+{
+	m_pFilterModel->sort(0, Qt::DescendingOrder);
+}
+
+void Widget::sortPSlot()
+{
+	m_pFilterModel->sort(0, Qt::AscendingOrder);
+}
+
 void Widget::openSelect(const QModelIndex &index)
 {
 	if (!index.isValid())
@@ -214,7 +242,7 @@ void Widget::openSelect(const QModelIndex &index)
 	{
 		QModelIndex nIndex = index.sibling(nRow, i);
 		QVariant qIndexData = nIndex.data();
-		qDebug() << "qIndexData = " << qIndexData;
+		qDebug() << "qIndexData = " << qIndexData.toString();
 
 		QVariant id = nIndex.data(Qt::UserRole + 1);
 		if (!id.isValid())
