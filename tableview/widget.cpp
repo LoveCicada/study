@@ -243,12 +243,18 @@ void Widget::sortNSlot()
 void Widget::sortPSlot()
 {
 	m_pFilterModel->sort(0, Qt::AscendingOrder);
+	
 }
 
 void Widget::searchSlot()
 {
 	static int i = 0;
 	i++;
+
+	QString strBegin = m_pBeginEdit->text();
+	QString strEnd = m_pEndEdit->text();
+	qDebug() << "strBegin = " << strBegin;
+	qDebug() << "strEnd = " << strEnd;
 }
 
 void Widget::openSelect(const QModelIndex &index)
