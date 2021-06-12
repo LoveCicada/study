@@ -13,7 +13,8 @@
 #include <QPushButton>
 #include "CXETableView.h"
 
-#define SONGNUM 10
+#define SONGNUM 20
+#define MINSONGNUM 20
 
 struct SongInfo
 {
@@ -21,16 +22,32 @@ public:
 	QString strName;
 	QString strSinger;
 	QString strAlbum;
+	QString strDate;
 };
 
 class MusicInfoModel : public QStandardItemModel
 {
+	Q_OBJECT
+
 public:
 	MusicInfoModel(QObject *parent = Q_NULLPTR);
 
 	void intiData(QList<SongInfo>& _listSongInfo);
 	void loadData(/*const QString& strKeyWord*/);
 };
+
+class CXESortFilterProxyModel : public QSortFilterProxyModel
+{
+	Q_OBJECT
+
+public:
+	CXESortFilterProxyModel(QObject *parent = Q_NULLPTR);
+
+	void sort(int column, Qt::SortOrder order);
+};
+
+
+
 
 class Widget : public QWidget
 {

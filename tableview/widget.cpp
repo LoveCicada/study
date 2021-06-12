@@ -1,6 +1,7 @@
 #include "widget.h"
 #include <QList>
 #include <QDebug>
+#include <QDateTime>
 
 MusicInfoModel::MusicInfoModel(QObject *parent)
 	:QStandardItemModel(parent)
@@ -26,6 +27,9 @@ void MusicInfoModel::intiData(QList<SongInfo>& _listSongInfo)
 			info.strAlbum = QStringLiteral("好声音") + QString::number(i) + QStringLiteral("咯");
 		}
 
+		QDateTime time = QDateTime::currentDateTime();
+		time = time.addSecs(60 * i);
+		info.strDate = time.toString("hh::mm::ss");
 		_listSongInfo.push_back(info);
 	}
 }
@@ -34,9 +38,10 @@ void MusicInfoModel::loadData(/*const QString& strKeyWord*/)
 {
 	clear();
 	QStringList labels;
-	labels<< QString::fromLocal8Bit("音乐标题") 
-		<< QString::fromLocal8Bit("歌手") 
-		<< QString::fromLocal8Bit("专辑");
+	labels << QString::fromLocal8Bit("音乐标题")
+		<< QString::fromLocal8Bit("歌手")
+		<< QString::fromLocal8Bit("专辑")
+		<< QString::fromLocal8Bit("日期");
 	setHorizontalHeaderLabels(labels);
 
 	QList<SongInfo> listSongInfo;
@@ -67,11 +72,59 @@ void MusicInfoModel::loadData(/*const QString& strKeyWord*/)
 		pAlbum->setBackground(brush);
 		pAlbum->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
-		listItems << pTitle << pSinger << pAlbum;
+		QStandardItem* pDate = new QStandardItem(songItem.strDate);
+		pDate->setBackground(brush);
+		pDate->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+		listItems << pTitle << pSinger << pAlbum << pDate;
 		appendRow(listItems);
 	}
 
+	if (listSongInfo.size() < MINSONGNUM)
+	{
+		int addNum = MINSONGNUM - listSongInfo.size();
+		for (int j = 0; j < addNum; ++j)
+		{
+			QBrush brush(itemBackbroundDarkColor);
+			QList<QStandardItem*> listItems;
+			QStandardItem* pTitle = new QStandardItem("");
+			pTitle->setBackground(brush);
+			pTitle->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+			QStandardItem* pSinger = new QStandardItem("");
+			pSinger->setBackground(brush);
+			pSinger->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+			QStandardItem* pAlbum = new QStandardItem("");
+			pAlbum->setBackground(brush);
+			pAlbum->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+			QStandardItem* pDate = new QStandardItem("");
+			pDate->setBackground(brush);
+			pDate->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+			listItems << pTitle << pSinger << pAlbum << pDate;
+			appendRow(listItems);
+		}
+	}
+
 }
+
+
+//////////////////////////////////////////////////////
+
+CXESortFilterProxyModel::CXESortFilterProxyModel(QObject *parent)
+	:QSortFilterProxyModel(parent)
+{
+
+}
+
+void CXESortFilterProxyModel::sort(int column, Qt::SortOrder order)
+{
+	
+
+}
+
 
 
 
@@ -237,12 +290,12 @@ void Widget::searchAndFilterLocalSlot()
 
 void Widget::sortNSlot()
 {
-	m_pFilterModel->sort(0, Qt::DescendingOrder);
+	m_pFilterModel->sort(3, Qt::DescendingOrder);
 }
 
 void Widget::sortPSlot()
 {
-	m_pFilterModel->sort(0, Qt::AscendingOrder);
+	m_pFilterModel->sort(3, Qt::AscendingOrder);
 	
 }
 
