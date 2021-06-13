@@ -34,7 +34,7 @@ set(PROJECT_SOURCES
         widget.cpp
         widget.h
         test.h
-        test.cpp
+        template.hpp
         ${TS_FILES}
 )
 

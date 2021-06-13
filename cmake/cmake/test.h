@@ -1,4 +1,47 @@
-#ifndef TEST_H
-#define TEST_H
+#include "template.hpp"
 
-#endif // TEST_H
+void test()
+{
+	cout << "test c++11" << endl;
+
+	func();
+	func(1);
+	func(1, 2.0);
+	func(1, 2.0, "1", true);
+
+	//2.1.1
+	print(1, 2, 3, 4);
+
+	//
+	cout << "sum = " << sum(1, 2, 3, 4) << endl;
+
+	//
+	expand(1, 2, 3, 4);
+	cout << endl;
+
+	//
+	expandEx([](int i) {
+		cout << i << endl;
+		}, 1, 2, 3);
+	cout << endl;
+
+	//
+	expandEx([](auto i) {
+		cout << i << endl; 
+		}, 1, 2.0, "test");
+	cout << endl;
+
+
+	[]() {};
+
+	//
+	//2.2 可变模板参数类
+	std::tuple<> tp;
+	std::tuple<int> tp1 = std::make_tuple(1);
+	std::tuple<int, double> tp2 = std::make_tuple(1, 2.5);
+	std::tuple<int, double, string> tp3 = std::make_tuple(1, 2.5, "");
+
+
+
+
+}
