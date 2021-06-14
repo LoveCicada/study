@@ -1,4 +1,8 @@
 #include "template.hpp"
+#include <utility>
+#include <string>
+#include <vector>
+
 
 void test()
 {
@@ -59,4 +63,23 @@ void test()
 	dd(1);
 	auto dd1 = CreateDelegate(&aa, &AA::Fun1);
 	dd1(1, 2.5);
+
+
+	//“∆∂Ø”Ô“Â
+	{
+		std::string str = "hello";
+		std::vector<std::string> v;
+		v.push_back(str);
+		std::cout << "str = " << str << endl;
+		v.push_back(std::move(str));
+		std::cout << "after move" << endl;
+		std::cout << "str = " << str << endl;
+		std::vector<string>::const_iterator it = v.begin();
+		for (; it != v.end(); ++it)
+		{
+			std::cout << *it << endl;
+		}
+
+	}
+
 }
