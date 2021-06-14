@@ -4,6 +4,16 @@ void test()
 {
 	cout << "test c++11" << endl;
 
+	cout << "右值引用" << endl;
+	A a = GetA();
+
+	//A&& aa = GetA();
+
+
+
+
+	cout << "可变参数模板" << endl;
+
 	func();
 	func(1);
 	func(1, 2.0);
@@ -33,6 +43,7 @@ void test()
 
 
 	[]() {};
+	[] {};
 
 	//
 	//2.2 可变模板参数类
@@ -42,6 +53,10 @@ void test()
 	std::tuple<int, double, string> tp3 = std::make_tuple(1, 2.5, "");
 
 
-
-
+	//delegate
+	AA aa;
+	auto dd = CreateDelegate(&aa, &AA::Fun);
+	dd(1);
+	auto dd1 = CreateDelegate(&aa, &AA::Fun1);
+	dd1(1, 2.5);
 }

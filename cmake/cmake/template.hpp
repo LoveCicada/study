@@ -6,6 +6,66 @@ study c++11
 
 */
 
+#include <iostream>
+#include <tuple>
+using namespace std;
+
+/*
+*
+* 右值引用
+* https://www.cnblogs.com/qicosmos/p/4283455.html
+*/
+
+class A 
+{
+public:
+	A()
+	{
+		static int nConstructNum = 0;
+		nConstructNum++;
+		cout << "construct: " << nConstructNum << endl;
+	}
+
+	A(const A& a)
+	{
+		static int nCopyConstructNum = 0;
+		nCopyConstructNum++;
+		cout << "copy constructNum: " << nCopyConstructNum << endl;
+	}
+	~A()
+	{
+		static int nDestructNum = 0;
+		nDestructNum++;
+		cout << "destructNum: " << nDestructNum << endl;
+	}
+};
+
+A GetA()
+{
+	return A();
+}
+
+
+template<class T>
+void f(T&& param)
+{
+
+}
+
+template<class T>
+class TestClass
+{
+	TestClass(TestClass&& rhs)
+	{
+
+	}
+};
+
+
+
+
+
+
 /*
 * 
 * 泛化之美--C++11可变模版参数的妙用
@@ -13,8 +73,7 @@ study c++11
 */
 
 
-#include <iostream>
-using namespace std;
+
 
 
 // 2.1 可变模板参数函数
@@ -105,6 +164,106 @@ struct Sum<Last>
 };
 
 
+//泛型工厂函数
+
+template<class T,class ... Args>
+T* Instance(Args&& ... args)
+{
+	return new T(std::forward<Args>(args)...);
+}
+
+
+//4 可变参数模板实现泛化的delegate
+
+template<class T,class R,class... Args>
+class MyDelegate
+{
+public:
+	MyDelegate(T* t, R (T::* f)(Args...))
+		:m_t(t), m_f(f)
+	{
+
+	}
+
+	R operator()(Args&&... args)
+	{
+		return (m_t->*m_f)(std::forward<Args>(args)...);
+	}
+
+private:
+	T* m_t;
+	R (T::* m_f)(Args...);
+};
+
+template<class T,class R,class ... Args>
+MyDelegate<T, R, Args...> CreateDelegate(T* t, R (T::*f)(Args ...))
+{
+	return MyDelegate<T, R, Args...>(t, f);
+}
+
+struct AA
+{
+	void Fun(int i)
+	{
+		cout << i << endl;
+	}
+	void Fun1(int i, double d)
+	{
+		cout << i + d << endl;
+	}
+};
+
+// copy and swap
+
+/*
+https://light-city.club/sc/codingStyleIdioms/copy-swap/
+*/
+
+namespace A_A
+{
+	template<typename T>
+	class smart_ptr
+	{
+	public:
+		smart_ptr() noexcept :ptr_(new T())
+		{
+
+		}
+
+		smart_ptr(smart_ptr& rhs) noexcept
+		{
+			ptr_ = rhs.release();
+		}
+
+		void swap(smart_ptr& rhs) noexcept
+		{
+			using std::swap;
+			swap(ptr_, rhs.ptr_);
+		}
+
+		T* release() noexcept
+		{
+			T* ptr = ptr_;
+			ptr_ = nullptr;
+			return ptr;
+		}
+
+		T* get() const noexcept
+		{
+			return ptr_;
+		}
+
+	private:
+		T* ptr_;
+	};
+
+	template<typename T>
+	void swap(A_A::smart_ptr<T>& lhs, A_A::smart_ptr<T>& rhs) noexcept
+	{
+		lhs.swap(rhs);
+	}
+
+}
 
 
 
