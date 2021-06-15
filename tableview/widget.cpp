@@ -198,12 +198,30 @@ void Widget::initCtrl()
 	m_pHLayoutPSearch->addWidget(m_pEndEdit);
 	m_pHLayoutPSearch->addWidget(m_pSearchBtn);
 
+	m_pHLayoutTimeSearch = new QHBoxLayout(this);
+	m_pBeginTimeEdit = new QDateTimeEdit();
+	m_pBeginTimeEdit->setDisplayFormat("hh:mm:ss");
+	m_pBeginTimeEdit->setStyleSheet("background-color:rgba(63,63,63,255)");
+	m_pBeginTimeEdit->setAlignment(Qt::AlignCenter);
+	m_pTimeLabel = new QLabel(this);
+	m_pTimeLabel->setText("--");
+	m_pTimeLabel->setAlignment(Qt::AlignCenter);
+	m_pEndTimeEdit = new QDateTimeEdit();
+	m_pEndTimeEdit->setDisplayFormat("hh:mm:ss");
+	m_pEndTimeEdit->setAlignment(Qt::AlignCenter);
+	m_pSearchTimeBtn = new QPushButton(this);
+	m_pHLayoutTimeSearch->addWidget(m_pBeginTimeEdit);
+	m_pHLayoutTimeSearch->addWidget(m_pTimeLabel);
+	m_pHLayoutTimeSearch->addWidget(m_pEndTimeEdit);
+	m_pHLayoutTimeSearch->addWidget(m_pSearchTimeBtn);
+
 	m_pVLayout->addLayout(m_pHLayoutNet);
 	m_pVLayout->addLayout(m_pHLayoutLocalSel);
 	m_pVLayout->addLayout(m_pHLayoutLocalFilt);
 	m_pVLayout->addLayout(m_pHLayoutNSort);
 	m_pVLayout->addLayout(m_pHLayoutPSort);
 	m_pVLayout->addLayout(m_pHLayoutPSearch);
+	m_pVLayout->addLayout(m_pHLayoutTimeSearch);
 
 	m_pTableView = new CXETableView();
 	m_pVLayout->addWidget(m_pTableView);
