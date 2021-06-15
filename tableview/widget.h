@@ -11,6 +11,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QPushButton>
+#include <QDateTimeEdit>
 #include "CXETableView.h"
 
 #define SONGNUM 20
@@ -97,6 +98,14 @@ private:
 	QLabel* m_pLable;
 	QLineEdit* m_pEndEdit;
 	QPushButton* m_pSearchBtn;
+
+	//date
+	QHBoxLayout* m_pHLayoutTimeSearch;
+	QDateTimeEdit* m_pBeginTimeEdit;
+	QLabel* m_pTimeLabel;
+	QDateTimeEdit* m_pEndTimeEdit;
+	QPushButton* m_pSearchTimeBtn;
+
 
 	QVBoxLayout* m_pVLayout;
 	CXETableView* m_pTableView;
