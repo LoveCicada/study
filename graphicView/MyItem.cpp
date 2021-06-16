@@ -16,7 +16,7 @@ QRectF MyItem::boundingRect() const
 {
 	qreal penWidth = 1;
 	return QRectF(0 - penWidth / 2, 0 - penWidth / 2,
-		20 + penWidth, 20 + penWidth);
+		50 + penWidth, 50 + penWidth);
 }
 
 void MyItem::paint(QPainter* painter,
