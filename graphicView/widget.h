@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
+#include "MyItem.h"
 
 class Widget : public QWidget
 {

@@ -22,7 +22,7 @@ void Widget::initCtrl()
 {
 	m_pVLayout = new QVBoxLayout(this);
 
-	QGraphicsRectItem* pItem = new QGraphicsRectItem(100, 100, 50, 50);
+	MyItem* pItem = new MyItem();
 	QGraphicsScene* pScene = new QGraphicsScene();
 	pScene->addItem(pItem);
 	QGraphicsView* pView = new QGraphicsView();
