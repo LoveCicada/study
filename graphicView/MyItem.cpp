@@ -1,5 +1,17 @@
 #include "MyItem.h"
 
+MyItem::MyItem(QGraphicsItem *parent)
+	:QGraphicsItem(parent)
+{
+	setToolTip("Click and drag me!");
+	setCursor(Qt::OpenHandCursor);
+}
+
+MyItem::~MyItem()
+{
+
+}
+
 QRectF MyItem::boundingRect() const
 {
 	qreal penWidth = 1;
