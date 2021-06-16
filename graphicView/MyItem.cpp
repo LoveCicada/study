@@ -1,6 +1,57 @@
 #include "MyItem.h"
 #include <QLineF> 
 #include <QApplication>
+#include <QVariant>
+
+RectItem::RectItem()
+{
+	setAcceptDrops(true);
+	m_Color = QColor(Qt::lightGray);
+}
+
+QRectF RectItem::boundingRect() const
+{
+	return QRectF(0, 0, 50, 50);
+}
+
+void RectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+	painter->setBrush(m_bDragOver ? m_Color.light(130) : m_Color);  //如果其上有拖动，颜色变亮
+	painter->drawRect(0, 0, 50, 50);
+}
+
+void RectItem::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
+{
+	if (event->mimeData()->hasColor())
+	{
+		event->setAccepted(true);
+		m_bDragOver = true;
+		update();
+	}
+	else
+	{
+		event->setAccepted(false);
+	}
+}
+
+void RectItem::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
+{
+	Q_UNUSED(event);
+	m_bDragOver = false;
+	update();
+}
+
+void RectItem::dropEvent(QGraphicsSceneDragDropEvent* event)
+{
+	m_bDragOver = false;
+	if (event->mimeData()->hasColor())
+	{
+		m_Color = qvariant_cast<QColor>(event->mimeData()->colorData());
+		update();
+	}
+}
+
+////////////////////////////////////////////////
 
 MyItem::MyItem(QGraphicsItem *parent)
 	:QGraphicsItem(parent)
