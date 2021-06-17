@@ -6,6 +6,7 @@
 RectItem::RectItem()
 {
 	setAcceptDrops(true);
+	setFlag(QGraphicsItem::ItemIsMovable);
 	m_Color = QColor(Qt::lightGray);
 }
 
@@ -58,6 +59,8 @@ MyItem::MyItem(QGraphicsItem *parent)
 {
 	setToolTip("Click and drag me!");
 	setCursor(Qt::OpenHandCursor);
+	setFlag(QGraphicsItem::ItemIsFocusable);
+	
 	m_Color = QColor(qrand() % 256, qrand() % 256, qrand() % 256);
 }
 
@@ -121,4 +124,9 @@ void MyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	Q_UNUSED(event);
 	setCursor(Qt::OpenHandCursor);
+}
+
+void MyItem::keyPressEvent(QKeyEvent* event)
+{
+	moveBy(0, 10);
 }
