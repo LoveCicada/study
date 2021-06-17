@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QObject>
 #include <QtGui>
 #include <QGraphicsItem>
 #include <QStyleOptionGraphicsItem> 
@@ -29,8 +30,9 @@ private:
 
 ////////////////////////////////////////////////
 
-class MyItem : public QGraphicsItem
+class MyItem : public QObject, public QGraphicsItem
 {
+	Q_OBJECT
 
 public:
 	explicit MyItem(QGraphicsItem *parent = Q_NULLPTR);

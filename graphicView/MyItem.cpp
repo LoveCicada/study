@@ -2,6 +2,7 @@
 #include <QLineF> 
 #include <QApplication>
 #include <QVariant>
+#include <QTimer>
 
 RectItem::RectItem()
 {
@@ -17,6 +18,8 @@ QRectF RectItem::boundingRect() const
 
 void RectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+	Q_UNUSED(option);
+	Q_UNUSED(widget);
 	painter->setBrush(!collidingItems().isEmpty() ? Qt::red : Qt::green);
 	painter->drawRect(0, 0, 50, 50);
 }
@@ -69,6 +72,7 @@ MyItem::MyItem(QGraphicsItem *parent)
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	
 	m_Color = QColor(qrand() % 256, qrand() % 256, qrand() % 256);
+
 }
 
 MyItem::~MyItem()
@@ -135,5 +139,7 @@ void MyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void MyItem::keyPressEvent(QKeyEvent* event)
 {
+	Q_UNUSED(event);
 	moveBy(0, 10);
 }
+
