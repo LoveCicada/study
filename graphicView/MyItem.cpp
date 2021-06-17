@@ -17,8 +17,15 @@ QRectF RectItem::boundingRect() const
 
 void RectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	painter->setBrush(m_bDragOver ? m_Color.light(130) : m_Color);  //如果其上有拖动，颜色变亮
+	painter->setBrush(!collidingItems().isEmpty() ? Qt::red : Qt::green);
 	painter->drawRect(0, 0, 50, 50);
+}
+
+QPainterPath RectItem::shape()
+{
+	QPainterPath path;
+	path.addRect(0, 0, 50, 50);
+	return path;
 }
 
 void RectItem::dragEnterEvent(QGraphicsSceneDragDropEvent* event)

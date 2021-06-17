@@ -14,6 +14,7 @@ public:
 	QRectF boundingRect() const;
 	void paint(QPainter *painter,
 		const QStyleOptionGraphicsItem *option, QWidget *widget);
+	QPainterPath shape();
 
 protected:
 	void dragEnterEvent(QGraphicsSceneDragDropEvent* event);

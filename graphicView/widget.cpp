@@ -31,9 +31,15 @@ void Widget::initCtrl()
 		pScene->addItem(pItem);
 	}
 
+	QGraphicsLineItem* pLine = new QGraphicsLineItem(0, 50, 300, 50);
+	pScene->addItem(pLine);
+
 	RectItem* pRect = new RectItem;
+	qDebug() << pRect->shape();
+	qDebug() << pRect->boundingRect();
 	pRect->setPos(100, 200);
 	pScene->addItem(pRect);
+
 	QGraphicsView* pView = new QGraphicsView;
 	pView->setScene(pScene);
 	pView->resize(400, 300);
