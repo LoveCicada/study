@@ -43,11 +43,15 @@ public:
 
 	void advance(int phase);
 
+public slots:
+	void moveTo();
+
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 	void keyPressEvent(QKeyEvent* event);
+	void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
 private:
 	QColor m_Color;

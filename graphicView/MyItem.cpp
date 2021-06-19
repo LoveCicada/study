@@ -4,6 +4,7 @@
 #include <QVariant>
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
+#include <QMenu>
 
 
 RectItem::RectItem()
@@ -160,4 +161,17 @@ void MyItem::advance(int phase)
 	if (!phase)
 		return;
 	moveBy(0, 10);
+}
+
+void MyItem::moveTo()
+{
+	setPos(0, 0);
+}
+
+void MyItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+{
+	QMenu menu;
+	QAction* pAction = menu.addAction("moveTo(0,0)");
+	connect(pAction, &QAction::triggered, this, &MyItem::moveTo);
+	menu.exec(event->screenPos());
 }
