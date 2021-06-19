@@ -2,7 +2,7 @@
 #include <QLineF> 
 #include <QApplication>
 #include <QVariant>
-#include <QTimer>
+
 
 RectItem::RectItem()
 {
@@ -143,3 +143,9 @@ void MyItem::keyPressEvent(QKeyEvent* event)
 	moveBy(0, 10);
 }
 
+void MyItem::advance(int phase)
+{
+	if (!phase)
+		return;
+	moveBy(0, 10);
+}

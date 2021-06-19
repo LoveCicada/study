@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QPushButton>
 #include "MyItem.h"
+#include <QTimer>
 
 class Widget : public QWidget
 {
@@ -17,12 +19,17 @@ public:
 	void initCtrl();
 	void initData();
 
-private slots:
-	
+public slots:
+	void buttonSlot();
+
 private:	
 
 	QVBoxLayout* m_pVLayout;
+	QGraphicsScene* m_pScene;
+	QGraphicsView* m_pView;
+	QPushButton* m_pBtn;
 
+	QTimer m_Timer;
 };
 
 #endif // WIDGET_H

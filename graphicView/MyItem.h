@@ -41,6 +41,8 @@ public:
 	void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option, QWidget* widget);
 
+	void advance(int phase);
+
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);

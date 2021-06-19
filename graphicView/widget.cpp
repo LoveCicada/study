@@ -4,6 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView> 
+
 //////////////////////////////////////////////////////
 
 Widget::Widget(QWidget *parent)
@@ -23,30 +24,37 @@ void Widget::initCtrl()
 	m_pVLayout = new QVBoxLayout(this);
 
 	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
-	QGraphicsScene* pScene = new QGraphicsScene;
+	m_pScene = new QGraphicsScene;
 	for (int i = 0; i < 5; ++i)
 	{
 		MyItem* pItem = new MyItem;
 		pItem->setPos(i * 50 + 20, 100);
-		pScene->addItem(pItem);
+		m_pScene->addItem(pItem);
 	}
 
 	QGraphicsLineItem* pLine = new QGraphicsLineItem(0, 50, 300, 50);
-	pScene->addItem(pLine);
+	m_pScene->addItem(pLine);
 
 	RectItem* pRect = new RectItem;
 	qDebug() << pRect->shape();
 	qDebug() << pRect->boundingRect();
 	pRect->setPos(100, 200);
-	pScene->addItem(pRect);
+	m_pScene->addItem(pRect);
 
-	QGraphicsView* pView = new QGraphicsView;
-	pView->setScene(pScene);
-	pView->resize(400, 300);
-	pView->show();
+	m_pView = new QGraphicsView;
+	m_pView->setScene(m_pScene);
+	m_pView->resize(400, 300);
+	m_pView->show();
 
-	m_pVLayout->addWidget(pView);
+	m_pVLayout->addWidget(m_pView);
 
+	m_pBtn = new QPushButton();
+	m_pVLayout->addWidget(m_pBtn);
+
+	QObject::connect(m_pBtn, &QPushButton::clicked, this, &Widget::buttonSlot);
+
+	QObject::connect(&m_Timer, &QTimer::timeout, m_pScene, &QGraphicsScene::advance);
+	m_Timer.start(1000);
 }
 
 void Widget::initData()
@@ -54,3 +62,8 @@ void Widget::initData()
 	
 }
 
+void Widget::buttonSlot()
+{
+	if (m_pScene)
+		m_pScene->advance();
+}
