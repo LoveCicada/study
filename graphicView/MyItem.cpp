@@ -2,6 +2,8 @@
 #include <QLineF> 
 #include <QApplication>
 #include <QVariant>
+#include <QTimeLine>
+#include <QGraphicsItemAnimation>
 
 
 RectItem::RectItem()
@@ -70,7 +72,17 @@ MyItem::MyItem(QGraphicsItem *parent)
 	setToolTip("Click and drag me!");
 	setCursor(Qt::OpenHandCursor);
 	setFlag(QGraphicsItem::ItemIsFocusable);
-	
+	setFlag(QGraphicsItem::ItemIsMovable);
+
+	QGraphicsItemAnimation *pAnim = new QGraphicsItemAnimation;
+	pAnim->setItem(this);
+	QTimeLine* pTimeLine = new QTimeLine(1000);
+	pTimeLine->setLoopCount(0);
+	pAnim->setTimeLine(pTimeLine);
+	pAnim->setRotationAt(0.5, 180);
+	pAnim->setRotationAt(1, 360);
+	pTimeLine->start();
+
 	m_Color = QColor(qrand() % 256, qrand() % 256, qrand() % 256);
 
 }

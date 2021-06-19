@@ -54,7 +54,7 @@ void Widget::initCtrl()
 	QObject::connect(m_pBtn, &QPushButton::clicked, this, &Widget::buttonSlot);
 
 	QObject::connect(&m_Timer, &QTimer::timeout, m_pScene, &QGraphicsScene::advance);
-	m_Timer.start(1000);
+	
 }
 
 void Widget::initData()
@@ -64,6 +64,15 @@ void Widget::initData()
 
 void Widget::buttonSlot()
 {
+#if 1
+
+	m_Timer.start(1000);
+
+#else
+
 	if (m_pScene)
 		m_pScene->advance();
+
+#endif // 0
+
 }
