@@ -63,7 +63,8 @@ public:
 
 private slots:
 	void searchOnlineSlot();            //网上搜索
-	void searchAndSelcLocalSlot();      //本地搜索并选择
+	void searchAndSelcLocalSlot(bool checked);      //本地搜索并选择
+	void searchAndSelcLocalSlot();
 	void searchAndFilterLocalSlot();	//本地搜索并过滤
 	void sortNSlot();
 	void sortPSlot();

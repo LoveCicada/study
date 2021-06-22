@@ -156,6 +156,7 @@ void Widget::initCtrl()
 
 	m_pHLayoutLocalSel = new QHBoxLayout(this);
 	m_pLocalSearchSelEdit = new QLineEdit();
+
 	m_pLocalSearchSelBtn = new QPushButton();
 	m_pLocalSearchSelBtn->setText(QStringLiteral("本地搜索选中"));
 	m_pHLayoutLocalSel->addWidget(m_pLocalSearchSelEdit);
@@ -226,7 +227,13 @@ void Widget::initCtrl()
 	m_pTableView = new CXETableView();
 	m_pVLayout->addWidget(m_pTableView);
 
-	connect(m_pLocalSearchSelBtn, &QPushButton::clicked, this, &Widget::searchAndSelcLocalSlot);
+	//connect(m_pLocalSearchSelEdit, &QLineEdit::returnPressed, this, &Widget::searchAndSelcLocalSlot);
+	connect(m_pLocalSearchSelEdit, SIGNAL(returnPressed()), this, SLOT(searchAndSelcLocalSlot()));
+
+	//connect(m_pLocalSearchSelBtn, &QPushButton::clicked, this, &Widget::searchAndSelcLocalSlot);
+	connect(m_pLocalSearchSelBtn, SIGNAL(clicked(bool)), this, SLOT(searchAndSelcLocalSlot(bool)));
+
+	connect(m_pLocalSearchFiltEdit, &QLineEdit::returnPressed, this, &Widget::searchAndFilterLocalSlot);
 	connect(m_pLocalSearchFiltBtn, &QPushButton::clicked, this, &Widget::searchAndFilterLocalSlot);
 	connect(m_pSortNBtn, &QPushButton::clicked, this, &Widget::sortNSlot);
 	connect(m_pSortPBtn, &QPushButton::clicked, this, &Widget::sortPSlot);
@@ -258,6 +265,11 @@ void Widget::searchOnlineSlot()
 }
 
 void Widget::searchAndSelcLocalSlot()
+{
+	searchAndSelcLocalSlot(true);
+}
+
+void Widget::searchAndSelcLocalSlot(bool checked)
 {
 	QString strKeyword = m_pLocalSearchSelEdit->text();
 
