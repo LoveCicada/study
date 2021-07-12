@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+project(main)
+include_directories(include)
+file(GLOB INCLUDE "include/*.h") 
+file(GLOB SOURCE "src/*.cpp" "main.cpp") 
+add_executable(main ${INCLUDE} ${SOURCE})
