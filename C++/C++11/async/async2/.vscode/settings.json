@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "future": "cpp",
-        "algorithm": "cpp",
-        "mutex": "cpp",
-        "xstring": "cpp"
-    }
-}
