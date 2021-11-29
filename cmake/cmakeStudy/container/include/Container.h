@@ -164,6 +164,7 @@ public:
     const Container&
     GetContainer()
     {
+        SafeLock _sl(m_mutex);
         return m_container;
     }
 
