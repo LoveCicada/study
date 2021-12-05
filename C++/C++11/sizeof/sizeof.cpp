@@ -21,9 +21,21 @@ void test()
     std::cout << "}\n";
 }
 
+template<typename... Args>
+void fun(Args... args)
+{
+    cout << "args nums: " << sizeof...(args) << endl;
+}
+
+void test_fun()
+{
+    fun(1,2,3,4);
+}
+
 int main()
 {
     test();
+    test_fun();
 
     return 0;
 }
