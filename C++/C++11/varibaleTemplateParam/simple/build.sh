@@ -20,3 +20,7 @@ g++ -o ./bin/multi_template_params multi_template_params.cpp -std=c++11
 
 echo "variadicType_forward"
 g++ -o ./bin/variadicType_forward variadicType_forward.cpp -std=c++11
+
+echo "variable_params"
+g++ -o ./bin/variable_params variable_params.cpp -std=c++11
+
