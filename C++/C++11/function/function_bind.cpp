@@ -44,6 +44,8 @@ void test()
 {
     A a;
 
+    //use bind
+    cout << "use bind" << endl;
     fp fp_class_static_func = std::bind(&A::A_fun_static);
     fp_class_static_func();
 
@@ -58,6 +60,14 @@ void test()
 
     fpi fp_global_func_param = std::bind(&g_func_int, std::placeholders::_1);
     fp_global_func_param(2);
+
+    //not use bind
+    cout<< "not use bind"<< endl;
+    fp fp_class_static_func2 = &A::A_fun_static;
+    fp_class_static_func2();
+
+    fp fp_global_func2 = &g_fun;
+    fp_global_func2();
 
 }
 
