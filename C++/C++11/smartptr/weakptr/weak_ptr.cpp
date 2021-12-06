@@ -56,7 +56,7 @@ void test2()
     //cout << "*(wp.lock()) = " << *(wp.lock()) << endl;
     str = !wp.expired() ? "wp未过期 " : "wp过期无效了";
     cout << str << endl;
-
+    
 }
 
 int main()
