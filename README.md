@@ -1,2 +1,24 @@
-# test
-# test new computer
+## study
+```
+C++
+```
+
+```
+cmake
+```
+
+```
+designMode
+```
+
+```
+ffmpegStudy
+```
+
+```
+Qt
+```
+
+```
+Thread
+```
