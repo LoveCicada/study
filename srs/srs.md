@@ -22,6 +22,11 @@ docker ps -a | grep srs
 docker exec -it containerID /bin/bash
 ```
 
+- wsl启动docker服务
+```
+sudo service docker start
+```
+
 - 查看srs进程
 ```
 ps -aux | grep srs
