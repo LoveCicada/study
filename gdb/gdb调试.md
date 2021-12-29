@@ -162,3 +162,10 @@ info locals
 info catch
 ```
 
+- gdb带参数调试
+```
+gdb main
+# main 代表程序名
+set args a b c
+# a b c代表设置的参数
+```
