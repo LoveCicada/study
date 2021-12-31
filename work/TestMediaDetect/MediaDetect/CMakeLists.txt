@@ -32,6 +32,6 @@ message(STATUS "${CMAKE_SOURCE_DIR}/lib")
 
 set(EXTRA_LIBS VXCutlistV2Plus)
 
-# 指定生成目标
+# 链接对应的依赖库
 target_link_libraries(${NAME_BINARY} PRIVATE ${EXTRA_LIBS})
 

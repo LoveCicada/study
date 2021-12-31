@@ -67,11 +67,17 @@ actually is implicit link
 
 - how to build
 ```
-
+run build.sh
+or
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 - how to test
 ```
+cd app
 
 ```
 

@@ -38,6 +38,25 @@ endif()
 message(STATUS "OS version: ${OS_VERSION}")
 # ******************************** Platform ********************************
 
+# ******************************** Check Build Type ********************************
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+	add_definitions("-DDEBUG" "-D_DEBUG" "-D_DEBUG_")
+	# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}" -g)
+else()
+	set(CMAKE_BUILD_TYPE "Release")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,-x")
+endif()
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CXX Flags: ${CMAKE_CXX_FLAGS}")
+# ******************************** Check Build Type ********************************
+
+# ******************************** Output Path ********************************
+set(PATH_OUTPATH "${PROJECT_SOURCE_DIR}/${CMAKE_BUILD_TYPE}")
+set(LIBRARY_OUTPUT_PATH "${PATH_OUTPATH}")
+set(EXECUTABLE_OUTPUT_PATH "${PATH_OUTPATH}")
+message(SATUS "Binary out path: ${PATH_OUTPATH}")
+
+# ******************************** Output Path ********************************
 
 # 设置库名前缀
 set(BINARY_PREFIX "CXE")

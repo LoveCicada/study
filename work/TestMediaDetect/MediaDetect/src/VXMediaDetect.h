@@ -69,7 +69,7 @@ public:
  * @brief 
  * 
  */
-class IVXMediaDectect
+class __attribute ((visibility("default"))) IVXMediaDectect
 {
 
 public:
@@ -86,15 +86,18 @@ public:
     virtual int ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2) = 0;
     virtual int ConvertMpcInfo() = 0;
 
-    virtual SDKVideoStreamInfoVec&  GetVideoStreamInfoVec()  const;
-    virtual SDKAudioStreamInfoVec&  GetAudioStreamInfoVec()  const;
-    virtual SDKSystemStreamInfoVec& GetSystemStreamInfoVec() const;
-    virtual SDKDataStreamInfoVec&   GetDataStreamInfoVec()   const;
+#if 0
+    virtual SDKVideoStreamInfoVec&  GetVideoStreamInfoVec()  = 0;
+    virtual SDKAudioStreamInfoVec&  GetAudioStreamInfoVec()  = 0;
+    virtual SDKSystemStreamInfoVec& GetSystemStreamInfoVec() = 0;
+    virtual SDKDataStreamInfoVec&   GetDataStreamInfoVec()   = 0;
     
-    virtual int GetVideoStreamNum()  const;
-    virtual int GetAudioStreamNum()  const;
-    virtual int GetSystemStreamNum() const;
-    virtual int GetDataStreamNum()   const;
+    virtual int GetVideoStreamNum()  = 0;
+    virtual int GetAudioStreamNum()  = 0;
+    virtual int GetSystemStreamNum() = 0;
+    virtual int GetDataStreamNum()   = 0;
+
+#endif 
 
 private:
 //     SdkInfo m_sdkInfo;

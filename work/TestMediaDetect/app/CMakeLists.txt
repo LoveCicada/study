@@ -10,3 +10,12 @@ set(LINK_LIBS_NAME
 )
 
 add_executable(${NAME_BINART} ${DIR_SRCS})
+
+# 链接对应的库
+target_link_directories(${NAME_BINART} PRIVATE "${PATH_OUTPATH}")
+
+set(EXTRA_LIBS CXEMediaDetect)
+
+# 链接对应的依赖库
+target_link_libraries(${NAME_BINART} PRIVATE ${EXTRA_LIBS})
+

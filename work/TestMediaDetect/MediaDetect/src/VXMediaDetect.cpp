@@ -138,7 +138,7 @@ bool CheckValid()
  * @brief Linux media Dectect
  * 
  */
-class CVXLinuxMediaDetect : public IVXMediaDectect
+class __attribute ((visibility("default"))) CVXLinuxMediaDetect : public IVXMediaDectect
 {
 public:
     
@@ -155,16 +155,20 @@ public:
     virtual int ConvertMpcInfo() override;
 
 public:
-    SDKVideoStreamInfoVec&  GetVideoStreamInfoVec()  const override;
-    SDKAudioStreamInfoVec&  GetAudioStreamInfoVec()  const override;
-    SDKSystemStreamInfoVec& GetSystemStreamInfoVec() const override;
-    SDKDataStreamInfoVec&   GetDataStreamInfoVec()   const override;
 
-    int GetVideoStreamNum()  const override;
-    int GetAudioStreamNum()  const override;
-    int GetSystemStreamNum() const override;
-    int GetDataStreamNum()   const override;
+#if 0
 
+    SDKVideoStreamInfoVec&  GetVideoStreamInfoVec()  override;
+    SDKAudioStreamInfoVec&  GetAudioStreamInfoVec()  override;
+    SDKSystemStreamInfoVec& GetSystemStreamInfoVec() override;
+    SDKDataStreamInfoVec&   GetDataStreamInfoVec()   override;
+
+    int GetVideoStreamNum()  override;
+    int GetAudioStreamNum()  override;
+    int GetSystemStreamNum() override;
+    int GetDataStreamNum()   override;
+
+#endif
 private:
     std::shared_ptr<VXSDKMediaDetect>       m_pSdkMediaDetect;
     std::shared_ptr<VXSDKMediaInfo>         m_pSdkMediaInfo;  
@@ -187,6 +191,12 @@ CVXLinuxMediaDetect::CVXLinuxMediaDetect()
     std::cout << " create CVXLinuxMediaDetect instace " << std::endl;
     m_pSdkMediaDetect.reset(new VXSDKMediaDetect);
     m_pSdkMediaInfo.reset(new VXSDKMediaInfo);
+}
+
+CVXLinuxMediaDetect::~CVXLinuxMediaDetect()
+{
+    std::cout << " delete CVXLinuxMediaDetect instace " << std::endl;
+    
 }
 
 int CVXLinuxMediaDetect::Init()
