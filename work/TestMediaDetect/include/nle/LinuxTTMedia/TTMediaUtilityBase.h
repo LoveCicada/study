@@ -2,9 +2,12 @@
 #ifndef __def__ttmediautility_base__header__
 #define __def__ttmediautility_base__header__
 
+#if 0
 #include <InitGuid.h>
 #include <Guiddef.h>
 #include <CGuid.h>
+#endif
+
 #include "./TTMediaPlayerExport.h"
 #include "./TTMediaErrorCode.h"
 

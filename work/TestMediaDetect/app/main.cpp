@@ -1,11 +1,13 @@
 
-#include "VXMediaDetect.h"
+#include "../MediaDetect/src/VXMediaDetect.h"
 
 void test()
 {
-    IVXMediaDectect* pMediaDectect = CreateMediaDectect();
-    pMediaDectect->Init();
-    pMediaDectect->GetMediaInfo();
+    IVXMediaDectect* pMediaDetect = CreateMediaDetect();
+    pMediaDetect->Init();
+    std::string fileName;
+    int mode = 0;
+    pMediaDetect->GetMediaInfo(fileName, mode);
 }
 
 int main()

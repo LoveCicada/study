@@ -109,7 +109,10 @@ namespace TT
 
     struct TTMediaVideoInfo
     {
-        enum{__VERSION__ = 0};
+        enum VERSION
+        {
+            version_1 = 0,
+        };
 
         unsigned int iSize;
         unsigned int iVersion;
@@ -144,7 +147,10 @@ namespace TT
     };
     struct TTMediaAudioInfo
     {
-        enum{__VERSION__ = 0};
+        enum VERSION
+        {
+            version_1 = 0,
+        };
 
         unsigned int iSize;
         unsigned int iVersion;
@@ -181,14 +187,20 @@ reserved[2] :
 
     union TTMediaExtraInfo
     {
-        enum{__VERSION__ = 0};
+        enum VERSION
+        {
+            version_1 = 0,
+        };
         intptr_t reserved[15];              /**< 0, TTMediaInfo_SBTReserved* */
 											/**< 1, Yuv2RGBType, 0 : none;   1 : eMatrixCoefficients_BT_709;    2:eMatrixCoefficients_Unspecified;  9:eMatrixCoefficients_BT_2020_NCL; 10:eMatrixCoefficients_BT_2020_CL */
     };
 
     struct TTMediaInfo
     {
-        enum { __VERSION__ = 0};
+        enum VERSION
+        {
+            version_1 = 0,
+        };
 
         unsigned int iSize;
         unsigned int iVersion;
@@ -217,7 +229,7 @@ reserved[2] :
         {
             memset(&this->iSize, 0, sizeof(*this));
             iSize = sizeof(*this);
-            iVersion = TTMediaInfo::__VERSION__;
+            iVersion = TTMediaInfo::VERSION::version_1;
             return 0;
         }
     };
@@ -536,8 +548,8 @@ reserved[2] :
         */    
         virtual int GetNovaId(GUID& fileTypeId, DWORD& dwVideoFcc, DWORD& dwAudioFcc
             , int fileId, int mediaId, int iAudioMediaId
-            , tagBITMAPINFOHEADER* pVideo = NULL, tWAVEFORMATEX* pAudio = NULL, int iPixelFormat = TT_PIX_FMT_UNKNOWN, int iDataRate = 0
-            , intptr_t reserved0 = NULL, intptr_t reserved1 = NULL) = 0;
+            , tagBITMAPINFOHEADER* pVideo = nullptr, tWAVEFORMATEX* pAudio = nullptr, int iPixelFormat = TT_PIX_FMT_UNKNOWN, int iDataRate = 0
+            , intptr_t reserved0 = 0 , intptr_t reserved1 = 0) = 0;
     };
 
 }

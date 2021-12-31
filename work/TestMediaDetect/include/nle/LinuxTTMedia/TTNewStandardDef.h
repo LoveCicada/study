@@ -147,7 +147,12 @@ public:
 		m_sViewNum				= sViewNum;
 		m_eDeinterlaceType		= eDeinterlaceType;
 		if (pColorsSpace)
-			_tcscpy_s(m_chColorsSpace, pColorsSpace);
+        {
+#if 0
+            _tcscpy_s(m_chColorsSpace, pColorsSpace);
+#endif
+        }
+
 		else
 			memset(m_chColorsSpace, 0, sizeof(m_chColorsSpace));
 
@@ -440,23 +445,30 @@ public:
 	}
 	BOOL	Is4KColorSpace() const
 	{
-		if(lstrcmp(m_chColorsSpace, _T("Rec.2020")) != 0)
+
+#if 0 //we need modify
+		if(lstrcmp(m_chColorsSpace, "Rec.2020") != 0)
 			return  FALSE;
+#endif
 
 		return TRUE;
 	}
 	BOOL	IsHDColorSpace() const
 	{
+
+#if 0 //we need modify
 		if(lstrcmp(m_chColorsSpace, _T("Rec.709")) != 0)
 			return  FALSE;
-
+#endif
 		return TRUE;
 	}
 	BOOL	IsSDColorSpace() const
 	{
+
+#if 0 //we need modify
 		if(lstrcmp(m_chColorsSpace, _T("Rec.601")) != 0)
 			return  FALSE;
-
+#endif
 		return TRUE;
 	}
 	BOOL	IsStereoEdit() const
@@ -505,9 +517,11 @@ public:
 			return FALSE;
 		if( m_eDeinterlaceType != stVideoStandard.m_eDeinterlaceType )
 			return FALSE;
+
+#if 0   //we need modify
 		if( 0 != _tcscmp( m_chColorsSpace, stVideoStandard.m_chColorsSpace ) )
 			return FALSE;
-
+#endif
 		return TRUE;
 	}
 
@@ -552,6 +566,8 @@ public:
 
 		//2020-06-04,zhangfan,�������ʼ��Ϊ0���������һЩ�����ֵ��Ӱ��lKey�ļ��㡣
 		TCHAR pColorsSpace[MAX_COLORSPACE] = {0};
+
+#if 0   //we need modify
 		_tcscpy_s(pColorsSpace, m_chColorsSpace);
 		//��������û����ɫ�ռ���ز���ɫ�ռ��ʼ��ΪRec.709
 		if(IsHDVideoStandard() && 
@@ -560,7 +576,7 @@ public:
 		{
 			_tcscpy_s(pColorsSpace, _T("Rec.709"));
 		}
-
+#endif
 		//��ɫ
 		const TCHAR * p = pColorsSpace; 
 		for (int i = 0; i < MAX_COLORSPACE; i++)

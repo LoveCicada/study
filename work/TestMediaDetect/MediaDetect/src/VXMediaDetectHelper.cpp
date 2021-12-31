@@ -1,5 +1,6 @@
 
 #include "VXMediaDetectHelper.h"
+#include "../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
 
 bool CopySDKFileMediaInfo(const stVXSDKFileMediaInfo& src, stVXSDKFileMediaInfo& dst)
 {
@@ -85,10 +86,10 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
     bool bRet = true;
 
     //文件名 const char *
-    src.cFileName
+    src.cFileName;
     //文件路径 wchar_t
     dst.wszFilePath;
-    std::string::copy()
+    //std::string::copy()
     
     // 2. 文件大小
     dst.llFileSize = src.llFileSize;
@@ -112,11 +113,11 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
     // 音频编码 nova.id important
     dst.guidNovaFileId = GetGUID(src.nFileFormatID);
 
-    // nova 校验出的媒体类型
-    dst.dwMediaType = static_cast<ULONGLONG>();
+    // nova 校验出的媒体类型 we need modify
+    //dst.dwMediaType = static_cast<ULONGLONG>();
     
-    // nova 校验出的媒体子类型
-    dst.dwMediaSubType = static_cast<ULONGLONG>();
+    // nova 校验出的媒体子类型 we need modify
+    //dst.dwMediaSubType = static_cast<ULONGLONG>();
 
 #endif
     // 7. 文件子类型
@@ -191,28 +192,34 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
 
     // we need compare TTPixelFormat(windows TTMedia) to eVXSDKVideoColorSpaceFormat(Linux)
     dst.ttVideo.ttPixelFormat = static_cast<TTPixelFormat>(src.nVideoFormat);
-
-    dst.ttVideo.ttVStandard.m_dwVersion;
-    dst.ttVideo.ttVStandard.m_dwEditHeight = src.nHeight;
-    dst.ttVideo.ttVStandard.m_dwEditWidth = src.nWidth;
+    
+    //dst.ttVideo.ttVStandard.m_dwVersion;
+    dst.ttVideo.ttVStandard.SetEditHeight(static_cast<DWORD>(src.nHeight));
+    dst.ttVideo.ttVStandard.SetEditWidth(static_cast<DWORD>(src.nWidth));
 
     // maybe have error
-    dst.ttVideo.ttVStandard.m_dwFrameRateFrequency = src.nFrameRateDen;		
-    dst.ttVideo.ttVStandard.m_dwFrameRateScale = src.nFrameRateNum;				
-    dst.ttVideo.ttVStandard.m_sWidthAspectRatio = static_cast<short>(src.nSarWidth);            
-    dst.ttVideo.ttVStandard.m_sHeightAspectRatio = static_cast<short>(src.nSarHeight);
+    dst.ttVideo.ttVStandard.SetFrameRateFrequency(static_cast<DWORD>(src.nFrameRateDen));
+    dst.ttVideo.ttVStandard.SetFrameRateScale(static_cast<DWORD>(src.nFrameRateNum));
+    dst.ttVideo.ttVStandard.SetWidthAspectRatio(static_cast<short>(src.nSarWidth));
+    dst.ttVideo.ttVStandard.SetHeightAspectRatio(static_cast<short>(src.nSarHeight));
 
-    dst.ttVideo.ttVStandard.m_sWidthPixRatio;				
-    dst.ttVideo.ttVStandard.m_sHeightPixRatio;				
+    // we need modify
+    //dst.ttVideo.ttVStandard.m_sWidthPixRatio;
+    //dst.ttVideo.ttVStandard.SetWidthPixRatio(static_cast<short>());
+    //dst.ttVideo.ttVStandard.m_sHeightPixRatio;
+    //dst.ttVideo.ttVStandard.SetHeightPixtRatio(static_cast<short>());
 
+    //dst.ttVideo.ttVStandard.m_sViewNum;
+    //dst.ttVideo.ttVStandard.SetViewNum(static_cast<short>());
 
-    dst.ttVideo.ttVStandard.m_sViewNum;                     
-    dst.ttVideo.ttVStandard.m_sBitCount = src.nBitDepth;                    
-    dst.ttVideo.ttVStandard.m_eScanMode = static_cast<TTESCANMODE>(src.nScanType);
-    dst.ttVideo.ttVStandard.m_eDeinterlaceType = static_cast<TTEDEINTERLACETYPE>(src.nScanOrder);				
-    
+    dst.ttVideo.ttVStandard.SetBitCount(static_cast<short>(src.nBitDepth));
+    dst.ttVideo.ttVStandard.SetScanMode(static_cast<TTESCANMODE>(src.nScanType));
+    dst.ttVideo.ttVStandard.SetDeinterlaceType(static_cast<TTEDEINTERLACETYPE>(src.nScanOrder));
+
     //颜色空间 need transformer enum(eVXSDKVideoColorSpaceFormat) to char, eg: Rec.709
-    dst.ttVideo.ttVStandard.m_chColorsSpace[MAX_COLORSPACE];
+    //dst.ttVideo.ttVStandard.m_chColorsSpace[MAX_COLORSPACE];
+    TCHAR* pColorSpace;
+    dst.ttVideo.ttVStandard.SetColorSpace(pColorSpace);
 
     //-----GOP-----
     dst.ttVideo.GopInfo.nGopCount           = static_cast<unsigned int>(src.nGopLen) ;
@@ -344,7 +351,7 @@ bool SDKMediaInfo2NovaFcc(const stVXSDKFileMediaInfo& fileInfo, const stVXSDKVid
     {
         if(dst.bAudio)
         {
-            auto ret = GetFOURCC(audioInfo.nMediaID)
+            auto ret = GetFOURCC(audioInfo.nMediaID);
             dst.ttVideo.fccNovaVideoId = static_cast<unsigned int>(ret);
         }
     }
@@ -463,43 +470,17 @@ bool VideoFmt2BmpInfo(BITMAPINFOHEADER &stDstBmpInfo, const int &nSrcVideoFormat
     return bRet;
 }
 
-/**
- * @brief guid2uuid
- * 
- * @return true 
- * @return false 
- */
-bool guid2uuid(CONST GUID& src, uuid& dst)
+bool guid2string(GUID uu, char* out)
 {
     bool bRet = true;
 
     return bRet;
 }
 
-/**
- * @brief uuid2guid
- * 
- * @return true 
- * @return false 
- */
-bool uuid2guid(const uuid& src, GUID& guid)
+bool guid2string(GUID uu, std::string& out)
 {
     bool bRet = true;
 
-    return bRet;
-}
-
-bool uuid2string(uuid_t uu, char* out)
-{
-    bool bRet = true;
-    uuid_unparse(uu, out.data());
-    return bRet;
-}
-
-bool uuid2string(uuid_t uu, std::string& out)
-{
-    bool bRet = true;
-    uuid2string(uu, out.data());
     return bRet;
 }
 
@@ -511,8 +492,16 @@ bool uuid2string(uuid_t uu, std::string& out)
  */
 GUID GetGUID(int iID)
 {
+#if 0
     return TPAVFileGetGUID(iID);
+#else
+    GUID guid;
+    return guid;
+#endif
+
 }
+
+
 
 /**
  * @brief GetFOURCC
@@ -525,7 +514,13 @@ GUID GetGUID(int iID)
  */
 DWORD GetFOURCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* wfxInfo)
 {
+#if 0 //we need modify
     return TPAVFileGetFCC(iID, iFileId, bmpInfo, wfxInfo);
+#else
+
+    return 0;
+#endif
+
 }
 
 /**
@@ -537,7 +532,12 @@ DWORD GetFOURCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* w
  */
 DWORD GetFOURCC(int iID, int iFileId)
 {
+#if 0 // we need modify
     return TPAVFileGetFCC(iID, iFileId, NULL, NULL);
+#else
+
+    return 0;
+#endif
 }
 //-----------------------------------------------00
 

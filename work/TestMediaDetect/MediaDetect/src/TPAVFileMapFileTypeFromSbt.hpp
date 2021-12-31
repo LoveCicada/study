@@ -1,12 +1,15 @@
 
+#pragma once
 
-#include "SBT_TransBaseDefine.h"
-#include "TPAVFileTypeDefs.h"
+
+
+#include "../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
+#include "../include/nle/LinuxTTMedia/File/TPAVFileTypeDefs.h"
 
 GUID TPAVFileGetGUID(int iID)
 {
     //GUID guidFile=GUID_NULL;
-    GUID guidFile = {0};
+    GUID guidFile;
     switch(iID)
     {
     case XH_TRANS_FILE_NONE:

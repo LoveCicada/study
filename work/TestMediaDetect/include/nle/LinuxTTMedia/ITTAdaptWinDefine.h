@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "../third/uuid/uuid.h"
 #include <iostream>
 
 /**
@@ -25,7 +24,7 @@ typedef __int64 LONGLONG;
 typedef uint64_t ULONGLONG;
 
 typedef uint64_t ULONG_PTR, *PULONG_PTR;
-typedef ULONG_PTR DWORD_PTR, *DWORD_PTR;
+typedef ULONG_PTR DWORD_PTR, *PDWORD_PTR;
 typedef bool BOOL;
 typedef unsigned int UINT;
 typedef int INT;
@@ -110,6 +109,23 @@ typedef struct tWAVEFORMATEX
     WORD        cbSize;             /* the count in bytes of the size of */
                                     /* extra information (after cbSize) */
 } WAVEFORMATEX, *PWAVEFORMATEX, *NPWAVEFORMATEX, *LPWAVEFORMATEX;
+
+#if 0
+
+//we need modify
+int _tcscpy_s(TCHAR* src, TCHAR* dst)
+{
+
+    return 0;
+}
+
+//we need modify
+int lstrcmp(TCHAR* src, TCHAR* dst)
+{
+
+    return 0;
+}
+#endif
 
 #endif
 

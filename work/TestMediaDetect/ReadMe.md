@@ -91,3 +91,13 @@ virtual int ConvertToNovaInfo() = 0;
 virtual int ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo) = 0;
 virtual int ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2) = 0;
 ```
+- find lib export function
+```
+nm -D libCXEMediaDetect.so | grep CreateMediaDetect
+
+result:0000000000013d60 T CreateMediaDetect
+```
+- find lib depend
+```
+ldd libCXEMediaDetect.so 
+```

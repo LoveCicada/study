@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "include/linux/VXSDKMediaDetect.h"
+#include "../../include/linux/VXSDKMediaDetect.h"
 #include "../include/nle/LinuxTTMedia/ITTMediaDetect.h"
 #include "../include/nle/LinuxTTMedia/File/TPAVFileTypeDefs.h"
-#include "../include/nle/LinuxTTMedia/File/TPAVFileMapFileTypeFromSbt.h"
-#include "../include/nle/LinuxTTMedia/File/TPAVFileMapMediaTypeFromSbt.h"
+// #include "./TPAVFileMapFileTypeFromSbt.hpp"
+// #include "./TPAVFileMapMediaTypeFromSbt.hpp"
 
 /**
  * @brief CopySDKFileMediaInfo
@@ -140,20 +140,14 @@ bool SDKMediaInfo2NovaFcc(const stVXSDKFileMediaInfo& fileInfo, const stVXSDKVid
 bool VideoFmt2BmpInfo(BITMAPINFOHEADER &stDstBmpInfo, const int &nSrcVideoFormat);
 
 /**
- * @brief guid2uuid
+ * @brief uuid2string
  * 
+ * @param uu 
+ * @param out 
  * @return true 
  * @return false 
  */
-bool guid2uuid(CONST GUID& src, uuid& dst);
-
-/**
- * @brief uuid2guid
- * 
- * @return true 
- * @return false 
- */
-bool uuid2guid(const uuid& src, GUID& guid);
+bool guid2string(GUID guid, char* out);
 
 /**
  * @brief uuid2string
@@ -163,17 +157,7 @@ bool uuid2guid(const uuid& src, GUID& guid);
  * @return true 
  * @return false 
  */
-bool uuid2string(uuid_t uu, char* out);
-
-/**
- * @brief uuid2string
- * 
- * @param uu 
- * @param out 
- * @return true 
- * @return false 
- */
-bool uuid2string(uuid_t uu, std::string& out);
+bool guid2string(GUID uu, std::string& out);
 
 
 /**
@@ -182,7 +166,8 @@ bool uuid2string(uuid_t uu, std::string& out);
  * @param iID 
  * @return GUID 
  */
-GUID GetGUID(int iID); 
+GUID GetGUID(int iID);
+
 
 /**
  * @brief GetFOURCC
@@ -202,7 +187,7 @@ DWORD GetFOURCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* w
  * @param iFileId 
  * @return DWORD 
  */
-DWORD GetFOURCC(int iID, int iFileId);
+DWORD GetFOURCC(int iID, int iFileId = 0);
 
 //-----------------------------------------------00
 

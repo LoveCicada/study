@@ -138,12 +138,12 @@ bool CheckValid()
  * @brief Linux media Dectect
  * 
  */
-class CVXLinuxMediaDectect : public IVXMediaDectect
+class CVXLinuxMediaDetect : public IVXMediaDectect
 {
 public:
     
-    CVXLinuxMediaDectect();
-    virtual ~CVXLinuxMediaDectect() override;
+    CVXLinuxMediaDetect();
+    virtual ~CVXLinuxMediaDetect() override;
     virtual int Init() override;
     virtual int UnInit() override;
 
@@ -182,24 +182,24 @@ private:
 
 };
 
-CVXLinuxMediaDectect::CVXLinuxMediaDectect()
+CVXLinuxMediaDetect::CVXLinuxMediaDetect()
 {
-    std::cout << " create CVXLinuxMediaDectect instace " << std::endl;
+    std::cout << " create CVXLinuxMediaDetect instace " << std::endl;
     m_pSdkMediaDetect.reset(new VXSDKMediaDetect);
     m_pSdkMediaInfo.reset(new VXSDKMediaInfo);
 }
 
-int CVXLinuxMediaDectect::Init()
+int CVXLinuxMediaDetect::Init()
 {
     ErrorCode ec = ErrorCode::Success;
     
-    
+    std::cout << " load lib success " << std::endl;
 
     int nCode = GetErrorCode(ec);
     return nCode;
 }
 
-int CVXLinuxMediaDectect::UnInit()
+int CVXLinuxMediaDetect::UnInit()
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = GetErrorCode(ec);
@@ -209,7 +209,7 @@ int CVXLinuxMediaDectect::UnInit()
     return nCode;
 }
 
-int CVXLinuxMediaDectect::GetMediaInfo(const char *cFileName, int nDetectMode)
+int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = 0;
@@ -284,7 +284,7 @@ int CVXLinuxMediaDectect::GetMediaInfo(const char *cFileName, int nDetectMode)
     return nCode;
 }
 
-int CVXLinuxMediaDectect::GetMediaInfo(const std::string& str, int nDetectMode)
+int CVXLinuxMediaDetect::GetMediaInfo(const std::string& str, int nDetectMode)
 {
 
     int nCode = GetMediaInfo(str.c_str(), nDetectMode);
@@ -292,7 +292,7 @@ int CVXLinuxMediaDectect::GetMediaInfo(const std::string& str, int nDetectMode)
     return nCode;
 }
 
-int CVXLinuxMediaDectect::ConvertToNovaInfo()
+int CVXLinuxMediaDetect::ConvertToNovaInfo()
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = GetErrorCode(ec);
@@ -300,7 +300,7 @@ int CVXLinuxMediaDectect::ConvertToNovaInfo()
     return nCode;
 }
 
-int CVXLinuxMediaDectect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
+int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = GetErrorCode(ec);
@@ -332,7 +332,7 @@ int CVXLinuxMediaDectect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
 
     // 4.
     {
-        const stVXSDKFileMediaInfo& fileInfo = *m_pSdkMediaInfo;
+        const stVXSDKFileMediaInfo& fileInfo = *m_pSdkFileMediaInfo;
 
         stVXSDKVideoStreamInfo videoInfoTmp;
         stVXSDKAudioStreamInfo audioInfoTmp;
@@ -366,7 +366,7 @@ int CVXLinuxMediaDectect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
     return nCode;
 }
 
-int CVXLinuxMediaDectect::ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2)
+int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2)
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = GetErrorCode(ec);
@@ -374,7 +374,7 @@ int CVXLinuxMediaDectect::ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2)
     return nCode;
 }
 
-int CVXLinuxMediaDectect::ConvertMpcInfo()
+int CVXLinuxMediaDetect::ConvertMpcInfo()
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = GetErrorCode(ec);
@@ -387,11 +387,11 @@ int CVXLinuxMediaDectect::ConvertMpcInfo()
 /**/
 
 /**
- * @brief Create a Media Dectect object
+ * @brief Create a Media Detect object
  * 
- * @return IVXMediaDectect* 
+ * @return IVXMediaDetect* 
  */
-IVXMediaDectect* CreateMediaDectect()
+__attribute ((visibility("default")))  IVXMediaDectect* CreateMediaDetect()
 {
     IVXMediaDectect* pfnMediaDetect = nullptr;
 
@@ -399,7 +399,7 @@ IVXMediaDectect* CreateMediaDectect()
     pfnMediaDetect = new CVXWinMediaDectect();
 
 #else
-    pfnMediaDetect = new CVXLinuxMediaDectect();
+    pfnMediaDetect = new CVXLinuxMediaDetect();
 
 #endif
 

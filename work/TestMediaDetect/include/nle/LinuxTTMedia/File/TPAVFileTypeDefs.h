@@ -1,6 +1,5 @@
 #pragma	  once
 
-#include "../../third/uuid/uuid.h"
 #include "../../LinuxTTMedia/ITTAdaptWinDefine.h"
 
 

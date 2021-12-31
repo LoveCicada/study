@@ -27,7 +27,7 @@
 #include <iostream>
 #include "VXMediaDetectErrorCode.h"
 #include "VXMediaDetectBaseDefine.h"
-#include "../include/nle/LinuxTTMedia/ITTMediaDetect.h"
+#include "../../include/nle/LinuxTTMedia/ITTMediaDetect.h"
 using namespace std;
 
 #define WINDOWS_SYS 0
@@ -101,7 +101,7 @@ private:
 //     bool m_bLoadOnce;
 };
 
-extern "C" _VX_Media_Detect_Lib IVXMediaDectect* CreateMediaDectect();
+extern "C" _VX_Media_Detect_Lib IVXMediaDectect* CreateMediaDetect();
 
 typedef IVXMediaDectect* (*pfnCreateMediaDectect);
 

@@ -24,7 +24,11 @@ include_directories("../include")
 
 # 加入 cutlist 库
 # add_subdirectory("../lib")
-link_directories("../lib")
+# link_directories("../lib")
+#link_directories("${CMAKE_SOURCE_DIR}/lib")
+target_link_directories(${NAME_BINARY} PRIVATE "${CMAKE_SOURCE_DIR}/lib")
+
+message(STATUS "${CMAKE_SOURCE_DIR}/lib")
 
 set(EXTRA_LIBS VXCutlistV2Plus)
 

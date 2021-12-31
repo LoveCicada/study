@@ -8,7 +8,7 @@
 
 #else
     //load linux sdk include
-#include "../include/linux/VXSDKMediaDetect.h"    
+#include "../../include/linux/VXSDKMediaDetect.h"
 
 #if __cplusplus >= 201103L 
 
