@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # -- set project name -- #
-set (PROJECT_NAME "CEXMediaDetect")
+set (PROJECT_NAME "TestMediaDetect")
 
 # -- project name -- #
 project(${PROJECT_NAME})
@@ -19,28 +19,11 @@ add_definitions("-D_GUN_SOURCE")
 
 # -- Basic Setting End -- #
 
+# 设置库名前缀
 set(BINARY_PREFIX "CXE")
-set(NAME_BINARY ${BINARY_PREFIX}${CURRENT_DIR}) 
-# libCXEMediaDetect.so
 
-aux_source_directory("./src" SOURCE_FILES)
-
-set(LINK_LIB_SOBEY_SDK
-    "VXCutlistV2Plus"
-    )
-
-set(LINK_LIBS
-    "${LINK_LIB_SOBEY_SDK}"
-    )
-
-link_directories(
-    lib
-    )
+add_subdirectory("./MediaDetect")
+add_subdirectory("./app")
 
 
-set(LINK_LIBRARIES)
-LINK_LIBRARIES
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
-
-target_link_libraries()
