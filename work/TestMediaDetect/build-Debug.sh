@@ -6,5 +6,5 @@ echo "create build dir"
 mkdir build
 cd build
 rm -rf ./*
-cmake ..
+cmake ..  -DCMAKE_BUILD_TYPE=Debug
 make

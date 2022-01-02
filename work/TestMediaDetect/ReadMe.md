@@ -65,13 +65,23 @@ actually is implicit link
 1. use linux sdk to get file media info
 ```
 
-- how to build
+- how to build Release
 ```
 run build.sh
 or
 mkdir build
 cd build
 cmake ..
+make
+```
+
+- how to build Debug
+```
+run build.sh
+or
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Debug
 make
 ```
 
