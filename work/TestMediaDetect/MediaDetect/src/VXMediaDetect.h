@@ -20,10 +20,6 @@
 #include <dlfcn.h>
 #endif
 
-#if __cplusplus >= 201103L
-#include <functional>
-#endif
-
 #include <iostream>
 #include "VXMediaDetectErrorCode.h"
 #include "VXMediaDetectBaseDefine.h"
@@ -34,42 +30,12 @@ using namespace std;
 
 #define LINUX_SYS 1
 
-/**
- * @brief src media info
- * 
- */
-class SdkInfo
-{
-public:
-
-};
-
-
-/**
- * @brief linux mpc media info
- * 
- */
-class LinuxMpcInfo
-{
-public:
-};
-
-
-/**
- * @brief nonlinear media info
- * 
- */
-class NonlinearInfo
-{
-public:
-
-};
 
 /**
  * @brief 
  * 
  */
-class __attribute ((visibility("default"))) IVXMediaDectect
+class IVXMediaDectect
 {
 
 public:
@@ -100,18 +66,10 @@ public:
 #endif 
 
 private:
-//     SdkInfo m_sdkInfo;
-//     bool m_bLoadOnce;
+
 };
 
 extern "C" _VX_Media_Detect_Lib IVXMediaDectect* CreateMediaDetect();
 
 typedef IVXMediaDectect* (*pfnCreateMediaDectect);
 
-#if 0
-
-#if __cplusplus >= 201103L
-std::function<IVXMediaDectect* (*)> pfnMediaDetect;
-#endif
-
-#endif

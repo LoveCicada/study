@@ -7,7 +7,7 @@
 #include <mutex>
 #include <memory>
 #include <vector>
-/*****************************************Windows*********************************************/
+
 
 //use for load library once
 static std::once_flag g_onceFlag;
@@ -35,8 +35,9 @@ bool IsValid()
     return g_bValid.load();
 }
 
+/*****************************************Windows*********************************************/
 
-#if WINDOWS_SYS
+#ifdef _MSC_VER
 
 /**
  * @brief Windows media Dectect

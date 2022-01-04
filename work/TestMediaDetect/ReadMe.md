@@ -43,8 +43,12 @@ actually is implicit link
 
 - lib doc struct
 ```
+├── Debug
+├── MediaDetect
+│   └── src
+├── Release
 ├── app
-├── bin
+├── build
 ├── include
 │   ├── linux
 │   ├── nle
@@ -56,8 +60,7 @@ actually is implicit link
 │   │       ├── helper
 │   │       └── plugin
 │   └── windows
-├── lib
-└── src
+└── lib
 ```
 
 - description
