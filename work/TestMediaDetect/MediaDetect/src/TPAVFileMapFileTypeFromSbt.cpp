@@ -1,10 +1,13 @@
 
-#pragma once
+//#pragma once
 
+#ifndef __TPAVFileMapFileTypeFromSbt__Header__
+#define __TPAVFileMapFileTypeFromSbt__Header__
 
+#include "../../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
+#include "../../include/nle/LinuxTTMedia/File/TPAVFileTypeDefs.h"
 
-#include "../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
-#include "../include/nle/LinuxTTMedia/File/TPAVFileTypeDefs.h"
+#include "./TPAVFileMapFileTypeFromSbt.h"
 
 GUID TPAVFileGetGUID(int iID)
 {
@@ -168,3 +171,4 @@ GUID TPAVFileGetGUID(int iID)
     return guidFile;
 }
 
+#endif __TPAVFileMapFileTypeFromSbt__Header__

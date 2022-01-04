@@ -2,10 +2,10 @@
 #pragma once
 
 #include "../../include/linux/VXSDKMediaDetect.h"
-#include "../include/nle/LinuxTTMedia/ITTMediaDetect.h"
-#include "../include/nle/LinuxTTMedia/File/TPAVFileTypeDefs.h"
-// #include "./TPAVFileMapFileTypeFromSbt.hpp"
-// #include "./TPAVFileMapMediaTypeFromSbt.hpp"
+#include "../../include/nle/LinuxTTMedia/ITTMediaDetect.h"
+#include "../../include/nle/LinuxTTMedia/File/TPAVFileTypeDefs.h"
+#include "./TPAVFileMapFileTypeFromSbt.h"
+#include "./TPAVFileMapMediaTypeFromSbt.h"
 
 /**
  * @brief CopySDKFileMediaInfo
@@ -188,6 +188,8 @@ DWORD GetFOURCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* w
  * @return DWORD 
  */
 DWORD GetFOURCC(int iID, int iFileId = 0);
+
+void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpace, int nOETF);
 
 //-----------------------------------------------00
 

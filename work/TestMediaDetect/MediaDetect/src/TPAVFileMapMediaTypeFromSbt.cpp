@@ -1,13 +1,15 @@
 
 #pragma once
 
-//#ifndef __TP__AVFileMapMediaTypeFrom__Sbt__Header__
-//#define __TP__AVFileMapMediaTypeFrom__Sbt__Header__
+// #ifndef __TP__AVFileMapMediaTypeFrom__Sbt__Header__
+// #define __TP__AVFileMapMediaTypeFrom__Sbt__Header__
 
-#include "../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
-#include "../include/nle/LinuxTTMedia/ITTAdaptWinDefine.h"
+#include "../../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
+//#include "../include/nle/LinuxTTMedia/ITTAdaptWinDefine.h"
 
-#include "../include/nle/LinuxTTMedia/File/TPBaseFccDef.h"
+#include "../../include/nle/LinuxTTMedia/File/TPBaseFccDef.h"
+
+#include "./TPAVFileMapMediaTypeFromSbt.h"
 
 DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* wfxInfo)
 {
@@ -147,20 +149,25 @@ DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMAT
         dwFOURCC= mmioFOURCC('M','J','P','G');//FOURCC('MJPG');
         break;
     case XH_TRANS_VIDEO_QT_MJPEGA:
-        dwFOURCC= fccMJPEG_A;//FOURCC('MJPG');
+        //dwFOURCC= fccMJPEG_A;//FOURCC('MJPG');
+        dwFOURCC = mmioFOURCC('M', 'J', 'P', 'A');
         break;
     case XH_TRANS_VIDEO_QT_MJPEGB:
-        dwFOURCC= fccMJPEG_B;//FOURCC('MJPG');
+        //dwFOURCC= fccMJPEG_B;//FOURCC('MJPG');
+        dwFOURCC = mmioFOURCC('M', 'J', 'P', 'B');
         break;
     case XH_TRANS_VIDEO_ODML_MJPEG:
-        dwFOURCC= fccOdmlMJPEG;
+        //dwFOURCC= fccOdmlMJPEG; //MJPO
+        dwFOURCC = mmioFOURCC('M', 'J', 'P', 'O');
         break;
     case XH_TRANS_VIDEO_BASEBAND:
 		{
 			if (iFileId == 0x46fcd0db)//r3d
 				dwFOURCC = fccR3DV;
-			else if (iFileId == XH_TRANS_PLUGIN_FILE_BRAW)
-				dwFOURCC = fccBRAW;
+			else if (iFileId == XH_TRANS_PLUGIN_FILE_BRAW){
+                //dwFOURCC = fccBRAW;
+                dwFOURCC=mmioFOURCC('B','R','A','W');
+			}
 			else
 				dwFOURCC=mmioFOURCC('S','A','V','I');
 		}
@@ -186,8 +193,14 @@ DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMAT
     case XH_TRANS_AUDIO_ALAW:
         dwFOURCC=mmioFOURCC('A','L','A','W');//FOURCC('ALAW');
         break;
-    case XH_TRANS_AUDIO_AAC: dwFOURCC = fccAAC;break;
-    case XH_TRANS_AUDIO_AMR: dwFOURCC=fccAMR;break;
+    case XH_TRANS_AUDIO_AAC:
+        //dwFOURCC = fccAAC;
+        dwFOURCC=mmioFOURCC('A','A','C',' ');
+        break;
+    case XH_TRANS_AUDIO_AMR:
+        //dwFOURCC=fccAMR;
+        dwFOURCC=mmioFOURCC('A','M','R',' ');
+        break;
     case XH_TRANS_VIDEO_DNXHD:
     case XH_TRANS_VIDEO_DNX_220X_1080p:
     case XH_TRANS_VIDEO_DNX_145_1080p:
@@ -300,10 +313,12 @@ DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMAT
         dwFOURCC=mmioFOURCC('V','C','-','1');//FOURCC('PROH');
         break;
     case XH_TRANS_VIDEO_VP8:
-        dwFOURCC=fccVP8;
+        //dwFOURCC=fccVP8;
+        dwFOURCC=mmioFOURCC('V','P','8',' ');
         break;
 	case XH_TRANS_PLUGIN_VIDEO_VP9:
-		dwFOURCC=fccVP9;
+		//dwFOURCC=fccVP9;
+		dwFOURCC=mmioFOURCC('V','P','9',' ');
 		break;
     case XH_TRANS_AUDIO_IN32:
         dwFOURCC=mmioFOURCC('A','I','3','2');
@@ -322,7 +337,10 @@ DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMAT
     case XH_TRANS_PLUGIN_VIDEO_XAVC : dwFOURCC = mmioFOURCC('X','A','V','C'); break;
     case XH_TRANS_VIDEO_CanopusHQ_CUVC : dwFOURCC = mmioFOURCC('C','U','V','C'); break;
     case XH_TRANS_VIDEO_MVC : dwFOURCC = mmioFOURCC('M','V','C',' '); break; 
-    case XH_TRANS_AUDIO_DDE : dwFOURCC = fccDDE; break;
+    case XH_TRANS_AUDIO_DDE :
+        //dwFOURCC = fccDDE;
+        dwFOURCC = mmioFOURCC('D','D','E',' ');
+        break;
 	case XH_TRANS_PLUGIN_VIDEO_TGA: dwFOURCC = mmioFOURCC('t','g','a',' '); break ;
 
 #ifdef XH_TRANS_PLUGIN_VIDEO_SONY_RAW                     
@@ -331,12 +349,21 @@ DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMAT
             dwFOURCC=fccSonyRAW; 
             if (bmpInfo)
             {
-                if (bmpInfo->biCompression == FCC('XOCN'))
-                    dwFOURCC = fccXOCN;
-                else if (bmpInfo->biCompression == FCC('OCNS'))
-                    dwFOURCC = fccXOCN_ST;
-                else if (bmpInfo->biCompression == FCC('OCNL'))
-                    dwFOURCC = fccXOCN_LT;
+                // maybe error *********
+                if (bmpInfo->biCompression == mmioFOURCC('N','C','O','X')){
+                    //dwFOURCC = fccXOCN;//XOCN
+                    dwFOURCC = mmioFOURCC('N','C','O','X');
+                }
+                else if (bmpInfo->biCompression == mmioFOURCC('S','N','C','O')){
+                    //dwFOURCC = fccXOCN_ST; //OCNS
+                    dwFOURCC = mmioFOURCC('S','N','C','O');
+                }
+
+                else if (bmpInfo->biCompression == mmioFOURCC('L','N','C','O')){
+                    //dwFOURCC = fccXOCN_LT; //OCNL
+                    dwFOURCC = mmioFOURCC('L','N','C','O');
+                }
+
             }
         }
         break;
@@ -348,39 +375,115 @@ DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMAT
     case XH_TRANS_PLUGIN_VIDEO_XAVC_LONGGOP: dwFOURCC=fccXAVCLongGop; break;
 #endif
 #ifdef XH_TRANS_PLUGIN_VIDEO_H265                     
-    case XH_TRANS_PLUGIN_VIDEO_H265: dwFOURCC=fccH265; break;
+    case XH_TRANS_PLUGIN_VIDEO_H265:
+        //dwFOURCC=fccH265; //562H
+        dwFOURCC = mmioFOURCC('H','2','6','5');
+        break;
 #endif
 #ifdef XH_TRANS_AUDIO_DOLBY_WAV                     
-    case XH_TRANS_AUDIO_DOLBY_WAV: dwFOURCC=fccDDEWAV; break;
+    case XH_TRANS_AUDIO_DOLBY_WAV:
+        //dwFOURCC=fccDDEWAV; // WEDD
+        dwFOURCC = mmioFOURCC('D','D','E','W');
+        break;
 #endif
-    case XH_TRANS_AUDIO_IMAADPCM: dwFOURCC=fccIMAD; break;
-    case XH_TRANS_AUDIO_EC3: dwFOURCC = fccEC3; break;
-    case XH_TRANS_AUDIO_FLAC: dwFOURCC = fccFLAC; break;
-    case XH_TRANS_AUDIO_APE: dwFOURCC = fccAPE; break;
-    case XH_TRANS_AUDIO_VORBIS: dwFOURCC = fccOGG; break;
-    case XH_TRANS_AUDIO_IMA4: dwFOURCC = fccIMA4; break;
-    case XH_TRANS_VIDEO_SVQ3: dwFOURCC = fccSVQ3; break;
-    case XH_TRANS_AUDIO_DOLBY: dwFOURCC = fccDolby; break;
-    case XH_TRANS_PLUGIN_VIDEO_SOBEY_CODEC: dwFOURCC = fccSobeyCodec; break;
+    case XH_TRANS_AUDIO_IMAADPCM:
+        //dwFOURCC=fccIMAD; //IMAD
+        dwFOURCC = mmioFOURCC('D','A','M','I');
+        break;
+    case XH_TRANS_AUDIO_EC3:
+        //dwFOURCC = fccEC3; //' 3CE'
+        dwFOURCC = mmioFOURCC('E','C','3',' ');
+        break;
+    case XH_TRANS_AUDIO_FLAC:
+        //dwFOURCC = fccFLAC; // FLAC
+        dwFOURCC = mmioFOURCC('C','A','L','F');
+        break;
+    case XH_TRANS_AUDIO_APE:
+        //dwFOURCC = fccAPE; //'APE '
+        dwFOURCC = mmioFOURCC('A','P','E',' ');
+        break;
+    case XH_TRANS_AUDIO_VORBIS:
+        //dwFOURCC = fccOGG; //'OGG '
+        dwFOURCC = mmioFOURCC('O','G','G',' ');
+        break;
+    case XH_TRANS_AUDIO_IMA4:
+        //dwFOURCC = fccIMA4;
+        dwFOURCC = mmioFOURCC('I','M','A','4');
+        break;
+    case XH_TRANS_VIDEO_SVQ3:
+        //dwFOURCC = fccSVQ3;
+        dwFOURCC = mmioFOURCC('S','V','Q','3');
+        break;
+    case XH_TRANS_AUDIO_DOLBY:
+        //dwFOURCC = fccDolby;
+        dwFOURCC = mmioFOURCC('d','o','b','y');
+        break;
+    case XH_TRANS_PLUGIN_VIDEO_SOBEY_CODEC:
+        //dwFOURCC = fccSobeyCodec;
+        dwFOURCC = mmioFOURCC('S','O','B','Y');
+        break;
 
-    case XH_TRANS_AUDIO_MAC3: dwFOURCC = fccMACE_3_1; break;
-    case XH_TRANS_AUDIO_MAC6: dwFOURCC = fccMACE_6_1; break;
-	case XH_TRANS_AUDIO_ACE2: dwFOURCC = fccACE_2_1; break;
-	case XH_TRANS_AUDIO_ACE8: dwFOURCC = fccACE_8_3; break;
-	case XH_TRANS_AUDIO_ADPCM: dwFOURCC = fccADPCM; break;
+    case XH_TRANS_AUDIO_MAC3:
+        //dwFOURCC = fccMACE_3_1;
+        dwFOURCC = mmioFOURCC('M','A','C','3');
+        break;
+    case XH_TRANS_AUDIO_MAC6:
+        //dwFOURCC = fccMACE_6_1;
+        dwFOURCC = mmioFOURCC('M','A','C','6');
+        break;
+	case XH_TRANS_AUDIO_ACE2:
+	    //dwFOURCC = fccACE_2_1;
+	    dwFOURCC = mmioFOURCC('A','C','E','2');
+	    break;
+	case XH_TRANS_AUDIO_ACE8:
+	    //dwFOURCC = fccACE_8_3;
+	    dwFOURCC = mmioFOURCC('A','C','E','8');
+	    break;
+	case XH_TRANS_AUDIO_ADPCM:
+	    //dwFOURCC = fccADPCM;
+	    dwFOURCC = mmioFOURCC('A','P','C','M');
+	    break;
 
-    case XH_TRANS_VIDEO_V210: dwFOURCC = fccV210; break;
-	case XH_TRANS_PLUGIN_AUDIO_TRUEHD: dwFOURCC = mmioFOURCC('D','B','T','H'); break;
+    case XH_TRANS_VIDEO_V210:
+        //dwFOURCC = fccV210;
+        dwFOURCC = mmioFOURCC('V','2','1','0');
+        break;
+	case XH_TRANS_PLUGIN_AUDIO_TRUEHD:
+	    dwFOURCC = mmioFOURCC('D','B','T','H'); break;
 	case XH_TRANS_PLUGIN_VIDEO_CLLC: dwFOURCC = mmioFOURCC('C','L','L','C'); break;
-	case XH_TRANS_PLUGIN_FILE_DNG:	dwFOURCC = fccDNG; break;
+	case XH_TRANS_PLUGIN_FILE_DNG:
+	    //dwFOURCC = fccDNG;
+	    dwFOURCC = mmioFOURCC('D','N','G',' ');
+	    break;
 	case XH_TRANS_VIDEO_CanopusHQX :dwFOURCC = mmioFOURCC('C' ,'H','Q' ,'X') ;break;
-	case XH_TRANS_PLUGIN_VIDEO_CANON_RAW: dwFOURCC = fccCRM;break;
-	case XH_TRANS_PLUGIN_VIDEO_CINEFORM: dwFOURCC = fccCFHD;break;
-	case XH_TRANS_PLUGIN_VIDEO_ARRI_RAW: dwFOURCC = fccARRI;break;
-	case XH_TRANS_PLUGIN_VIDEO_JpegXS:	dwFOURCC = fccJPXS;break;
-	case XH_TRANS_PLUGIN_VIDEO_SPEED_HQ:dwFOURCC = fccSHQ ;break;
-	case XH_TRANS_PLUGIN_VIDEO_SSVC:dwFOURCC = fccSSVC ;break;
-    case XH_TRANS_PLUGIN_VIDEO_SEVC:dwFOURCC = fccSEVC; break;
+	case XH_TRANS_PLUGIN_VIDEO_CANON_RAW:
+	    //dwFOURCC = fccCRM;
+	    dwFOURCC = mmioFOURCC('C','R','W',' ');
+	    break;
+	case XH_TRANS_PLUGIN_VIDEO_CINEFORM:
+	    //dwFOURCC = fccCFHD;
+	    dwFOURCC = mmioFOURCC('C','F','H','D');
+	    break;
+	case XH_TRANS_PLUGIN_VIDEO_ARRI_RAW:
+	    //dwFOURCC = fccARRI;
+	    dwFOURCC = mmioFOURCC('A','R','R','I');
+	    break;
+	case XH_TRANS_PLUGIN_VIDEO_JpegXS:
+	    //dwFOURCC = fccJPXS;
+	    dwFOURCC = mmioFOURCC('J','P','X','S');
+	    break;
+	case XH_TRANS_PLUGIN_VIDEO_SPEED_HQ:
+	    //dwFOURCC = fccSHQ;
+	    dwFOURCC = mmioFOURCC('S','H','Q',' ');
+	    break;
+	case XH_TRANS_PLUGIN_VIDEO_SSVC:
+	    //dwFOURCC = fccSSVC ;
+	    dwFOURCC = mmioFOURCC('S','S','V','C');
+	    break;
+    case XH_TRANS_PLUGIN_VIDEO_SEVC:
+        //dwFOURCC = fccSEVC;
+        dwFOURCC = mmioFOURCC('S','E','V','C');
+        break;
     default:
         break;
     }
@@ -393,4 +496,4 @@ DWORD TPAVFileGetFCC(int iID, int iFileId)
     return TPAVFileGetFCC(iID, iFileId, NULL, NULL);
 }
 
-//#define __TP__AVFileMapMediaTypeFrom__Sbt__Header__
+// #endif  __TP__AVFileMapMediaTypeFrom__Sbt__Header__

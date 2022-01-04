@@ -49,7 +49,6 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "typeinfo": "cpp",
-        "cstring": "cpp"
+        "typeinfo": "cpp"
     }
 }

@@ -5,9 +5,13 @@ void test()
 {
     IVXMediaDectect* pMediaDetect = CreateMediaDetect();
     pMediaDetect->Init();
-    std::string fileName = "/mnt/d/code/private/loveCicada_test/srs/video/test.flv";
+    std::string fileName = "/mnt/WebShare/Dyf/SRC/clip/test2.mp4";
     int mode = 0;
     pMediaDetect->GetMediaInfo(fileName, mode);
+
+    TT::TTMediaInfo mediaInfo;
+    pMediaDetect->ConvertToNovaInfo(mediaInfo);
+
 
 }
 

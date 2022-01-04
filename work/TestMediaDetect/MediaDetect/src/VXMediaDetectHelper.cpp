@@ -1,6 +1,11 @@
 
 #include "VXMediaDetectHelper.h"
-#include "../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
+#include "../../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
+#include "../../include/nle/LinuxTTMedia/File/TPBaseFccDef.h"
+#include "../../include/linux/VX_MediaDetect2.h"
+#include "./TPAVFileMapFileTypeFromSbt.h"
+#include "./TPAVFileMapMediaTypeFromSbt.h"
+#include <string>
 
 bool CopySDKFileMediaInfo(const stVXSDKFileMediaInfo& src, stVXSDKFileMediaInfo& dst)
 {
@@ -188,7 +193,7 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
     dst.ttVideo.iBits = src.nBitDepth;
     dst.ttVideo.iAFD = src.nAFD;
     dst.ttVideo.llDuration = src.llTimeDuration;
-    dst.ttVideo.bIsVBR = (src.nBitrate == 1) ? true : false;
+    dst.ttVideo.bIsVBR = (src.nBitrateMode == 1) ? true : false;
 
     // we need compare TTPixelFormat(windows TTMedia) to eVXSDKVideoColorSpaceFormat(Linux)
     dst.ttVideo.ttPixelFormat = static_cast<TTPixelFormat>(src.nVideoFormat);
@@ -216,9 +221,15 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
     dst.ttVideo.ttVStandard.SetScanMode(static_cast<TTESCANMODE>(src.nScanType));
     dst.ttVideo.ttVStandard.SetDeinterlaceType(static_cast<TTEDEINTERLACETYPE>(src.nScanOrder));
 
-    //颜色空间 need transformer enum(eVXSDKVideoColorSpaceFormat) to char, eg: Rec.709
-    //dst.ttVideo.ttVStandard.m_chColorsSpace[MAX_COLORSPACE];
-    TCHAR* pColorSpace;
+    // maybe we can set null when invalid *****
+    src.nHDRColorInfoValid;
+
+    int nColorSpace = src.nColorPrimaries;
+    int nOETF = src.nColorTransferCharacteristic;
+
+    TCHAR pColorSpace[MAX_COLORSPACE];
+    memset(pColorSpace,0,MAX_COLORSPACE*sizeof(TCHAR));
+    E7FormatColorspaceString(pColorSpace, nColorSpace, nOETF);
     dst.ttVideo.ttVStandard.SetColorSpace(pColorSpace);
 
     //-----GOP-----
@@ -432,7 +443,8 @@ bool VideoFmt2BmpInfo(BITMAPINFOHEADER &stDstBmpInfo, const int &nSrcVideoFormat
 		break;
 	case eVXVideoCsFmtP010BE:
 		stDstBmpInfo.biPlanes = 2;
-		stDstBmpInfo.biCompression = '010P';
+		//stDstBmpInfo.biCompression = '010P';
+		stDstBmpInfo.biCompression = mmioFOURCC('P','0','1','0');
 		stDstBmpInfo.biBitCount = 16;
 		break;
 	case eVXVideoCsFmtYUYV10BE:
@@ -492,7 +504,7 @@ bool guid2string(GUID uu, std::string& out)
  */
 GUID GetGUID(int iID)
 {
-#if 0
+#if 1
     return TPAVFileGetGUID(iID);
 #else
     GUID guid;
@@ -532,13 +544,69 @@ DWORD GetFOURCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* w
  */
 DWORD GetFOURCC(int iID, int iFileId)
 {
-#if 0 // we need modify
+#if 1 // we need modify
     return TPAVFileGetFCC(iID, iFileId, NULL, NULL);
 #else
 
     return 0;
 #endif
 }
+
+void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpace, int nOETF)
+{
+    TCHAR cs[MAX_COLORSPACE];
+    memset(cs, 0, MAX_COLORSPACE*sizeof(TCHAR));
+    TCHAR tf[MAX_COLORSPACE];
+    memset(tf, 0, MAX_COLORSPACE*sizeof(TCHAR));
+
+    if      (nColorSpace == eVXColourPrimaries_BT_709     )			wcsncpy( cs, L"Rec.709", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_BT_601_625 )			wcsncpy( cs, L"Rec.601", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_BT_601_525 )			wcsncpy( cs, L"Rec.601", MAX_COLORSPACE);
+    else if (nColorSpace == eVXColourPrimaries_BT_2020    )			wcsncpy( cs, L"Rec.2020", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_SGamut     )			wcsncpy( cs, L"S-Gamut", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_SGamut3    )			wcsncpy( cs, L"S-Gamut3", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_SGamut3Cine)			wcsncpy( cs, L"S-Gamut3.Cine", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_VGamut)				wcsncpy( cs, L"Panasonic V-Gamut", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_Arri_Wide_Gamut)		wcsncpy( cs, L"ARRI Wide Gamut", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_RED_Wide_Gamut)      wcsncpy( cs, L"REDWideGamutRGB", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_Canon_Cinema_Gamut)	wcsncpy( cs, L"Canon Cinema Gamut", MAX_COLORSPACE );
+    else if (nColorSpace == eVXColourPrimaries_DJI_DGamut)			wcsncpy( cs, L"DJI D-Gamut", MAX_COLORSPACE );
+    else wcsncpy( cs, L"Unknown", MAX_COLORSPACE );
+
+
+    if      (nOETF == eVXTransferCharacteristic_BT_709)        wcsncpy( tf, L"", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_Unspecified)   wcsncpy( tf, L"", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_GAMMA22)       wcsncpy( tf, L"Gamma2.2", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_GAMMA28)       wcsncpy( tf, L"Gamma2.8", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_GAMMA24)       wcsncpy( tf, L"Gamma2.4", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_GAMMA26)       wcsncpy( tf, L"Gamma2.6", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_LINEAR)        wcsncpy( tf, L"Linear", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_LOG)           wcsncpy( tf, L"Log", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_LOG_SQRT)      wcsncpy( tf, L"LogSqrt", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_BT_2020_10BIT) wcsncpy( tf, L"", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_BT_2020_12BIT) wcsncpy( tf, L"", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_BT_2100_PQ)    wcsncpy( tf, L"ST2084", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_BT_2100_HLG)   wcsncpy( tf, L"HLG", MAX_COLORSPACE );
+    else if	(nOETF == eVXTransferCharacteristic_BT_2100_HLG_SCENE) wcsncpy( tf, L"HLG(Scene)", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_SLog2)         wcsncpy( tf, L"S-Log2", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_SLog3)         wcsncpy( tf, L"S-Log3", MAX_COLORSPACE );
+    else if (nOETF == eVXVXTransferCharacteristic_SLog3_Live)  wcsncpy( tf, L"S-Log3(Live HDR)", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_Alexa_LogC_3)  wcsncpy( tf, L"LogC", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_VLog)          wcsncpy( tf, L"V-Log", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_Clog_2)		   wcsncpy( tf, L"CLog2", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_Clog_3)        wcsncpy( tf, L"CLog3", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_DJI_DLog)	   wcsncpy( tf, L"DJI-DLog", MAX_COLORSPACE );
+    else if (nOETF == eVXTransferCharacteristic_RED_LOG3G10)   wcsncpy( tf, L"Log3G10", MAX_COLORSPACE );
+    else                                                       wcsncpy( tf, L"", MAX_COLORSPACE );
+    //Canon CLOG 特殊处理。其实他是709 +clgo
+    if (nOETF == eVXVXTransferCharacteristic_CLog)			   wcsncpy( cs, L"Canon C-Log", MAX_COLORSPACE );
+
+    if(wcscmp(tf, L"") != 0)
+        swprintf( chColorsSpace, MAX_COLORSPACE,L"%s/%s", cs, tf);
+    else if (wcslen(cs) > 0)
+        swprintf( chColorsSpace, MAX_COLORSPACE,L"%s", cs);
+}
+
 //-----------------------------------------------00
 
 

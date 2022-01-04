@@ -29,8 +29,6 @@ typedef bool BOOL;
 typedef unsigned int UINT;
 typedef int INT;
 
-#if 1
-// we can use libuuid repleace Windows GUID
 typedef struct _GUID{
     unsigned long   Data1;
     unsigned short  Data2;
@@ -44,15 +42,6 @@ typedef struct _GUID{
 #define DEFINE_GUID(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
         const GUID  name \
                 = { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }
-
-
-#else
-
-typedef uuid_t GUID;
-
-#define GUID_NULL uuid_t{0}
-
-#endif
 
 
 #if 0 // microcsoft windows define

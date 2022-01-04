@@ -192,6 +192,7 @@ CVXLinuxMediaDetect::CVXLinuxMediaDetect()
     std::cout << " create CVXLinuxMediaDetect instace " << std::endl;
     m_pSdkMediaDetect.reset(new VXSDKMediaDetect);
     m_pSdkMediaInfo.reset(new VXSDKMediaInfo);
+    m_pSdkFileMediaInfo.reset(new stVXSDKFileMediaInfo);
 }
 
 CVXLinuxMediaDetect::~CVXLinuxMediaDetect()
