@@ -2,11 +2,9 @@
 #define __TTNEWSTANDARDDEF_H__
 
 //////////////////////////////////////////////////////////////////////////
-//#include <tchar.h>
-#include <math.h>
-//#include <WinDef.h>
-#include "./ITTAdaptWinDefine.h"
 
+#include <math.h>
+#include "./ITTAdaptWinDefine.h"
 #include "./TTNewStandardPushMacro.h"
 
 #define  MAX_COLORSPACE  64
@@ -445,30 +443,20 @@ public:
 	}
 	BOOL	Is4KColorSpace() const
 	{
-
-#if 0 //we need modify
-		if(lstrcmp(m_chColorsSpace, "Rec.2020") != 0)
+		if(wcscasecmp(m_chColorsSpace, L"Rec.2020") != 0)
 			return  FALSE;
-#endif
-
 		return TRUE;
 	}
 	BOOL	IsHDColorSpace() const
 	{
-
-#if 0 //we need modify
-		if(lstrcmp(m_chColorsSpace, _T("Rec.709")) != 0)
+		if(wcscasecmp(m_chColorsSpace, L"Rec.709") != 0)
 			return  FALSE;
-#endif
 		return TRUE;
 	}
 	BOOL	IsSDColorSpace() const
 	{
-
-#if 0 //we need modify
-		if(lstrcmp(m_chColorsSpace, _T("Rec.601")) != 0)
+		if(wcscasecmp(m_chColorsSpace, L"Rec.601") != 0)
 			return  FALSE;
-#endif
 		return TRUE;
 	}
 	BOOL	IsStereoEdit() const

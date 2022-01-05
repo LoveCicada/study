@@ -4,6 +4,9 @@
 
 #include "./ITTAdaptWinDefine.h"
 #include "./TTMediaUtilityBase.h"
+#include "./TTNewStandardDef.h"
+#include "./TTMediaPlayerExport.h"
+#include <string.h>
 
 struct stu_ETMediaFormatDef;
 struct tagBITMAPINFOHEADER;

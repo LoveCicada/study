@@ -2,14 +2,8 @@
 #ifndef __def__ttmediautility_base__header__
 #define __def__ttmediautility_base__header__
 
-#if 0
-#include <InitGuid.h>
-#include <Guiddef.h>
-#include <CGuid.h>
-#endif
+#include "./ITTAdaptWinDefine.h"
 
-#include "./TTMediaPlayerExport.h"
-#include "./TTMediaErrorCode.h"
 
 // {5A381988-6EFF-4236-8EFA-0FCE9EA160D8}
 DEFINE_GUID(IID_TTMediaReader, 0x5a381988, 0x6eff, 0x4236, 0x8e, 0xfa, 0xf, 0xce, 0x9e, 0xa1, 0x60, 0xd8);

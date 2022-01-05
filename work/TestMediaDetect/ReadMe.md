@@ -52,11 +52,8 @@ actually is implicit link
 ├── include
 │   ├── linux
 │   ├── nle
-│   │   ├── LinuxTTMedia
-│   │   │   ├── File
-│   │   │   ├── helper
-│   │   │   └── plugin
-│   │   └── TTMedia
+│   │   └── LinuxTTMedia
+│   │       ├── File
 │   │       ├── helper
 │   │       └── plugin
 │   └── windows

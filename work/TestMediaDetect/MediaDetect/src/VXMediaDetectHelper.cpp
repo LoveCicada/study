@@ -612,7 +612,7 @@ void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpa
     //Canon CLOG 特殊处理。其实他是709 +clgo
     if (nOETF == eVXVXTransferCharacteristic_CLog)			   wcsncpy( cs, L"Canon C-Log", MAX_COLORSPACE );
 
-    if(wcscmp(tf, L"") != 0)
+    if(wcscasecmp(tf, L"") != 0)
         swprintf( chColorsSpace, MAX_COLORSPACE,L"%ls/%ls", cs, tf);
     else if (wcslen(cs) > 0)
         swprintf( chColorsSpace, MAX_COLORSPACE,L"%ls", cs);
