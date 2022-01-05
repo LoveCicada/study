@@ -552,6 +552,13 @@ DWORD GetFOURCC(int iID, int iFileId)
 #endif
 }
 
+/**
+ * @brief E7FormatColorspaceString
+ * 
+ * @param chColorsSpace 
+ * @param nColorSpace 
+ * @param nOETF 
+ */
 void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpace, int nOETF)
 {
     TCHAR cs[MAX_COLORSPACE];

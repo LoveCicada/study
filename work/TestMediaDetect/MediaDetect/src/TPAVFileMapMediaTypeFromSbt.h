@@ -1,20 +1,27 @@
 
 #pragma once
 
-// #ifndef __TP__AVFileMapMediaTypeFrom__Sbt__Header__
-// #define __TP__AVFileMapMediaTypeFrom__Sbt__Header__
-
-//#include "../include/nle/LinuxTTMedia/File/SBT_TransBaseDefine.h"
-//#include "../include/nle/LinuxTTMedia/ITTAdaptWinDefine.h"
-
-//#include "../include/nle/LinuxTTMedia/File/TPBaseFccDef.h"
 
 #include "../include/nle/LinuxTTMedia/ITTAdaptWinDefine.h"
 
+/**
+ * @brief TPAVFileGetFCC
+ * 
+ * @param iID 
+ * @param iFileId 
+ * @param bmpInfo 
+ * @param wfxInfo 
+ * @return DWORD 
+ */
 DWORD TPAVFileGetFCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* wfxInfo);
 
-
+/**
+ * @brief TPAVFileGetFCC
+ * 
+ * @param iID 
+ * @param iFileId 
+ * @return DWORD 
+ */
 DWORD TPAVFileGetFCC(int iID, int iFileId);
 
 
-// #endif  __TP__AVFileMapMediaTypeFrom__Sbt__Header__

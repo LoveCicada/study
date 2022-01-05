@@ -407,7 +407,7 @@ __attribute ((visibility("default")))  IVXMediaDectect* CreateMediaDetect()
 {
     IVXMediaDectect* pfnMediaDetect = nullptr;
 
-#if WINDOWS_SYS
+#ifdef _MSC_VER
     pfnMediaDetect = new CVXWinMediaDectect();
 
 #else

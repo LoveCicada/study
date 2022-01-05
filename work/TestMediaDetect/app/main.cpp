@@ -1,7 +1,7 @@
 
 #include "../MediaDetect/src/VXMediaDetect.h"
 
-void test()
+void test(char* path = nullptr)
 {
     IVXMediaDectect* pMediaDetect = CreateMediaDetect();
     pMediaDetect->Init();
@@ -15,11 +15,17 @@ void test()
 
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     std::cout << "media test case" << std::endl;
 
-    test();
+    if(argc>1)
+    {
+        test(argv[1]);
+    }else{
+        test();
+    }
+
 
     std::cout << "media test finish" << std::endl;
 

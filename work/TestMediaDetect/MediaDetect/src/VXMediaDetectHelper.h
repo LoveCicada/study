@@ -189,6 +189,13 @@ DWORD GetFOURCC(int iID, int iFileId, BITMAPINFOHEADER* bmpInfo, WAVEFORMATEX* w
  */
 DWORD GetFOURCC(int iID, int iFileId = 0);
 
+/**
+ * @brief E7FormatColorspaceString
+ * 
+ * @param chColorsSpace 
+ * @param nColorSpace 
+ * @param nOETF 
+ */
 void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpace, int nOETF);
 
 //-----------------------------------------------00

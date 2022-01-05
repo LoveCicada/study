@@ -26,10 +26,6 @@
 #include "../../include/nle/LinuxTTMedia/ITTMediaDetect.h"
 using namespace std;
 
-#define WINDOWS_SYS 0
-
-#define LINUX_SYS 1
-
 
 /**
  * @brief 

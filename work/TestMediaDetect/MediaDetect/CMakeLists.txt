@@ -23,9 +23,7 @@ include_directories("../include")
 # include cmake dir
 
 # 加入 cutlist 库
-# add_subdirectory("../lib")
-# link_directories("../lib")
-#link_directories("${CMAKE_SOURCE_DIR}/lib")
+# 链接库目录
 target_link_directories(${NAME_BINARY} PRIVATE "${CMAKE_SOURCE_DIR}/lib")
 
 message(STATUS "${CMAKE_SOURCE_DIR}/lib")
