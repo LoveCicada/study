@@ -112,7 +112,8 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
 
     // 6. 文件格式ID
     src.nFileFormatID;
-
+    auto bImg = IsPicture(src.nFileFormatID);
+    dst.ttVideo.lStill = bImg ? 1 : 0;
 #if 1
 
     // 音频编码 nova.id important
@@ -146,6 +147,7 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
 
     // 14.
     src.llStartTimecode;
+    dst.ttVideo.iECStartPos = static_cast<int>(src.llStartTimecode);
 
     // 15. 分段长度（以帧为单位）
     src.nSegmentDuration;
@@ -205,17 +207,22 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
     // maybe have error
     dst.ttVideo.ttVStandard.SetFrameRateFrequency(static_cast<DWORD>(src.nFrameRateDen));
     dst.ttVideo.ttVStandard.SetFrameRateScale(static_cast<DWORD>(src.nFrameRateNum));
-    dst.ttVideo.ttVStandard.SetWidthAspectRatio(static_cast<short>(src.nSarWidth));
-    dst.ttVideo.ttVStandard.SetHeightAspectRatio(static_cast<short>(src.nSarHeight));
 
-    // we need modify
-    //dst.ttVideo.ttVStandard.m_sWidthPixRatio;
-    //dst.ttVideo.ttVStandard.SetWidthPixRatio(static_cast<short>());
-    //dst.ttVideo.ttVStandard.m_sHeightPixRatio;
-    //dst.ttVideo.ttVStandard.SetHeightPixtRatio(static_cast<short>());
+    const auto& aspectRatio = static_cast<eVXSDKVideoAspectRatio>(src.nAspectRatio);
+    int wAspectRatio = 0;
+    int hAspectRatio = 0;
+    bRet = TransformerAspectRatio(aspectRatio, wAspectRatio, hAspectRatio);
+    dst.ttVideo.ttVStandard.SetWidthAspectRatio(static_cast<short>(wAspectRatio));
+    dst.ttVideo.ttVStandard.SetHeightAspectRatio(static_cast<short>(hAspectRatio));
 
-    //dst.ttVideo.ttVStandard.m_sViewNum;
-    //dst.ttVideo.ttVStandard.SetViewNum(static_cast<short>());
+    /*
+     * @brief 第一个幅面通常是 16:9或者4:3这种，叫视频帧的宽高比；
+     * 第二个叫单个像素的宽高比，通常为1:1.
+    */
+    dst.ttVideo.ttVStandard.SetWidthPixRatio(static_cast<short>(1));
+    dst.ttVideo.ttVStandard.SetHeightPixtRatio(static_cast<short>(1));
+
+    dst.ttVideo.ttVStandard.SetViewNum(static_cast<short>(1));
 
     dst.ttVideo.ttVStandard.SetBitCount(static_cast<short>(src.nBitDepth));
     dst.ttVideo.ttVStandard.SetScanMode(static_cast<TTESCANMODE>(src.nScanType));
@@ -239,10 +246,6 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
     dst.ttVideo.GopInfo.nGOP_P_FrameCount   = static_cast<unsigned int>(src.nBFrameCount) ;
 
     dst.ttVideo.iVideoFourcc = static_cast<unsigned int>(src.nFourCC);
-
-    dst.ttVideo.iECStartPos;
-    dst.ttVideo.lStill;
-    dst.ttVideo.iCompression;
 
     return bRet;
 }
@@ -356,6 +359,7 @@ bool SDKMediaInfo2NovaFcc(const stVXSDKFileMediaInfo& fileInfo, const stVXSDKVid
 
             auto ret = GetFOURCC(videoInfo.nMediaID, fileInfo.nFileFormatID, &bmpInfo, &wfxInfo);
             dst.ttVideo.fccNovaVideoId = static_cast<unsigned int>(ret);
+            dst.ttVideo.iCompression = static_cast<unsigned int>(bmpInfo.biCompression);
         }
     }
     
@@ -609,9 +613,123 @@ void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpa
     if (nOETF == eVXVXTransferCharacteristic_CLog)			   wcsncpy( cs, L"Canon C-Log", MAX_COLORSPACE );
 
     if(wcscmp(tf, L"") != 0)
-        swprintf( chColorsSpace, MAX_COLORSPACE,L"%s/%s", cs, tf);
+        swprintf( chColorsSpace, MAX_COLORSPACE,L"%ls/%ls", cs, tf);
     else if (wcslen(cs) > 0)
-        swprintf( chColorsSpace, MAX_COLORSPACE,L"%s", cs);
+        swprintf( chColorsSpace, MAX_COLORSPACE,L"%ls", cs);
+}
+
+bool TransformerAspectRatio(const eVXSDKVideoAspectRatio& aspectRatio, int& w, int& h)
+{
+    bool bRet = true;
+
+#ifndef MDSetAspectRatio
+#define MDSetAspectRatio(wVal, hVal, bRetVal) { w = wVal; h = hVal; bRet = bRetVal; }
+
+    switch (aspectRatio) {
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatioUnknown:
+            MDSetAspectRatio(0, 0, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio1_1:
+            MDSetAspectRatio(1, 1, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio4_3:
+            MDSetAspectRatio(4, 3, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio16_9:
+            MDSetAspectRatio(16, 9, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio2_21_1:
+            MDSetAspectRatio(221, 100, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio5_4:
+            MDSetAspectRatio(5, 4, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio3_2:
+            MDSetAspectRatio(3, 2, true);
+            break;
+        case eVXSDKVideoAspectRatio::eVXVideoAspectRatio256_135:
+            MDSetAspectRatio(256, 135, true);
+            break;
+        default:
+            MDSetAspectRatio(0, 0, false);
+            break;
+    }
+
+#undef MDSetAspectRatio
+#endif
+    return bRet;
+}
+
+bool IsPicture(int fileFormatID)
+{
+    bool bRet = true;
+
+    // maybe need supply
+    switch (fileFormatID) {
+        case VX_TYPE_FILE_PIC_BMP: break;
+        case VX_TYPE_FILE_PIC_JPG: break;
+        case VX_TYPE_FILE_PIC_TGA: break;
+        case VX_TYPE_FILE_PIC_DPX: break;
+        case VX_TYPE_PLUGIN_FILE_PNG: break;
+        case VX_TYPE_PLUGIN_FILE_PSD: break;
+        case VX_TYPE_PLUGIN_FILE_GIF: break;
+        default: bRet = false;     break;
+    }
+
+    return bRet;
+}
+
+bool TransformerNovaMediaType(TT::TTMediaInfo& src)
+{
+    bool bRet = true;
+
+    src.dwMediaType = TP_MEDIA_CLASS_UNKNOWN;
+    if(src.bVideo)
+    {
+        src.dwMediaType |= TP_MEDIA_CLASS_V;
+    }
+
+    if(src.bAudio)
+    {
+        for(int idx = 0; idx < src.ttAudio.iChannels; ++idx)
+        {
+            ULONGLONG tmpVal = _Media_BIT_(idx) * TP_MEDIA_CLASS_A1 ;
+            src.dwMediaType |= tmpVal;
+        }
+    }
+
+    return bRet;
+}
+
+
+bool TransformerNovaMediaSubType(TT::TTMediaInfo& src)
+{
+    bool bRet = true;
+
+    src.dwMediaSubType = TP_MEDIA_CLASS_UNKNOWN;
+    if(src.bVideo)
+    {
+        // whether picture
+        if(src.ttVideo.lStill)
+        {
+            src.dwMediaSubType |= TP_MEDIA_CLASS_V_P;
+        }
+        else
+        {
+            src.dwMediaSubType |= TP_MEDIA_CLASS_V_V;
+        }
+    }
+
+    if(src.bAudio)
+    {
+        for(int idx = 0; idx < src.ttAudio.iChannels; ++idx)
+        {
+            ULONGLONG tmpVal = _Media_BIT_(idx) * TP_MEDIA_CLASS_A1 ;
+            src.dwMediaSubType |= tmpVal;
+        }
+    }
+
+    return bRet;
 }
 
 //-----------------------------------------------00

@@ -43,7 +43,6 @@ public:
 
     virtual int GetMediaInfo(const char *cFileName, int nDetectMode = 0) = 0;
     virtual int GetMediaInfo(const std::string& str, int nDetectMode = 0) = 0;
-    virtual int ConvertToNovaInfo() = 0;
     virtual int ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo) = 0;
     virtual int ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2) = 0;
     virtual int ConvertMpcInfo() = 0;

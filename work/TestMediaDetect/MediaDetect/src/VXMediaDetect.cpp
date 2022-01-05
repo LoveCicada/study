@@ -150,7 +150,6 @@ public:
 
     virtual int GetMediaInfo(const char *cFileName, int nDetectMode = 0) override;
     virtual int GetMediaInfo(const std::string& str, int nDetectMode = 0) override;
-    virtual int ConvertToNovaInfo() override;
     virtual int ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo) override;
     virtual int ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2) override;
     virtual int ConvertMpcInfo() override;
@@ -304,14 +303,6 @@ int CVXLinuxMediaDetect::GetMediaInfo(const std::string& str, int nDetectMode)
     return nCode;
 }
 
-int CVXLinuxMediaDetect::ConvertToNovaInfo()
-{
-    ErrorCode ec = ErrorCode::Success;
-    int nCode = GetErrorCode(ec);
-
-    return nCode;
-}
-
 int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
 {
     ErrorCode ec = ErrorCode::Success;
@@ -367,13 +358,13 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
         bRet = SDKMediaInfo2NovaFcc(fileInfo, videoInfoTmp, audioInfoTmp, mediaInfo);
     }
 
-
     // 5.
     {
+        bRet = TransformerNovaMediaType(mediaInfo);
 
+        bRet = TransformerNovaMediaSubType(mediaInfo);
         
     }
-    
 
     return nCode;
 }
