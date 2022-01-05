@@ -679,6 +679,13 @@ bool IsPicture(int fileFormatID)
     return bRet;
 }
 
+/**
+ * @brief TransformerNovaMediaType
+ * 
+ * @param src 
+ * @return true 
+ * @return false 
+ */
 bool TransformerNovaMediaType(TT::TTMediaInfo& src)
 {
     bool bRet = true;
@@ -701,7 +708,13 @@ bool TransformerNovaMediaType(TT::TTMediaInfo& src)
     return bRet;
 }
 
-
+/**
+ * @brief TransformerNovaMediaSubType
+ * 
+ * @param src 
+ * @return true 
+ * @return false 
+ */
 bool TransformerNovaMediaSubType(TT::TTMediaInfo& src)
 {
     bool bRet = true;

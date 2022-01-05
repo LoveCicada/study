@@ -263,16 +263,42 @@ DWORD GetFOURCC(int iID, int iFileId = 0);
  */
 void E7FormatColorspaceString(TCHAR chColorsSpace[MAX_COLORSPACE], int nColorSpace, int nOETF);
 
-
+/**
+ * @brief TransformerAspectRatio
+ * 
+ * @param aspectRatio 
+ * @param w 
+ * @param h 
+ * @return true 
+ * @return false 
+ */
 bool TransformerAspectRatio(const eVXSDKVideoAspectRatio& aspectRatio, int& w, int& h);
 
+/**
+ * @brief IsPicture
+ * 
+ * @param fileFormatID 
+ * @return true 
+ * @return false 
+ */
 bool IsPicture(int fileFormatID);
 
-
+/**
+ * @brief TransformerNovaMediaType
+ * 
+ * @param src 
+ * @return true 
+ * @return false 
+ */
 bool TransformerNovaMediaType(TT::TTMediaInfo& src);
 
-
-
+/**
+ * @brief TransformerNovaMediaSubType
+ * 
+ * @param src 
+ * @return true 
+ * @return false 
+ */
 bool TransformerNovaMediaSubType(TT::TTMediaInfo& src);
 
 //-----------------------------------------------00
