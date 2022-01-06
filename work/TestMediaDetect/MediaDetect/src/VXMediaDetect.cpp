@@ -154,8 +154,6 @@ public:
 
 public:
 
-#if 0
-
     SDKVideoStreamInfoVec&  GetVideoStreamInfoVec()  override;
     SDKAudioStreamInfoVec&  GetAudioStreamInfoVec()  override;
     SDKSystemStreamInfoVec& GetSystemStreamInfoVec() override;
@@ -166,7 +164,6 @@ public:
     int GetSystemStreamNum() override;
     int GetDataStreamNum()   override;
 
-#endif
 private:
     std::shared_ptr<VXSDKMediaDetect>       m_pSdkMediaDetect;
     std::shared_ptr<VXSDKMediaInfo>         m_pSdkMediaInfo;  
@@ -382,6 +379,47 @@ int CVXLinuxMediaDetect::ConvertMpcInfo()
 
     return nCode;
 }
+
+SDKVideoStreamInfoVec& CVXLinuxMediaDetect::GetVideoStreamInfoVec() 
+{
+    return m_videoStreamInfoVec;
+}
+
+SDKAudioStreamInfoVec& CVXLinuxMediaDetect::GetAudioStreamInfoVec() 
+{
+    return m_audioStreamInfoVec;
+}
+
+SDKSystemStreamInfoVec& CVXLinuxMediaDetect::GetSystemStreamInfoVec() 
+{
+    return m_systemStreamInfoVec;
+}
+
+SDKDataStreamInfoVec& CVXLinuxMediaDetect::GetDataStreamInfoVec() 
+{
+    return m_dataStreamInfoVec;
+}
+
+int CVXLinuxMediaDetect::GetVideoStreamNum()
+{
+    return m_videoStreamNum;
+}
+
+int CVXLinuxMediaDetect::GetAudioStreamNum()
+{
+    return m_audioStreamNum;
+}
+
+int CVXLinuxMediaDetect::GetSystemStreamNum()
+{
+    return m_systemStreamNum;
+}
+
+int CVXLinuxMediaDetect::GetDataStreamNum()
+{
+    return m_dataStreamNum;
+}
+
 
 #endif
 

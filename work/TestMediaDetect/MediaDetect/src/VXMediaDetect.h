@@ -47,7 +47,6 @@ public:
     virtual int ConvertToNovaInfo(TT::TTMediaInfo2& mediaInfo2) = 0;
     virtual int ConvertMpcInfo() = 0;
 
-#if 0
     virtual SDKVideoStreamInfoVec&  GetVideoStreamInfoVec()  = 0;
     virtual SDKAudioStreamInfoVec&  GetAudioStreamInfoVec()  = 0;
     virtual SDKSystemStreamInfoVec& GetSystemStreamInfoVec() = 0;
@@ -57,8 +56,6 @@ public:
     virtual int GetAudioStreamNum()  = 0;
     virtual int GetSystemStreamNum() = 0;
     virtual int GetDataStreamNum()   = 0;
-
-#endif 
 
 private:
 
