@@ -11,8 +11,7 @@ bool CopySDKFileMediaInfo(const stVXSDKFileMediaInfo& src, stVXSDKFileMediaInfo&
 {
     bool bRet = true;
 
-    dst.cFileName = src.cFileName;
-    
+    dst = src;
 
     return bRet;
 }
@@ -94,8 +93,10 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
     src.cFileName;
     //文件路径 wchar_t
     dst.wszFilePath;
-    //std::string::copy()
-    
+
+    const size_t cSize = strlen(src.cFileName);
+    mbstowcs(dst.wszFilePath, src.cFileName, cSize);
+
     // 2. 文件大小
     dst.llFileSize = src.llFileSize;
 
@@ -105,6 +106,7 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
     // 4. 文件总长度（以长度单位为基准）
     dst.llDuration = src.llFileTimeDuration;
 
+    //maybe error
     dst.llLength = static_cast<__int64>(src.nSegmentDuration);
 
     // 5. 边采边编标志
@@ -146,7 +148,6 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
     src.nDropTimeCodeFlags;
 
     // 14.
-    src.llStartTimecode;
     dst.ttVideo.iECStartPos = static_cast<int>(src.llStartTimecode);
 
     // 15. 分段长度（以帧为单位）
@@ -174,6 +175,7 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
 {
     bool bRet = true;
 
+    dst.iSbtFileId = 1;
     dst.bVideo = true;
     dst.ttVideo.iSize;
     dst.ttVideo.iVersion;
@@ -188,18 +190,23 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
     
     // maybe error
     dst.ttVideo.iSbtVideoId = static_cast<unsigned int>(src.nMediaID);
-    dst.ttVideo.dbFrameRate = src.nFrameRateDen / src.nFrameRateNum;
-    dst.ttVideo.iWidth = src.nWidth;
-    dst.ttVideo.iHeight = src.nHeight;
-    dst.ttVideo.iBitrate = src.nBitrate;
-    dst.ttVideo.iBits = src.nBitDepth;
-    dst.ttVideo.iAFD = src.nAFD;
+    dst.ttVideo.dbFrameRate = static_cast<double>(src.nFrameRateDen) / static_cast<double>(src.nFrameRateNum);
+    dst.ttVideo.iWidth = static_cast<unsigned int>(src.nWidth) ;
+    dst.ttVideo.iHeight = static_cast<unsigned int>(src.nHeight) ;
+    dst.ttVideo.iBitrate = static_cast<unsigned int>(src.nBitrate) ;
+    dst.ttVideo.iBits = static_cast<unsigned int>(src.nBitDepth) ;
+    dst.ttVideo.iAFD = static_cast<unsigned int>(src.nAFD) ;
     dst.ttVideo.llDuration = src.llTimeDuration;
     dst.ttVideo.bIsVBR = (src.nBitrateMode == 1) ? true : false;
 
     // we need compare TTPixelFormat(windows TTMedia) to eVXSDKVideoColorSpaceFormat(Linux)
-    dst.ttVideo.ttPixelFormat = static_cast<TTPixelFormat>(src.nVideoFormat);
-    
+
+    bRet = TransSDKColorSpace2TTPixelFmt(src.nVideoFormat,dst.ttVideo.ttPixelFormat);
+    if(!bRet)
+    {
+        //record log
+    }
+
     //dst.ttVideo.ttVStandard.m_dwVersion;
     dst.ttVideo.ttVStandard.SetEditHeight(static_cast<DWORD>(src.nHeight));
     dst.ttVideo.ttVStandard.SetEditWidth(static_cast<DWORD>(src.nWidth));
@@ -225,7 +232,14 @@ bool SDKVideoStreamInfo2TTMediaInfo(const stVXSDKVideoStreamInfo& src, TT::TTMed
     dst.ttVideo.ttVStandard.SetViewNum(static_cast<short>(1));
 
     dst.ttVideo.ttVStandard.SetBitCount(static_cast<short>(src.nBitDepth));
-    dst.ttVideo.ttVStandard.SetScanMode(static_cast<TTESCANMODE>(src.nScanType));
+
+    TTESCANMODE scanType;
+    bRet = TransSDKVideoScanType2TTScanType(src.nScanType,scanType);
+    if(!bRet)
+    {
+        // record log
+    }
+    dst.ttVideo.ttVStandard.SetScanMode(scanType);
     dst.ttVideo.ttVStandard.SetDeinterlaceType(static_cast<TTEDEINTERLACETYPE>(src.nScanOrder));
 
     // maybe we can set null when invalid *****
@@ -268,15 +282,19 @@ bool SDKAudioStreamInfo2TTMediaInfo(const stVXSDKAudioStreamInfo& src, TT::TTMed
     dst.ttAudio.iSize;
     dst.ttAudio.iVersion;
 
-    // important
-    dst.ttAudio.fccNovaAudioId;
+    /*
+    * @brief 视频编码 nova.id fcc
+    * dst.ttAudio.fccNovaAudioId;
+    *
+    * get at SDKMediaInfo2NovaFcc()
+    */
 
     //maybe error
     dst.ttAudio.iSbtAudioId = static_cast<unsigned int>(src.nMediaID); 
     
-    dst.ttAudio.iChannels = src.nChannels;
-    dst.ttAudio.iSampleBits =src.nBitsPerSample;
-    dst.ttAudio.iSampleRate = src.nSamplesPerSec;
+    dst.ttAudio.iChannels = static_cast<unsigned int>(src.nChannels);
+    dst.ttAudio.iSampleBits = static_cast<unsigned int>(src.nBitsPerSample);
+    dst.ttAudio.iSampleRate = static_cast<unsigned int>(src.nSamplesPerSec);
     dst.ttAudio.bIsVBR = (src.nVBR == 1) ? true : false;
     dst.ttAudio.llDuration = src.llTimeDuration;
 
@@ -367,7 +385,7 @@ bool SDKMediaInfo2NovaFcc(const stVXSDKFileMediaInfo& fileInfo, const stVXSDKVid
         if(dst.bAudio)
         {
             auto ret = GetFOURCC(audioInfo.nMediaID);
-            dst.ttVideo.fccNovaVideoId = static_cast<unsigned int>(ret);
+            dst.ttAudio.fccNovaAudioId = static_cast<unsigned int>(ret);
         }
     }
 
@@ -740,6 +758,124 @@ bool TransformerNovaMediaSubType(TT::TTMediaInfo& src)
             ULONGLONG tmpVal = _Media_BIT_(idx) * TP_MEDIA_CLASS_A1 ;
             src.dwMediaSubType |= tmpVal;
         }
+    }
+
+    return bRet;
+}
+
+bool TransSDKColorSpace2TTPixelFmt(const int& videoFormat, TTPixelFormat& pixelFormat)
+{
+    bool bRet = true;
+    eVXSDKVideoColorSpaceFormat fmt = eVXSDKVideoColorSpaceFormat::eVXVideoCsFmtUnknown;
+    switch (videoFormat) {
+        case eVXVideoCsFmtUnknown:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtYUV420P:
+            pixelFormat = TT_PIX_FMT_YUV420P;
+            break;
+        case eVXVideoCsFmtYUYV:
+            pixelFormat = TT_PIX_FMT_YUYV;
+            break;
+        case eVXVideoCsFmtUYVY:
+            pixelFormat = TT_PIX_FMT_UYVY;
+            break;;
+        case eVXVideoCsFmtYUV422:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtYUV422P:
+            pixelFormat = TT_PIX_FMT_YUV422P;
+            break;
+        case eVXVideoCsFmtYUV422P10LE:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;;
+        case eVXVideoCsFmtYUV444P:
+            pixelFormat = TT_PIX_FMT_YUV444P;
+            break;
+        case eVXVideoCsFmtRGB:
+            pixelFormat = TT_PIX_FMT_RGB24;
+            break;
+        case eVXVideoCsFmtRGBA:
+            pixelFormat = TT_PIX_FMT_RGBA32;
+            break;
+        case eVXVideoCsFmtARGB:
+            pixelFormat = TT_PIX_FMT_ARGB32;
+            break;
+        case eVXVideoCsFmtBGR:
+            pixelFormat = TT_PIX_FMT_BGR24;
+            break;
+        case eVXVideoCsFmtBGRA:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtABGR:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtNV12:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtYUV420P10LE:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtNV16:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtYUYV10LE:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtYUV444P10LE:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtP010BE:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+        case eVXVideoCsFmtUYVY10LE:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+
+            /*
+             *
+             *
+             * */
+
+        default:
+            pixelFormat = TT_PIX_FMT_UNKNOWN;
+            bRet = false;
+            break;
+    }
+
+    return bRet;
+}
+
+bool TransSDKVideoScanType2TTScanType(const int& nScanType, TTESCANMODE& scanType)
+{
+    bool bRet = true;
+    switch (nScanType) {
+        case eVXSDKVideoScanType::eVXVideoScanTypeUnknown:
+            scanType = TTESCANMODE::ttScanMode_Invalid;
+            bRet = false;
+            break;
+        case eVXSDKVideoScanType::eVXVideoScanTypeProgressive:
+            scanType = TTESCANMODE::ttScanMode_Progressive;
+            break;
+        case eVXSDKVideoScanType::eVXVideoScanTypeInterlaced:
+            scanType = TTESCANMODE::ttScanMode_Field;
+            break;
+        default:
+            scanType = TTESCANMODE::ttScanMode_Invalid;
+            bRet = false;
+            break;
     }
 
     return bRet;

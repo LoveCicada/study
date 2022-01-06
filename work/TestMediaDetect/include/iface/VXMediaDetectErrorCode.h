@@ -13,13 +13,14 @@ enum ErrorCode
 {
     Success = 0,    
     LoadSdkLibraryFail = 1,
-    SetInputFileFail = 2,
-    GetMediaInfoFail = 3,
-    CopySDKFileMediaInfoFail = 4,
-    CopySDKVideoStreamInfoFail = 5,
-    CopySDKAudioStreamInfoFail = 6,
-    CopySystemStreamStreamInfoFail = 7,
-    CopyDataStreamStreamInfoFail = 8,
+    ResetFail = 2,
+    SetInputFileFail = 3,
+    GetMediaInfoFail = 4,
+    CopySDKFileMediaInfoFail = 5,
+    CopySDKVideoStreamInfoFail = 6,
+    CopySDKAudioStreamInfoFail = 7,
+    CopySystemStreamStreamInfoFail = 8,
+    CopyDataStreamStreamInfoFail = 9,
     
 };
 

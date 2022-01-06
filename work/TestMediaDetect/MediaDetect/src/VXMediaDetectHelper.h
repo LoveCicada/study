@@ -304,6 +304,12 @@ bool TransformerNovaMediaSubType(TT::TTMediaInfo& src);
 //-----------------------------------------------00
 
 
+bool TransSDKColorSpace2TTPixelFmt(const int& videoFormat, TTPixelFormat& pixelFormat);
+
+
+bool TransSDKVideoScanType2TTScanType(const int& nScanType, TTESCANMODE& scanType);
+
+
 /**
  * @brief Test
  * 

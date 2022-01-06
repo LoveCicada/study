@@ -1,5 +1,6 @@
 
 #include "../include/iface/VXMediaDetect.h"
+#include <memory>
 
 void printInfo(const TT::TTMediaInfo& mediaInfo)
 {
@@ -73,10 +74,12 @@ void test(string file = "")
     }
     printf("file = %s\n", file.c_str());
 
-    IVXMediaDectect* pMediaDetect = CreateMediaDetect();
+    std::shared_ptr<IVXMediaDectect> pMediaDetect(CreateMediaDetect());
     pMediaDetect->Init();
     
     int mode = 0;
+    pMediaDetect->GetMediaInfo(file, mode);
+
     pMediaDetect->GetMediaInfo(file, mode);
 
     TT::TTMediaInfo mediaInfo;

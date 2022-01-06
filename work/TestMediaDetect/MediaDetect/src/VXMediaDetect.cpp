@@ -164,6 +164,10 @@ public:
     int GetSystemStreamNum() override;
     int GetDataStreamNum()   override;
 
+protected:
+
+    bool Reset();
+
 private:
     std::shared_ptr<VXSDKMediaDetect>       m_pSdkMediaDetect;
     std::shared_ptr<VXSDKMediaInfo>         m_pSdkMediaInfo;  
@@ -183,15 +187,34 @@ private:
 
 CVXLinuxMediaDetect::CVXLinuxMediaDetect()
 {
-    std::cout << " create CVXLinuxMediaDetect instace " << std::endl;
+    std::cout << " create CVXLinuxMediaDetect instance " << std::endl;
+    Reset();
+}
+
+bool CVXLinuxMediaDetect::Reset()
+{
+    bool bRet = true;
+
     m_pSdkMediaDetect.reset(new VXSDKMediaDetect);
     m_pSdkMediaInfo.reset(new VXSDKMediaInfo);
     m_pSdkFileMediaInfo.reset(new stVXSDKFileMediaInfo);
+
+    m_videoStreamNum    = 0;
+    m_audioStreamNum    = 0;
+    m_systemStreamNum   = 0;
+    m_dataStreamNum     = 0;
+
+    m_videoStreamInfoVec.clear();
+    m_audioStreamInfoVec.clear();
+    m_systemStreamInfoVec.clear();
+    m_dataStreamInfoVec.clear();
+
+    return bRet;
 }
 
 CVXLinuxMediaDetect::~CVXLinuxMediaDetect()
 {
-    std::cout << " delete CVXLinuxMediaDetect instace " << std::endl;
+    std::cout << " delete CVXLinuxMediaDetect instance " << std::endl;
     
 }
 
@@ -219,6 +242,15 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
 {
     ErrorCode ec = ErrorCode::Success;
     int nCode = 0;
+
+    bool bReset = Reset();
+    if(!bReset)
+    {
+        ec = ErrorCode::ResetFail;
+        nCode = GetErrorCode(ec);
+        return nCode;
+    }
+
     int nSdkError = m_pSdkMediaDetect->SetInputFile(cFileName, nDetectMode);
     if(nSdkError<0)
     {
@@ -303,6 +335,7 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
     ErrorCode ec = ErrorCode::Success;
     int nCode = GetErrorCode(ec);
 
+    memset(&mediaInfo, 0, sizeof(mediaInfo));
     bool bRet = true;
     // 1.
     const stVXSDKFileMediaInfo& src = *m_pSdkFileMediaInfo;
