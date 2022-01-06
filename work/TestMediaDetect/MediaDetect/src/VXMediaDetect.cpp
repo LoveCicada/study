@@ -26,7 +26,20 @@ bool IsValid();
  * 
  * @return bool 
  */
-bool CheckValid();
+bool CheckValid()
+{
+    g_bValid.store(false);
+    bool bRet = true;
+
+    /*
+    * load library
+    */
+
+
+    g_bValid.store(true);
+    
+    return bRet;
+}
 
 bool IsValid()
 {   
@@ -118,21 +131,6 @@ int CVXWinMediaDectect::ConvertMpcInfo()
 #else
 
 /*****************************************Linux*********************************************/
-
-bool CheckValid()
-{
-    g_bValid.store(false);
-    bool bRet = true;
-
-    /*
-    * load library
-    */
-
-
-    g_bValid.store(true);
-    
-    return bRet;
-}
 
 
 /**
