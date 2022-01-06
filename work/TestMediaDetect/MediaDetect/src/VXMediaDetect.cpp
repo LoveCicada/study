@@ -1,7 +1,7 @@
 
 
 
-#include "VXMediaDetect.h"
+#include "../../include/iface/VXMediaDetect.h"
 #include "VXMediaDetectHelper.h"
 #include <atomic>
 #include <mutex>

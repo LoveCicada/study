@@ -21,9 +21,9 @@
 #endif
 
 #include <iostream>
-#include "VXMediaDetectErrorCode.h"
-#include "VXMediaDetectBaseDefine.h"
-#include "../../include/nle/LinuxTTMedia/ITTMediaDetect.h"
+#include "./VXMediaDetectErrorCode.h"
+#include "./VXMediaDetectBaseDefine.h"
+#include "../nle/LinuxTTMedia/ITTMediaDetect.h"
 using namespace std;
 
 

@@ -1,5 +1,5 @@
 
-#include "../MediaDetect/src/VXMediaDetect.h"
+#include "../include/iface/VXMediaDetect.h"
 
 void printInfo(const TT::TTMediaInfo& mediaInfo)
 {

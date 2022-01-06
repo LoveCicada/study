@@ -8,7 +8,7 @@
 
 #else
     //load linux sdk include
-#include "../../include/linux/VXSDKMediaDetect.h"
+#include "../linux/VXSDKMediaDetect.h"
 
 typedef std::vector<stVXSDKVideoStreamInfo>    SDKVideoStreamInfoVec;
 typedef std::vector<stVXSDKAudioStreamInfo>    SDKAudioStreamInfoVec;
