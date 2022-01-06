@@ -2,6 +2,11 @@
 #include "../include/iface/VXMediaDetect.h"
 #include <memory>
 
+void log(void* pUser, std::string& strLog, int level)
+{
+    std::cout << "level: " << level << " log: " << strLog << std::endl;
+}
+
 void printInfo(const TT::TTMediaInfo& mediaInfo)
 {
     std::cout << std::endl;
@@ -76,7 +81,9 @@ void test(string file = "")
 
     std::shared_ptr<IVXMediaDectect> pMediaDetect(CreateMediaDetect());
     pMediaDetect->Init();
-    
+
+    pMediaDetect->SetLogCb(log, nullptr, 0);
+
     int mode = 0;
     pMediaDetect->GetMediaInfo(file, mode);
 

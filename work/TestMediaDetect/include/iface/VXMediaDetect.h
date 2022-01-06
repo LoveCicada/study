@@ -21,11 +21,14 @@
 #endif
 
 #include <iostream>
+#include <string>
+
 #include "./VXMediaDetectErrorCode.h"
 #include "./VXMediaDetectBaseDefine.h"
 #include "../nle/LinuxTTMedia/ITTMediaDetect.h"
 using namespace std;
 
+typedef void (*pfnLog)(void* pUser, std::string& str, int level);
 
 /**
  * @brief 
@@ -56,6 +59,8 @@ public:
     virtual int GetAudioStreamNum()  = 0;
     virtual int GetSystemStreamNum() = 0;
     virtual int GetDataStreamNum()   = 0;
+
+    virtual void SetLogCb(pfnLog logCb, void* pUser, int logLevel) = 0;
 
 private:
 

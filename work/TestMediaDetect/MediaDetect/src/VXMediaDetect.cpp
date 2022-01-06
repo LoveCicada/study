@@ -9,6 +9,12 @@
 #include <vector>
 
 
+#define Log(info)  if(m_pErrorLog)                      \
+            {                                           \
+                std::string str = info;                 \
+                m_pErrorLog(m_pUser, str, m_logLevel);  \
+            }
+
 //use for load library once
 static std::once_flag g_onceFlag;
 static std::atomic_bool g_bValid;
@@ -164,6 +170,8 @@ public:
     int GetSystemStreamNum() override;
     int GetDataStreamNum()   override;
 
+    void SetLogCb(pfnLog logCb, void* pUser, int logLevel) override;
+
 protected:
 
     bool Reset();
@@ -183,12 +191,19 @@ private:
     SDKSystemStreamInfoVec  m_systemStreamInfoVec;
     SDKDataStreamInfoVec    m_dataStreamInfoVec;
 
+    // log callback
+    pfnLog m_pErrorLog;
+    void* m_pUser;
+    int m_logLevel;
 };
 
 CVXLinuxMediaDetect::CVXLinuxMediaDetect()
 {
     std::cout << " create CVXLinuxMediaDetect instance " << std::endl;
     Reset();
+    m_pErrorLog = nullptr;
+    m_pUser = nullptr;
+    m_logLevel = 0;
 }
 
 bool CVXLinuxMediaDetect::Reset()
@@ -254,6 +269,8 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
     int nSdkError = m_pSdkMediaDetect->SetInputFile(cFileName, nDetectMode);
     if(nSdkError<0)
     {
+        Log("SetInputFile fail");
+
         ec = ErrorCode::SetInputFileFail;
         nCode = GetErrorCode(ec);
         return nCode;
@@ -262,6 +279,8 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
     nSdkError = m_pSdkMediaDetect->GetMediaInfo(m_pSdkMediaInfo.get());
     if(nSdkError<0)
     {
+        Log("GetMediaInfo fail");
+
         ec = ErrorCode::GetMediaInfoFail;
         nCode = GetErrorCode(ec);
         return nCode;
@@ -276,6 +295,8 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
     auto bCopyFileMediaInfo = CopySDKFileMediaInfo(sdkFileMediaInfo, *m_pSdkFileMediaInfo);
     if(!bCopyFileMediaInfo)
     {
+        Log("CopySDKFileMediaInfo fail");
+
         ec = ErrorCode::CopySDKFileMediaInfoFail;
         nCode = GetErrorCode(ec);
         return nCode;
@@ -341,6 +362,11 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
     const stVXSDKFileMediaInfo& src = *m_pSdkFileMediaInfo;
     bRet = SDKFileMediaInfo2TTMediaInfo(src, mediaInfo);
 
+    if(!bRet)
+    {
+        Log("SDKFileMediaInfo2TTMediaInfo");
+    }
+
     // 2.
     {
         // TTMediaInfo currently record first video stream info
@@ -348,6 +374,10 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
         {
             const stVXSDKVideoStreamInfo& src = m_videoStreamInfoVec.at(0);
             bRet = SDKVideoStreamInfo2TTMediaInfo(src, mediaInfo);
+            if(!bRet)
+            {
+                Log("SDKVideoStreamInfo2TTMediaInfo");
+            }
         }
     }
     
@@ -358,6 +388,10 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
         {
             const stVXSDKAudioStreamInfo& src = m_audioStreamInfoVec.at(0);
             bRet = SDKAudioStreamInfo2TTMediaInfo(src, mediaInfo);
+            if(!bRet)
+            {
+                Log("SDKAudioStreamInfo2TTMediaInfo");
+            }
         }
     }
 
@@ -384,13 +418,25 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
         }
 
         bRet = SDKMediaInfo2NovaFcc(fileInfo, videoInfoTmp, audioInfoTmp, mediaInfo);
+        if(!bRet)
+        {
+            Log("SDKMediaInfo2NovaFcc");
+        }
     }
 
     // 5.
     {
         bRet = TransformerNovaMediaType(mediaInfo);
+        if(!bRet)
+        {
+            Log("TransformerNovaMediaType");
+        }
 
         bRet = TransformerNovaMediaSubType(mediaInfo);
+        if(!bRet)
+        {
+            Log("TransformerNovaMediaSubType");
+        }
         
     }
 
@@ -453,6 +499,12 @@ int CVXLinuxMediaDetect::GetDataStreamNum()
     return m_dataStreamNum;
 }
 
+void CVXLinuxMediaDetect::SetLogCb(pfnLog logCb, void* pUser, int logLevel)
+{
+    m_pErrorLog = logCb;
+    m_pUser = pUser;
+    m_logLevel = logLevel;
+}
 
 #endif
 

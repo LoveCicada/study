@@ -116,18 +116,10 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
     src.nFileFormatID;
     auto bImg = IsPicture(src.nFileFormatID);
     dst.ttVideo.lStill = bImg ? 1 : 0;
-#if 1
 
     // 音频编码 nova.id important
     dst.guidNovaFileId = GetGUID(src.nFileFormatID);
 
-    // nova 校验出的媒体类型 we need modify
-    //dst.dwMediaType = static_cast<ULONGLONG>();
-    
-    // nova 校验出的媒体子类型 we need modify
-    //dst.dwMediaSubType = static_cast<ULONGLONG>();
-
-#endif
     // 7. 文件子类型
     src.nSubFileType;
 
@@ -158,7 +150,6 @@ bool SDKFileMediaInfo2TTMediaInfo(const stVXSDKFileMediaInfo& src, TT::TTMediaIn
 
     // 17. 预留字段
     src.nReserved;
-
 
     return bRet;
 }
