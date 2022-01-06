@@ -9,11 +9,9 @@
 #include <vector>
 
 
-#define Log(info)  if(m_pErrorLog)                      \
-            {                                           \
-                std::string str = info;                 \
-                m_pErrorLog(m_pUser, str, m_logLevel);  \
-            }
+#define LOG(info)   do {                                                                    \
+        LogFormat(m_pErrorLog, m_pUser, m_logLevel, info, __FILE__, __func__, __LINE__);    \
+    } while(0);
 
 //use for load library once
 static std::once_flag g_onceFlag;
@@ -52,6 +50,21 @@ bool IsValid()
     bool bRet = true;
     std::call_once(g_onceFlag, CheckValid);
     return g_bValid.load();
+}
+
+
+void LogFormat(pfnLog pLog, void* pUser, int logLevel, std::string info,
+                const char * codePath, const char* funName, int codeLine)
+{
+    if(pLog)
+    {
+        std::string s1 = codePath;
+        std::string s2 = funName;
+        std::string s3 = std::to_string(codeLine); 
+        std::string ss = "| " + s1 + " " + s2 + " " + s3 + " | "; 
+        std::string str = ss + info + "\n"; 
+        pLog(pUser, str, logLevel);
+    }
 }
 
 /*****************************************Windows*********************************************/
@@ -269,7 +282,7 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
     int nSdkError = m_pSdkMediaDetect->SetInputFile(cFileName, nDetectMode);
     if(nSdkError<0)
     {
-        Log("SetInputFile fail");
+        LOG("SetInputFile fail");
 
         ec = ErrorCode::SetInputFileFail;
         nCode = GetErrorCode(ec);
@@ -279,7 +292,7 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
     nSdkError = m_pSdkMediaDetect->GetMediaInfo(m_pSdkMediaInfo.get());
     if(nSdkError<0)
     {
-        Log("GetMediaInfo fail");
+        LOG("GetMediaInfo fail");
 
         ec = ErrorCode::GetMediaInfoFail;
         nCode = GetErrorCode(ec);
@@ -295,7 +308,7 @@ int CVXLinuxMediaDetect::GetMediaInfo(const char *cFileName, int nDetectMode)
     auto bCopyFileMediaInfo = CopySDKFileMediaInfo(sdkFileMediaInfo, *m_pSdkFileMediaInfo);
     if(!bCopyFileMediaInfo)
     {
-        Log("CopySDKFileMediaInfo fail");
+        LOG("CopySDKFileMediaInfo fail");
 
         ec = ErrorCode::CopySDKFileMediaInfoFail;
         nCode = GetErrorCode(ec);
@@ -364,7 +377,7 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
 
     if(!bRet)
     {
-        Log("SDKFileMediaInfo2TTMediaInfo");
+        LOG("SDKFileMediaInfo2TTMediaInfo");
     }
 
     // 2.
@@ -376,7 +389,7 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
             bRet = SDKVideoStreamInfo2TTMediaInfo(src, mediaInfo);
             if(!bRet)
             {
-                Log("SDKVideoStreamInfo2TTMediaInfo");
+                LOG("SDKVideoStreamInfo2TTMediaInfo");
             }
         }
     }
@@ -390,7 +403,7 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
             bRet = SDKAudioStreamInfo2TTMediaInfo(src, mediaInfo);
             if(!bRet)
             {
-                Log("SDKAudioStreamInfo2TTMediaInfo");
+                LOG("SDKAudioStreamInfo2TTMediaInfo");
             }
         }
     }
@@ -420,7 +433,7 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
         bRet = SDKMediaInfo2NovaFcc(fileInfo, videoInfoTmp, audioInfoTmp, mediaInfo);
         if(!bRet)
         {
-            Log("SDKMediaInfo2NovaFcc");
+            LOG("SDKMediaInfo2NovaFcc");
         }
     }
 
@@ -429,13 +442,13 @@ int CVXLinuxMediaDetect::ConvertToNovaInfo(TT::TTMediaInfo& mediaInfo)
         bRet = TransformerNovaMediaType(mediaInfo);
         if(!bRet)
         {
-            Log("TransformerNovaMediaType");
+            LOG("TransformerNovaMediaType");
         }
 
         bRet = TransformerNovaMediaSubType(mediaInfo);
         if(!bRet)
         {
-            Log("TransformerNovaMediaSubType");
+            LOG("TransformerNovaMediaSubType");
         }
         
     }
