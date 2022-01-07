@@ -41,8 +41,9 @@ actually is implicit link
 5. data stream detail
 ```
 
-- lib doc struct
+- lib project struct
 ```
+.
 ├── Debug
 ├── MediaDetect
 │   └── src
@@ -50,12 +51,11 @@ actually is implicit link
 ├── app
 ├── build
 ├── include
+│   ├── iface
 │   ├── linux
 │   ├── nle
 │   │   └── LinuxTTMedia
-│   │       ├── File
-│   │       ├── helper
-│   │       └── plugin
+│   │       └── File
 │   └── windows
 └── lib
 ```
@@ -65,7 +65,7 @@ actually is implicit link
 1. use linux sdk to get file media info
 ```
 
-- how to build Release
+- how to build Release version
 ```
 run build.sh
 or
@@ -75,7 +75,7 @@ cmake ..
 make
 ```
 
-- how to build Debug
+- how to build Debug version
 ```
 run build.sh
 or
@@ -85,15 +85,23 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug
 make
 ```
 
+- how to package
+```
+run Package.sh
+```
+
 - how to test
 ```
 cd app
-
+./app file_total_path
+we can compare to main.cpp
 ```
 
-- how to use
+- how to use libCXEMediaDetect.so
 ```
-
+include
+Debug
+Release
 ```
 
 - interface
