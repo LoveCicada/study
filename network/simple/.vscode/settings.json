@@ -43,6 +43,10 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "socket.h": "c",
+        "un.h": "c",
+        "unistd.h": "c",
+        "wait.h": "c"
     }
 }
