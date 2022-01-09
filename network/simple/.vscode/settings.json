@@ -47,6 +47,7 @@
         "socket.h": "c",
         "un.h": "c",
         "unistd.h": "c",
-        "wait.h": "c"
+        "wait.h": "c",
+        "if_arp.h": "c"
     }
 }

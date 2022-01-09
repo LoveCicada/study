@@ -17,3 +17,6 @@ gcc -o ./bin/deliver_A deliver_B.c
 
 echo "deliver_B"
 gcc -o ./bin/deliver_B deliver_B.c
+
+echo "ioctl_test"
+gcc -o ./bin/ioctl_test ioctl_test.c
