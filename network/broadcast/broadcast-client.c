@@ -44,8 +44,17 @@ void IPFound(void* arg)
     }
 
     // 将需要使用的网络接口字符串名字复制到结构中
-    strncpy(ifr.ifr_ifrn.ifrn_name, IFNAME, strlen(IFNAME));
-
+#if 1    
+    strncpy(ifr.ifr_name, IFNAME, strlen(IFNAME));
+    int nLen = (int)strlen(IFNAME);
+    ifr.ifr_name[nLen] = '\0';
+    printf("ifr.ifr_name: %s\n strlen(ifr_name): %d\n", 
+        ifr.ifr_name, (int)strlen(IFNAME));
+#else   
+    strcpy(ifr.ifr_name, "eth0");
+    printf("ifr.ifr_name: %s\n strlen(ifr_name): %d\n", 
+        ifr.ifr_name, (int)strlen(IFNAME));
+#endif
     // 发送命令, 获取网络接口的广播地址
     ret = ioctl(sock, SIOCGIFBRDADDR, &ifr);
     if( -1 == ret )
@@ -57,7 +66,7 @@ void IPFound(void* arg)
 
     //ifr_ifru.ifru_broadaddr
     // 将获得的广播地址复制给变量broadcast addr
-    memcpy(&local_addr, &ifr.ifr_ifru.ifru_broadaddr,
+    memcpy(&local_addr, &ifr.ifr_broadaddr,
         sizeof(struct sockaddr_in));
     // 设置广播端口
     local_addr.sin_port = htons(SERVER_PORT);
