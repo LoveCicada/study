@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "inet.h": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "udp.h": "c",
+        "ip.h": "c",
+        "tcp.h": "c"
+    }
+}
