@@ -7,6 +7,7 @@
 #include <netinet/ip.h>         // iphdr 结构
 #include <netinet/udp.h>        // udphdr 结构
 #include <netinet/tcp.h>        // tcphdr 结构
+#include <net/if_arp.h>         // arp_hdr 结构
 #include <arpa/inet.h>          // inet_addr
 #include <string.h>
 #include <stdio.h>

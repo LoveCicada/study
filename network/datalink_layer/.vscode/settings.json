@@ -5,6 +5,7 @@
         "cstdlib": "c",
         "udp.h": "c",
         "ip.h": "c",
-        "tcp.h": "c"
+        "tcp.h": "c",
+        "if_arp.h": "c"
     }
 }
