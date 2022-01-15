@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "inet.h": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "udp.h": "c",
+        "ip.h": "c",
+        "tcp.h": "c",
+        "if_arp.h": "c",
+        "types.h": "c",
+        "in.h": "c"
+    }
+}
