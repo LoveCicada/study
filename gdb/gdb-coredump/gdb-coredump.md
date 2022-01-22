@@ -1,6 +1,11 @@
 
 #### gdb debug coredump
 
+- `update`
+```
+https://github.com/LoveCicada/test/blob/master/gdb/gdb-coredump/gdb-coredump.md
+```
+
 - `test example`
 ```
 
