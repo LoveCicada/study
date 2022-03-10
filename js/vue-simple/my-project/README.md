@@ -95,3 +95,10 @@ import .. from ..: import 后面是自己起的名字,from后面是组件的名�
                 └── Hello.spec.js
 
 ```
+
+- `how to use vue`
+```
+1. 提供一个标签, 让它成为Vue根元素
+2. 引入Vue库文件
+3. 编写Vue来完成需要功能
+```

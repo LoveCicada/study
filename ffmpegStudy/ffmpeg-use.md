@@ -135,6 +135,33 @@ ffmpeg.exe -y -s 7680x108 -pix_fmt rgb48le -i 1257sisrCopyCbRGB10BESrcCb.yuv 125
 
 ```
 
+- `叠加水印`
+```
+ffmpeg.exe -i .\input.mp4 -vf "movie=1.svg.png,scale=130:130[watermask];[in][watermask] overlay=300:300[out]" -y out.mp4
+
+```
+
+- `水印`
+```
+movie=logo.png,scale=60:30[watermask];[in] [watermask] overlay=30:10 [out]
+
+参数说明：
+
+logo.png: 添加的水印图片；
+
+scale：水印大小，水印长度＊水印的高度；
+
+overlay：水印的位置，距离原视频左侧的距离：距离原视频上侧的距离；mainW主视频宽度， mainH主视频高度，overlayW水印宽度，overlayH水印高度
+
+左上角overlay参数为 overlay=0:0
+
+右上角为 overlay= main_w-overlay_w:0
+
+右下角为 overlay= main_w-overlay_w:main_h-overlay_h
+
+左下角为 overlay=0: main_h-overlay_h
+
+```
 
 
 
