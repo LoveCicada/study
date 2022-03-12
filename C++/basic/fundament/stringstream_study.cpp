@@ -40,9 +40,19 @@ int main(int argc, char* argv[])
     ss.clear();
     //! 清空流内容
     ss.str("");
+    
     print_type(ss, v);
     cout << "v: " << v << endl;
     cout << "ss: " << ss.str().c_str() << endl;
 
     return 0;
 }
+
+/**
+ * @brief result
+ * uiftyp: 1718909296
+ * ss: ftyp
+ * v: 1718909296
+ * ss: ftyp
+ * 
+ */
