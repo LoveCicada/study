@@ -128,6 +128,11 @@ public:
         Alloc();
     }
 
+    ColorSpace GetColorSpace()
+    {
+        return m_colorSpace;
+    }
+
     bool SetColorSpace(ColorSpace colorSpace)
     {
         bool bRet = false;
@@ -313,6 +318,44 @@ private:
     int m_height;
 };
 
+class YUVCrop
+{
+public:
+
+    bool Crop(YUVData& srcYuv, YUVData& dstYuv, Rect& rt)
+    {
+        bool bRet = false;
+        if (srcYuv.GetColorSpace() == dstYuv.GetColorSpace())
+        {
+            //! YUV422P
+            if (dstYuv.GetColorSpace() == ColorSpace::YUV422P)
+            {
+                for (int nStartH = rt.GetStartY(); nStartH < rt.GetEndY(); nStartH++) {
+
+                    unsigned char* pYSrc = srcYuv.GetY() + (srcYuv.GetYLineSzie() * nStartH) + rt.GetStartX();
+                    unsigned char* pYDst = dstYuv.GetY() + (dstYuv.GetYLineSzie() * (nStartH - rt.GetStartY()));
+                    memcpy(pYDst, pYSrc, dstYuv.GetYLineSzie());
+
+                    unsigned char* pUSrc = srcYuv.GetU() + (srcYuv.GetULineSzie() * nStartH) + rt.GetStartX();
+                    unsigned char* pUDst = dstYuv.GetU() + (dstYuv.GetULineSzie() * (nStartH - rt.GetStartY()));
+                    memcpy(pUDst, pUSrc, dstYuv.GetULineSzie());
+
+                    unsigned char* pVSrc = srcYuv.GetV() + (srcYuv.GetVLineSzie() * nStartH) + rt.GetStartX();
+                    unsigned char* pVDst = dstYuv.GetV() + (dstYuv.GetVLineSzie() * (nStartH - rt.GetStartY()));
+                    memcpy(pVDst, pVSrc, dstYuv.GetVLineSzie());
+                }
+            }
+
+            //!
+        }
+
+        bRet = true;
+        return bRet;
+    }
+
+};
+
+
 int main(int argc, char* argv[])
 {
     std::cout << " Usage: ./yuvDemo src_yuv420p.yuv dst_yuv420p.yuv\n" 
@@ -343,9 +386,10 @@ int main(int argc, char* argv[])
     ifs.read((char*)(yuv422p.GetV()), yuv422p.GetVSzie());
     ifs.close();
 
-    Rect rect(nW/2, nH/2, nW/2, nH/2);
-    YUVData yuv422p_out(nW/2, nH/2);
+    Rect rect(nW / 2, nH / 2, nW / 2, nH / 2);
+    YUVData yuv422p_out(ColorSpace::YUV422P, nW/2, nH/2);
 
+#if 0
     //crop
     for(int nStartH = rect.GetStartY(); nStartH < rect.GetEndY(); nStartH++){
 
@@ -361,6 +405,12 @@ int main(int argc, char* argv[])
         unsigned char* pVDst = yuv422p_out.GetV() + (yuv422p_out.GetVLineSzie() * (nStartH - rect.GetStartY()));
         memcpy(pVDst, pVSrc, yuv422p_out.GetVLineSzie());
     }
+#else
+
+    Rect rtLeftTop(0, 0, nW / 2, nH / 2);
+    YUVCrop yuvCrop;
+    yuvCrop.Crop(yuv422p, yuv422p_out, rtLeftTop);
+#endif
 
     ofstream ofs;
     ofs.open(outpath, ios_base::binary | ios::trunc|ios::out|ios::in);
