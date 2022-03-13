@@ -15,6 +15,85 @@
 #include <fstream>
 using namespace std;
 
+enum ColorSpace
+{
+    YUVUNKNOW = 0,
+    YUV420P = 1,
+    YUV422P = 2,
+
+};
+
+/**
+ * @brief Get the Color Space Size object
+ * 
+ * @param ColorSpace 
+ * @param nW 
+ * @param nH 
+ * @param yLineSize 
+ * @param uLineSize 
+ * @param vLineSize 
+ * @return true 
+ * @return false 
+ */
+bool GetColorSpaceSize(ColorSpace ColorSpace, int nW, int nH,
+    int& yLineSize, int& uLineSize, int& vLineSize)
+{
+    bool bRet = false;
+
+    if(nW <=0 || nH <= 0){
+        return bRet;
+    }
+
+    switch (ColorSpace)
+    {
+    case ColorSpace::YUVUNKNOW:
+        yLineSize = 0;  uLineSize = 0; vLineSize = 0; bRet = false;
+        break;
+    case ColorSpace::YUV420P:
+        yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
+        break;
+    case ColorSpace::YUV422P:
+        yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
+        break;    
+    default:
+        break;
+    }
+
+    return bRet;
+}
+
+bool GetColorSpaceSize(ColorSpace ColorSpace, int nW, int nH,
+    int& yLineSize, int& uLineSize, int& vLineSize,
+    int& yTotalSize, int& uTotalSize, int& vTotalSize)
+{
+    bool bRet = false;
+
+    if(nW <=0 || nH <= 0){
+        return bRet;
+    }
+
+    switch (ColorSpace)
+    {
+    case ColorSpace::YUVUNKNOW:
+        yLineSize = 0;  uLineSize = 0; vLineSize = 0; bRet = false;
+        break;
+    case ColorSpace::YUV420P:
+        yLineSize = nW;  uLineSize = vLineSize = nW >> 1; 
+        yTotalSize = nW * nH; uTotalSize = vTotalSize = (nW >> 1) * (nH >> 1);
+        bRet = true;
+        break;
+    case ColorSpace::YUV422P:
+        yLineSize = nW;  uLineSize = vLineSize = nW >> 1; 
+        yTotalSize = nW * nH; uTotalSize = vTotalSize = (nW * nH) >> 1;
+        bRet = true;
+        break;    
+    default:
+        break;
+    }
+
+    return bRet;
+}
+
 class YUVData
 {
 public:
@@ -36,6 +115,80 @@ public:
         memset(m_pU, 0, m_w * m_h / 2);
         m_pV = new unsigned char[m_w * m_h / 2];
         memset(m_pV, 0, m_w * m_h / 2);
+    }
+
+    YUVData(ColorSpace colorSpace, int _w, int _h)
+    {
+        SetColorSpace(colorSpace);
+        SetWH(_w, _h);
+        GetColorSpaceSize(m_colorSpace, m_w, m_h, 
+            m_yLineSize, m_uLineSize, m_vLineSize,
+            m_ySize, m_uSize, m_vSize);
+        Init();
+        Alloc();
+    }
+
+    bool SetColorSpace(ColorSpace colorSpace)
+    {
+        bool bRet = false;
+        if(ColorSpace::YUVUNKNOW == colorSpace){
+            return bRet;
+        }
+        m_colorSpace = colorSpace;
+        bRet = true;
+        return bRet;
+    }
+
+    bool SetWH(int _w, int _h)
+    {
+        bool bRet = false;
+
+        if( _w<=0 || _h<=0){
+            return bRet;
+        }
+        m_w = _w;
+        m_h = _h;
+        bRet = true;
+        return bRet;
+    }
+
+    bool Init()
+    {
+        m_pY = nullptr;
+        m_pU = nullptr;
+        m_pV = nullptr;
+        return true;
+    }
+
+    bool Alloc()
+    {
+        bool bRet = false;
+        Free();
+        m_pY = new unsigned char[m_ySize];
+        memset(m_pY, 0, m_ySize);
+        m_pU = new unsigned char[m_uSize];
+        memset(m_pU, 0, m_uSize);
+        m_pV = new unsigned char[m_vSize];
+        memset(m_pV, 0, m_vSize);
+        return bRet;
+    }
+
+    bool Free()
+    {
+        bool bRet = false;
+        if(m_pY){
+            delete m_pY;
+        }
+
+        if(m_pU){
+            delete m_pU;
+        }
+
+        if(m_pV){
+            delete m_pV;
+        }
+        bRet = true;
+        return bRet;
     }
 
     ~YUVData()
@@ -105,6 +258,7 @@ private:
     int m_uLineSize;
     int m_vLineSize;
 
+    ColorSpace m_colorSpace;
 };
 
 class Rect
@@ -176,7 +330,11 @@ int main(int argc, char* argv[])
     int nW = 1920;
     int nH = 1080;
     
+#if 0
     YUVData yuv422p(nW, nH);
+#else
+    YUVData yuv422p(ColorSpace::YUV422P, nW, nH);
+#endif
 
     ifstream ifs;
     ifs.open(input, ios_base::binary);
