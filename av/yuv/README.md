@@ -4,6 +4,11 @@
 ffmpeg -i a.jpg -s 1920*1200 -pix_fmt yuvj420p a.yuv
 ```
 
+- `将jpg转换为yuyv的ffmpeg命令`
+```
+ffmpeg -i a.jpg -s 1920*1200 -pix_fmt yuyv422 yuyv.yuv
+```
+
 ```
 yuv的查看工具,网上下载的7yuv工具.
 ```

@@ -20,6 +20,7 @@ enum ColorSpace
     YUVUNKNOW = 0,
     YUV420P = 1,
     YUV422P = 2,
+    YUYV = 3,
 
 };
 
@@ -55,6 +56,9 @@ bool GetColorSpaceSize(ColorSpace ColorSpace, int nW, int nH,
     case ColorSpace::YUV422P:
         yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
         break;    
+    case ColorSpace::YUYV:      //! YUYV等价于YUV422交错
+        yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
+        break;
     default:
         break;
     }
@@ -87,6 +91,11 @@ bool GetColorSpaceSize(ColorSpace ColorSpace, int nW, int nH,
         yTotalSize = nW * nH; uTotalSize = vTotalSize = (nW * nH) >> 1;
         bRet = true;
         break;    
+    case ColorSpace::YUYV:
+        yLineSize = nW;  uLineSize = vLineSize = nW >> 1;
+        yTotalSize = nW * nH; uTotalSize = vTotalSize = (nW * nH) >> 1;
+        bRet = true;
+        break;
     default:
         break;
     }
@@ -124,6 +133,7 @@ public:
         GetColorSpaceSize(m_colorSpace, m_w, m_h, 
             m_yLineSize, m_uLineSize, m_vLineSize,
             m_ySize, m_uSize, m_vSize);
+        CalTotalByteCount();
         Init();
         Alloc();
     }
@@ -159,9 +169,10 @@ public:
 
     bool Init()
     {
-        m_pY = nullptr;
-        m_pU = nullptr;
-        m_pV = nullptr;
+        m_pData = nullptr;
+        m_pY    = nullptr;
+        m_pU    = nullptr;
+        m_pV    = nullptr;
         return true;
     }
 
@@ -169,38 +180,39 @@ public:
     {
         bool bRet = false;
         Free();
-        m_pY = new unsigned char[m_ySize];
-        memset(m_pY, 0, m_ySize);
-        m_pU = new unsigned char[m_uSize];
-        memset(m_pU, 0, m_uSize);
-        m_pV = new unsigned char[m_vSize];
-        memset(m_pV, 0, m_vSize);
+        m_pData = new unsigned char [m_totalByte];
+        memset(m_pData, 0, m_totalByte);
+        m_pY = m_pData;
+        m_pU = m_pY + m_ySize;
+        m_pV = m_pU + m_uSize;
+
         return bRet;
     }
 
     bool Free()
     {
         bool bRet = false;
-        if(m_pY){
-            delete m_pY;
+        if (m_pData) {
+            delete m_pData;
         }
 
-        if(m_pU){
-            delete m_pU;
-        }
-
-        if(m_pV){
-            delete m_pV;
-        }
         bRet = true;
         return bRet;
     }
 
     ~YUVData()
     {
-        delete m_pY;
-        delete m_pU;
-        delete m_pV;
+        Free();
+    }
+
+    void CalTotalByteCount()
+    {
+        m_totalByte = m_ySize + m_uSize + m_vSize;
+    }
+
+    int GetTotalByteCount()
+    {
+        return m_totalByte;
     }
 
     unsigned char* GetY()
@@ -248,7 +260,18 @@ public:
         return m_vLineSize;
     }
 
+    int GetWidth()
+    {
+        return m_w;
+    }
+
+    int GetHeight()
+    {
+        return m_h;
+    }
+
 private:
+    unsigned char* m_pData;
     unsigned char* m_pY;
     unsigned char* m_pU;
     unsigned char* m_pV;
@@ -258,6 +281,7 @@ private:
     int m_ySize;
     int m_uSize;
     int m_vSize;
+    int m_totalByte;
 
     int m_yLineSize;
     int m_uLineSize;
@@ -345,6 +369,20 @@ public:
                     memcpy(pVDst, pVSrc, dstYuv.GetVLineSzie());
                 }
             }
+            else if (dstYuv.GetColorSpace() == ColorSpace::YUYV)
+            {
+                 //! YUYV交错存储, 可以把YUV看成一个整体, 类似RGB
+                 //! 处理buffer时，可以单个像素点(YUV)来处理
+                 //! Y U V三者的高度是相同的
+                 //! 每一行的字节数 = w * 2字节
+                for (int nStartH = rt.GetStartY(); nStartH < rt.GetEndY(); nStartH++) {
+                    
+                    //! 8bit YUYV 字节数是2
+                    unsigned char* pYSrc = srcYuv.GetY() + srcYuv.GetWidth() * 2 * nStartH + rt.GetStartX() * 2;
+                    unsigned char* pYDst = dstYuv.GetY() + dstYuv.GetWidth() * 2 * (nStartH - rt.GetStartX());
+                    memcpy(pYDst, pYSrc, dstYuv.GetWidth() * 2);
+                }
+            }
 
             //!
         }
@@ -376,7 +414,7 @@ int main(int argc, char* argv[])
 #if 0
     YUVData yuv422p(nW, nH);
 #else
-    YUVData yuv422p(ColorSpace::YUV422P, nW, nH);
+    YUVData yuv422p(ColorSpace::YUYV, nW, nH);
 #endif
 
     ifstream ifs;
@@ -387,7 +425,7 @@ int main(int argc, char* argv[])
     ifs.close();
 
     Rect rect(nW / 2, nH / 2, nW / 2, nH / 2);
-    YUVData yuv422p_out(ColorSpace::YUV422P, nW/2, nH/2);
+    YUVData yuv422p_out(ColorSpace::YUYV, nW/2, nH/2);
 
 #if 0
     //crop
