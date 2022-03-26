@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        {{count}}
+        <!-- <button v-on:click="count += 1">点击</button> -->
+        <button @click="count += 1">点击1</button>
+        <button @click="add" :disabled="isAble">点击2</button>
+        <hr>
+        <button @click="say('Hi Jack')">sayHi</button>
+        {{message}}
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                count: 0,
+                isAble: false,
+                message:''
+            },
+            methods: {
+                add: function () {
+                    if(this.count >= 10){
+                        this.isAble = true;
+                        alert('stop add')
+                    }else{
+                        this.count++;
+                    }
+                },
+                say: function (msg) {
+                    this.message = msg;
+                }
+            }
+        })  //model
+        console.log(vbj.$data.count);
+    </script>
+</body>
+</html>

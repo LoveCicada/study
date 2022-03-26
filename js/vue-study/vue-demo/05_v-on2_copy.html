@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+    <style>
+        div{
+            width: 300px;
+            height: 300px;
+            background-color: aqua
+        }
+        button{
+            margin-top: 50px;
+            margin-left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div @click="funDiv">
+            事件冒泡
+            <button @click="funButton">按钮</button>
+            <a href="http://www.baidu.com" @click.prevent="funHref">百度</a>
+        </div>
+        <hr>
+        <div @click="funDiv">
+            阻止冒泡
+            <button @click.stop="funButton">按钮</button>
+            <a href="http://www.baidu.com" @click.prevent.stop="funHref">百度</a>
+        </div>
+        <hr>
+        <div @click.self="funDiv">
+            阻止冒泡
+            <button @click.stop="funButton">按钮</button>
+            <a href="http://www.baidu.com" @click.prevent="funHref">百度</a>
+        </div>
+        <hr>
+        <div @click.capture="funDiv">
+            事件捕获
+            <button @click="funButton">按钮</button>
+            <a href="http://www.baidu.com" @click.prevent="funHref">百度</a>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                
+            },
+            methods: {
+                funDiv: function(){
+                    alert('div');
+                }, 
+                funButton: function(){
+                    alert('button');
+                },
+                funHref: function(){
+                    alert('funHref');
+                }
+            }
+        })  //model
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+    <style>
+        div{
+            width: 300px;
+            height: 300px;
+            background-color: aqua
+        }
+        button{
+            margin-top: 100px;
+            margin-left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button>按钮</button>
+    </div>
+
+    <script>
+
+        // //! 冒泡
+        // document.querySelector('div').addEventListener('click', function() {
+        //     alert('div')
+        // }, false);
+        // document.querySelector('button').addEventListener('click', function() {
+        //     alert('button')
+        // }, false);
+
+        //! 捕获
+        document.querySelector('div').addEventListener('click', function() {
+            alert('div')
+        }, true);
+        document.querySelector('button').addEventListener('click', function() {
+            alert('button')
+        }, true);
+
+    </script>
+</body>
+</html>
