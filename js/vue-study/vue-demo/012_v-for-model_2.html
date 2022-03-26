@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        <div>
+            <label>性别: </label>
+            <input type="radio" v-model="radioData" value="男"> 男
+            <input type="radio" v-model="radioData" value="女"> 女
+        </div>
+        <div>
+            <label>城市: </label>
+            <select v-model="selectData">
+                <option value="" disabled>请选择</option>
+                <option value="chengdu">成都</option>
+                <option value="chongqing">重庆</option>
+            </select>
+        </div>
+        <div>
+            <input type="checkbox" v-model="checkboxData" true-value="Y" false-value="N"> 是否同意该协议
+        </div>
+        <hr>
+        性别: {{radioData}}
+        <br>
+        城市: {{selectData}}
+        <br>
+        同意: {{checkboxData}}
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                radioData: '',
+                checkboxData: 'N',
+                selectData: ''
+            },
+            methods: {
+                
+            }
+        })  //model
+    </script>
+</body>
+</html>

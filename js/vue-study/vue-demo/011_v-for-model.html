@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        <div>
+            <div>
+                <label>用户名:</label><input type="text" v-model="user.username">
+            </div>
+            <div>
+                <label>简介:</label>
+                <textarea v-model="user.introduce">{{user.introduce}}</textarea>
+            </div>
+            <div>
+                <label>爱好:</label>
+                <input type="checkbox" v-model="user.love" value="1"><label>羽毛球</label>
+                <input type="checkbox" v-model="user.love" value="2"><label>乒乓球</label>
+                <input type="checkbox" v-model="user.love" value="3"><label>橄榄球</label>
+            </div>
+            <div>
+                <label>性别:</label>
+                <input type="radio" v-model="user.sex" value="男"><label>男</label>
+                <input type="radio" v-model="user.sex" value="女"><label>女</label>
+            </div>
+            <div>
+                <label>城市:</label>
+                <select v-model="user.city" multiple>
+                    <option value="" disabled>请选择城市</option>
+                    <option value="1">北京</option>
+                    <option value="2">上海</option>
+                    <option value="3">深圳</option>
+                </select>
+            </div>
+            <div>
+                <label>国家: </label>
+                <select v-model="user.country">
+                    <option value="" disabled>请选择国家</option>
+                    <option v-for="country in countryList" v-bind:value="country.value">{{country.text}}</option>
+                </select>
+            </div>
+        </div>
+        <hr>
+        用户名: {{user.username}} 
+        <br>
+        简介: {{user.introduce}} 
+        <br>
+        爱好: {{user.love}}
+        <br>
+        性别: {{user.sex}}
+        <br>
+        城市: {{user.city}}
+        <br>
+        国家: {{user.country}}
+        <br>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                user: {
+                    username: 'admin',
+                    introduce: 'i am jack',
+                    love: [],
+                    sex: '男',
+                    city: [],
+                    country: '',
+                },
+                countryList: [{
+                        text: '中国',
+                        value: '01'
+                    },{
+                        text: '日本',
+                        value: '02'
+                    },{
+                        text: '美国',
+                        value: '03'
+                    }],
+            },
+            methods: {
+                
+            }
+        })  //model
+    </script>
+</body>
+</html>
