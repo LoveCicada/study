@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        <!--
+         value:对象属性的值 
+         name:对象属性的名称   
+        -->
+        <div v-for="(value, name, index) in user">
+           {{index}} : {{name}} - {{value}}
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                user:{ 
+                        username: 'admin',
+                        mobile: '1000001'
+                    }
+            },
+            methods: {
+                
+            }
+        })  //model
+    </script>
+</body>
+</html>

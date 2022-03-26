@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        请输入年龄:
+            <input type="text" v-model="age"><br>
+
+            {{typeof age}}
+            <div v-if="parseInt(age)">
+                您的年龄是: {{age}}
+                <div v-if="age<18">未成年</div>
+                <div v-else-if="age<30">有为青年</div>
+                <div v-else-if="age<60">步入青年</div>
+                <div v-else-if="age<110">步入老年</div>
+                <div v-else>输入错误</div>
+            </div>
+            <div v-else-if="age != null">输入错误</div>
+            <div v-show="age>=18">已成年</div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                age: null, //
+
+            },
+            methods: {
+                
+            }
+        })  //model
+    </script>
+</body>
+</html>

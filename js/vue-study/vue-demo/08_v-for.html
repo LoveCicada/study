@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        <span v-for="num in 10">{{num}} </span> 
+        <br>
+        <span v-for="str in 'abcdefg'">{{str}} </span>
+        <br>
+        <span v-for="str in ['a','b','c','d','e','f','g']">{{str}} </span>
+        <br>
+        <span v-for="item in arr">{{item}} </span>
+        <br>
+        <ul>
+            <li v-for="item in arr">{{item}} </li>
+        </ul>
+        <br>
+        <ul>
+            <li v-for="item in user">{{item}} </li>
+        </ul>
+        <div v-for="user in userList">
+            用户名: {{user.username}}
+            手机: {{user.mobile}}
+        </div>
+        <div v-for="user in userList">
+            <ul>
+                <li v-for="item in user">{{item}} </li>
+            </ul>
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                arr: ['java', 'c++', 'php'],
+                user: {
+                    uername: 'admin',
+                    mobile:'120000000'
+                },
+                userList: [
+                {
+                    username: 'admin1',
+                    mobile: '120000001'
+                }, 
+                {
+                    username: 'admin2',
+                    mobile: '120000002'
+                },
+                {
+                    username: 'admin3',
+                    mobile: '120000003'
+                },
+                {
+                    username: 'admin4',
+                    mobile: '120000004'
+                }]
+            },
+            methods: {
+                
+            }
+        })  //model
+    </script>
+</body>
+</html>
