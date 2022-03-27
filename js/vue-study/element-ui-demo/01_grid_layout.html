@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Layout</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        .el-row {
+          margin-bottom: 20px;
+        }
+        .el-col {
+          border-radius: 4px;
+        }
+        .bg-purple-dark {
+          background: #99a9bf;
+        }
+        .bg-purple {
+          background: #d3dce6;
+        }
+        .bg-purple-light {
+          background: #e5e9f2;
+        }
+        .grid-content {
+          border-radius: 4px;
+          min-height: 36px;
+        }
+        .row-bg {
+          padding: 10px 0;
+          background-color: #f9fafc;
+        }
+      </style>
+</head>
+<body>
+    <div id="app">
+        <el-row>
+            <el-col :span="3"><div class="grid-content bg-purple-dark"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple-dark"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="3"><div class="grid-content bg-purple-dark"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple-dark"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg" justify="center">
+            <el-col :span="6"><div class="grid-content bg-purple-dark"></div></el-col>
+            <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
+            <el-col :span="6"><div class="grid-content bg-purple-dark"></div></el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="3" :offset="2"><div class="grid-content bg-purple-dark"></div></el-col>
+        </el-row>
+    </div>
+
+
+    <script src="js/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app', //element
+            data: {
+                visible: false,
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>

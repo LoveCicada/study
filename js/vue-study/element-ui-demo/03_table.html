@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表格和表单</title>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+</head>
+
+<body>
+  <div id="app">
+    <el-table :data="tableData">
+      <el-table-column prop="name" label="栏目名称"></el-table-column>
+      <el-table-column prop="desc" label="栏目描述"></el-table-column>
+      <el-table-column label="操作">
+        <template>
+          <el-button type="primary" size="medium">编辑</el-button>
+          <el-button type="primary" size="small">删除</el-button>
+          <el-button type="primary" size="mini">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+
+  <script src="js/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app', //element
+      data: {
+        item:{
+          name: '新闻联播',
+          desc: '播报新闻',
+          operate: '播放'
+        },
+        tableData:[{
+          name: '新闻联播',
+          desc: '播报新闻',
+          operate: '播放'
+        },{
+          name: '新闻联播',
+          desc: '播报新闻',
+          operate: '播放'
+        },{
+          name: '新闻联播',
+          desc: '播报新闻',
+          operate: '播放'
+        },{
+          name: '新闻联播',
+          desc: '播报新闻',
+          operate: '播放'
+        },{
+          name: '新闻联播',
+          desc: '播报新闻',
+          operate: '播放'
+        },]
+      },
+      methods: {
+
+      }
+    })
+  </script>
+</body>
+
+</html>
