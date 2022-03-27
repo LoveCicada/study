@@ -13,6 +13,22 @@
 
 <body>
   <div id="app">
+    <el-form :inline="true" class="demo-form-inline">
+      <el-form-item label="栏目名称">
+        <el-input placeholder="栏目名称" size="small"></el-input>
+      </el-form-item>
+      <el-form-item label="活动区域">
+        <el-select placeholder="活动区域" size="small">
+          <el-option label="区域一" value="chengdu"></el-option>
+          <el-option label="区域二" value="chongqing"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" size="small">查询</el-button>
+      </el-form-item>
+    </el-form>
+    <el-button type="primary" size="small">新增</el-button>
+    <el-button type="primary" size="small">删除</el-button>
     <el-table :data="tableData">
       <el-table-column prop="name" label="栏目名称"></el-table-column>
       <el-table-column prop="desc" label="栏目描述"></el-table-column>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表格和表单</title>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+</head>
+
+<body>
+  <div id="app">
+    <el-form model="formData">
+      <el-form-item label="活动名称">
+        <el-input placeholder="请输入活动名称" v-model="formData.name"></el-input>
+      </el-form-item>
+      <el-form-item label="活动区域">
+        <el-select placeholder="请选择活动区域" v-model="formData.area">
+          <el-option label="成都" value="chengdu"></el-option>
+          <el-option label="重庆" value="chongqing"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="活动时间">
+        <el-date-picker type="date" placeholder="选择日期" v-model="formData.date"></el-date-picker> -
+        <el-time-picker placeholder="选择时间" v-model="formData.time"></el-time-picker>
+      </el-form-item>
+      
+      <el-form-item label="即时配送">
+        <el-switch v-model="formData.switch"></el-switch>
+      </el-form-item>
+
+      <el-form-item label="活动性质">
+        <el-checkbox-group v-model="formData.type">
+          <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+          <el-checkbox label="地摊活动" name="type"></el-checkbox>
+          <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+          <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+
+      <el-form-item label="特殊资源">
+        <el-radio-group>
+          <el-radio label="线上品牌商赞助"></el-radio>
+          <el-radio label="线下场地免费"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="活动形式">
+        <el-input type="textarea" placeholder="描述活动"></el-input>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" size="small">立即创建</el-button>
+        <el-button type="primary" size="small">重置</el-button>
+      </el-form-item>
+
+    </el-form> 
+
+  </div>
+
+  <script src="js/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app', //element
+      data: {
+        formData:{
+          name: '轰趴',
+          area: 'chengdu',
+          date: '',
+          time: '',
+          switch: '',
+          type: '',
+        }
+      },
+      methods: {
+
+      }
+    })
+  </script>
+</body>
+
+</html>
