@@ -11,15 +11,15 @@
     <div id="app">
         <div>
             <label>性别: </label>
-            <input type="radio" v-model="radioData" value="男"> 男
-            <input type="radio" v-model="radioData" value="女"> 女
+            <span v-for="sex in sexList">
+                <input type="radio" v-model="radioData" v-bind:value="sex.value">{{sex.text}}
+            </span>
         </div>
         <div>
             <label>城市: </label>
             <select v-model="selectData">
                 <option value="" disabled>请选择</option>
-                <option value="chengdu">成都</option>
-                <option value="chongqing">重庆</option>
+                <option v-for="city in cityList" v-bind:value="city.value">{{city.text}}</option>
             </select>
         </div>
         <div>
@@ -39,7 +39,21 @@
             data: {
                 radioData: '',
                 checkboxData: 'N',
-                selectData: ''
+                selectData: '',
+                cityList:[{
+                    text: '成都',
+                    value: 'chengdu'
+                },{
+                    text: '重庆',
+                    value: 'chongqing'
+                }],
+                sexList: [{
+                    text: '男',
+                    value: '0'
+                },{
+                    text:'女',
+                    value: '1'
+                }],
             },
             methods: {
                 

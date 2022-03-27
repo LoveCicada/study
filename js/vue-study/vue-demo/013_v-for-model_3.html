@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <!--插值 view-->
+    <div id="app">
+        <div>
+            <input type="text" v-model.lazy="inputData" @input="funInput" @change="funChange">
+        </div>
+        <div>
+            <input type="text" v-model.number="inputNumber">
+        </div>
+        <div>
+            <input type="number" v-model.number="inputNumber">
+        </div>
+        <div>
+            <input type="text" v-model="inputLength">
+        </div>
+        <hr>
+        输入数据: {{inputData}}
+        <br>
+        数据类型: {{typeof inputNumber}}: {{inputNumber}}
+        <br>
+        数据类型-number: {{typeof inputNumber}}: {{inputNumber}}
+        <br>
+        数据长度: {{inputLength.length}}: {{inputLength}}
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vbj = new Vue({
+            el: '#app', //element
+            data: {
+                inputData:'',
+                inputNumber: 0,
+                inputLength: '',
+            },
+            methods: {
+                funInput: function(){
+                    console.log('input 事件');
+                },
+                funChange: function(){
+                    console.log('change 事件');
+                }
+            }
+        })  //model
+    </script>
+</body>
+</html>
