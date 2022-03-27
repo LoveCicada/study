@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="firstName" placeholder="input firstName">
+        <br>
+        <input type="text" v-model="lastName" placeholder="input lastName">
+        <br>
+        fullName: {{fullName}}
+        <br>
+        fullNameHere:{{computedFullName}}
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app', //element,
+            data: {
+                firstName:'',
+                lastName:'',
+                fullName:'',
+            },
+            //! 侦听属性
+            watch:{
+                firstName: function(firstName){
+                    console.log('watch firstName ...');
+                    this.fullName = firstName + ' ' + this.lastName;
+                },
+                lastName: function(lastName){
+                    console.log('watch lastName ...');
+                    this.fullName = this.firstName + ' ' + lastName;
+                }
+            },
+            computed:{
+                computedFullName: function(){
+                    console.log('computed ...');
+                    return this.firstName + this.lastName;
+                }
+            },
+            methods: {
+                computedMsgMethod: function(){
+                    //! 可以进行复杂的逻辑处理和计算
+                    console.log('computedMsgMethod...');
+                    return this.msg.toUpperCase();
+                }
+            }
+        })
+    </script>
+</body>
+</html>

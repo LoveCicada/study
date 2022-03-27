@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        {{msg.toUpperCase()}}
+        <br>
+        {{computedMsg}} | {{computedMsg}}
+        <br>
+        get: {{computedMsgFun}} | {{computedMsgFun}}
+        <hr>
+        <input v-model="msg">
+        <hr>
+        {{computedMsgMethod()}} | {{computedMsgMethod()}}
+        <hr>
+        <input type="text" v-model="computedMsgFun">
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app', //element,
+            data: {
+                msg:'Hello Vue',
+            },
+            //! 计算属性要有返回值
+            //! 原始数据发生改变, 计算属性会重新计算
+            computed: {
+                //! getter
+                computedMsg: function(){
+                    //! 可以进行复杂的逻辑处理和计算
+                    console.log('computedMsg...');
+                    return this.msg.toUpperCase();
+                },
+                computedMsgFun:{
+                    get: function(){
+                        console.log('get value: ', this.msg);
+                        return this.msg.toUpperCase();
+                    },
+                    set: function(val){
+                        this.msg = val;
+                        console.log('set value: ', val);
+
+                    }
+                }
+            },
+            methods: {
+                computedMsgMethod: function(){
+                    //! 可以进行复杂的逻辑处理和计算
+                    console.log('computedMsgMethod...');
+                    return this.msg.toUpperCase();
+                }
+            }
+        })
+    </script>
+</body>
+</html>
