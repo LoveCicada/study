@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-if="isShow">
+            <h1>标题1</h1>
+            <h2>标题2</h2>
+        </div>
+        <hr>
+        <template v-if="isShow">
+            <h1>标题1</h1>
+            <h2>标题2</h2>
+        </template>
+        <select v-model="option">
+            <template v-if="number <=3">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </template>
+            <template v-else>
+                <option>4</option>
+                <option>5</option>
+            </template>
+        </select>
+        <input type="number" v-model.number="number">
+        <hr>
+        option: {{option}}
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app', //element,
+            data: {
+                isShow: true,
+                option: '',
+                number: 3,
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>
