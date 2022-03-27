@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue-Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        //! 实例化
+        let vm = new Vue({
+            //el: '#app', //element元素, 挂载
+            data: {
+                msg: 'Hello Vue'
+            },
+            beforeCreate: function(){
+                console.log('beforeCreate ...');
+            },
+            created: function(){
+                //! 在此处获取后台的数据
+                console.log('created ...');
+            },
+            beforeMount: function(){
+                console.log('beforeMount ...');
+            },
+            mounted: function(){
+                //! 初始化动作
+                console.log('mounted ...');
+            },
+            methods: {
+                test: function() {
+                    alert('Hello Vue')
+                }
+            }
+        });
+
+        //! 手动挂载
+        vm.$mount('#app')
+
+        console.log(' ... ' + vm.msg);
+        // console.log(vm.test());
+        vm.test();
+    </script>
+</body>
+</html>
