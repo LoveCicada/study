@@ -13,26 +13,25 @@
 
 <body>
   <div id="app">
-    <el-form model="formData">
-      <el-form-item label="活动名称">
+    <el-form :model="formData" :rules="rules" ref="ruleForm" label-position="left" label-width="80px">
+      <el-form-item label="活动名称" prop="name">
         <el-input placeholder="请输入活动名称" v-model="formData.name"></el-input>
       </el-form-item>
-      <el-form-item label="活动区域">
+      <el-form-item label="活动区域" prop="area">
         <el-select placeholder="请选择活动区域" v-model="formData.area">
           <el-option label="成都" value="chengdu"></el-option>
           <el-option label="重庆" value="chongqing"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="活动时间">
-        <el-date-picker type="date" placeholder="选择日期" v-model="formData.date"></el-date-picker> -
-        <el-time-picker placeholder="选择时间" v-model="formData.time"></el-time-picker>
+      <el-form-item label="活动时间" prop="datetime">
+        <el-date-picker type="datetime" placeholder="选择日期" v-model="formData.date" value-format="yyyy-MM-dd HH:mm:ss" prop=""></el-date-picker>
       </el-form-item>
       
-      <el-form-item label="即时配送">
+      <el-form-item label="即时配送" prop="switch">
         <el-switch v-model="formData.switch"></el-switch>
       </el-form-item>
 
-      <el-form-item label="活动性质">
+      <el-form-item label="活动性质" prop="type">
         <el-checkbox-group v-model="formData.type">
           <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
           <el-checkbox label="地摊活动" name="type"></el-checkbox>
@@ -41,19 +40,19 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="特殊资源">
-        <el-radio-group v-model="formData.type">
+      <el-form-item label="特殊资源" prop="resource">
+        <el-radio-group v-model="formData.resource">
           <el-radio label="线上品牌商赞助"></el-radio>
           <el-radio label="线下场地免费"></el-radio>
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="活动形式">
+      <el-form-item label="活动形式" prop="introduce">
         <el-input type="textarea" placeholder="描述活动" v-model="formData.introduce"></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" size="small">立即创建</el-button>
+        <el-button type="primary" size="small" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button type="primary" size="small">重置</el-button>
       </el-form-item>
 
@@ -77,10 +76,52 @@
           type: [],
           resource: '',
           introduce: '',
+        },
+        rules: {
+          name: [
+            {required: true, message: '请输入活动名称', trigger: 'blur'},
+            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          ],
+          area: [
+            {required: true, message: '请选择活动区域', trigger: 'change'}
+          ],
+          datetime: [
+            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
+          ],
+          type: [
+            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
+          ],
+          resource: [
+            {required: true, message: '请选择活动资源', trigger: 'change'}
+          ],
+          introduce: [
+            {required: true, message: '请填写活动形式', trigger: 'blur'}
+          ]
         }
       },
       methods: {
+        submitForm: function(formRule){
+          //1.
+          this.$refs[formRule].validate((valid) => {
+            if(valid){
+              alert('submit');
+            }else{
+              console.log('error submit');
+              return false;
+            }
+          });
 
+          //2.
+          // this.$refs['ruleForm'].validate(function(valid){
+          //   if(valid){
+          //     alert('校验通过')
+          //   }else{
+          //     console.log('校验未通过');
+          //     return false;
+          //   }
+          // })
+
+        },
       }
     })
   </script>
