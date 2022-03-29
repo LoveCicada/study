@@ -22,9 +22,9 @@ console.log(y);
 
 //!
 
-function hiveData2TaskDetailData(hiveData, taskData) {
+function hiveData2TaskDetailData(index, hiveData, taskData) {
 
-    //taskData.index = index;
+    taskData.index = index;
     taskData.taskId = hiveData.taskId;
     taskData.name = hiveData.name;  //任务名称
     taskData.duration = hiveData.duration;   //素材总时长
@@ -34,21 +34,26 @@ function hiveData2TaskDetailData(hiveData, taskData) {
     taskData.transcodingSpeed = hiveData.transcodingSpeed;   //实时效率
     taskData.receiveDate = hiveData.receiveDate;  //接收时间
     taskData.startDate =hiveData.startDate;   //开始时间
-    // taskData.endDate: item.timestamp.finish,   //结束时间
-    // taskData.actorInfo: item.worker.name == null ? "--" : item.worker.name + "@" + item.worker.host,  //执行器信息
-    // taskData.priority: parseInt(item.header.priority),   //优先级
-    // taskData.attributes: "其他",
-    // taskData.checked: false,
-    // taskData.hasChild: item.header.type == 1,
-    // taskData.sliceCnt: parseInt(item.header.slice_cnt),
-    // taskData.showChild: false,
 
     return taskData;
 }   
 
+function hiveDataList2TaskDetailDataList(hiveDataList, taskDataList){
+
+    for(let i=0; i<hiveDataList.length; i++){
+        let taskData = {};
+        console.log(typeof(i));
+        taskData = hiveData2TaskDetailData(i, hiveDataList[i], taskData);
+        taskDataList.push(taskData);
+    }
+
+    return taskDataList;
+}
+
 let taskData = {};
 let hiveData = {};
 let taskDataList = [];
+let hiveDataList = [];
 
 //taskData.index = index;
 hiveData.taskId = 0;
@@ -61,10 +66,15 @@ hiveData.transcodingSpeed = 6;   //实时效率
 hiveData.receiveDate = 7;  //接收时间
 hiveData.startDate = 8;   //开始时间
 
-hiveData2TaskDetailData(hiveData, taskData);
-taskDataList.push(taskData);
-taskDataList.push(taskData);
-
+hiveData2TaskDetailData(0, hiveData, taskData);
+console.log('after hiveData2TaskDetailData');
 console.log('taskData: ', taskData);
 console.log('hiveData: ', hiveData);
+
+hiveDataList.push(hiveData);
+hiveDataList.push(hiveData);
+hiveDataList.push(hiveData);
+
+taskDataList = hiveDataList2TaskDetailDataList(hiveDataList, taskDataList);
+console.log('after hiveDataList2TaskDetailDataList');
 console.log('taskDataList: ', taskDataList);
