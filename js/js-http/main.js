@@ -78,3 +78,18 @@ hiveDataList.push(hiveData);
 taskDataList = hiveDataList2TaskDetailDataList(hiveDataList, taskDataList);
 console.log('after hiveDataList2TaskDetailDataList');
 console.log('taskDataList: ', taskDataList);
+
+
+
+//! jointUrl
+
+function jointUrl(url, params) {
+
+}
+
+let url = 'http://127.0.0.1:8080/sobeyhive-cdplb/v1/cdplb/task/';
+let params = { "p1": 'messageId-2', "p2": 88};
+console.log(url);
+
+console.log(url);
+
