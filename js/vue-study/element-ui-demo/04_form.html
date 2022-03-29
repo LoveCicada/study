@@ -23,7 +23,7 @@
           <el-option label="重庆" value="chongqing"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="活动时间" prop="datetime">
+      <el-form-item label="活动时间" prop="dateTimeRule">
         <el-date-picker type="datetime" placeholder="选择日期" v-model="formData.date" value-format="yyyy-MM-dd HH:mm:ss" prop=""></el-date-picker>
       </el-form-item>
       
@@ -85,7 +85,7 @@
           area: [
             {required: true, message: '请选择活动区域', trigger: 'change'}
           ],
-          datetime: [
+          dateTimeRule: [
             {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
           ],
           type: [
