@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="msg"></div>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        //! get
+        /*
+        axios.get('./data/form-data.json')
+        .then(function(response) {
+            let data = response.data;
+            //document.getElementById('msg').innerHTML = data.msg;
+            document.querySelector('#msg').innerHTML = data.msg;
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+        */
+
+        //! post
+        axios.post('./data/form-data.json', {
+            firstName: 'Fred',
+            lastName: 'Fli'
+        },{
+            //请求参数
+            params:{
+                param1: 'Hello',
+                param2: 'Axios',
+            }
+        }).then(function(response) {
+            console.log(response);
+        }).catch(function(error){
+            console.log(error);
+        });
+
+    </script>
+</body>
+</html>
