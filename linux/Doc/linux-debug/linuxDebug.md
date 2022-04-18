@@ -61,10 +61,13 @@ cd ..
 - `cmake注意细节`
 ```
 1. 一般为了避免生成的中间文件或者目标文件混杂在当前代码目录文件中，
-因此常新建一个文件build，文件夹命名任意。然后进入此文件夹内部进行cmake。上述的cmake ..中的".."代表的含义是上一级目录，因为本例的cmakelists.txt文件在build上一级目录中。
+因此常新建一个文件build，文件夹命名任意。然后进入此文件夹内部进行cmake。
+上述的cmake ..中的".."代表的含义是上一级目录，
+因为本例的cmakelists.txt文件在build上一级目录中。
 2. -DCMAKE_BUILD_TYPE=Debug含义是指定编译生成的库类型为debug库，一般默认是生成release库。
 3. 区分debug库及release库，简单的区分原则是看生成的库大小，质量大的则为debug库。
-4. cmakelists.txt内部定义了输出目标路径。release库生成在Release目录下，debug库生成在Debug目录下。
+4. cmakelists.txt内部定义了输出目标路径。release库生成在Release目录下，
+debug库生成在Debug目录下。
 5. 具体可查看cmakelists.txt及嵌套的cmakelists.txt子文件
 ```
 
@@ -117,7 +120,8 @@ gdb -tui，添加参数-tui代码可以可视化看到代码。如果不添加-t
 
 - `开始调试`
 ```
-输入r程序继续运行, n代表继续执行下一步。按enter回车键代表继续上一次执行的命令，例如上一次输入的是n，那么此时敲回车，是继续执行n命令。s代表进入函数调用堆栈。
+输入r程序继续运行, n代表继续执行下一步。按enter回车键代表继续上一次执行的命令，例如上一次输入的是n，那么此时敲回车，是继续执行n命令。
+s代表进入函数调用堆栈。
 ```
 ![gdb-3](./img/8-查看变量值.png)
 
@@ -136,7 +140,9 @@ gdb -tui，添加参数-tui代码可以可视化看到代码。如果不添加-t
 
 - `简要`
 ```
-使用vs远程调试Linux环境下的cmake工程，主要实现方式是，vs远程连接上Linux环境，将Linux环境上相关的库拷贝到本地Windows环境，调试时使用Linux的gdb来进行调试。微软封装了界面UI使用，因此可以通过可视化点击界面来进行调试。
+使用vs远程调试Linux环境下的cmake工程，主要实现方式是，vs远程连接上Linux环境，将Linux环境上相关的库拷贝到本地Windows环境，
+调试时使用Linux的gdb来进行调试。微软封装了界面UI使用，
+因此可以通过可视化点击界面来进行调试。
 ```
 
 - `准备工作`
@@ -174,7 +180,8 @@ gdb -tui，添加参数-tui代码可以可视化看到代码。如果不添加-t
 ![key_info_win](./img/key_info_win.png)
 
 ```
-6. 在Linux机器路径~/.ssh下，新建文件authorized_keys，将需要连接的其他机器的公钥文件内部拷贝到内部。例如本例将某Windows机器中id_rsa.pub内容拷贝进文件authorized_keys。
+6. 在Linux机器路径~/.ssh下，新建文件authorized_keys，将需要连接的其他机器的公钥文件内部拷贝到内部。
+例如本例将某Windows机器中id_rsa.pub内容拷贝进文件authorized_keys。
 ```
 ![add authorized_keys](./img/add-ssh-key.png)
 ![add authorized_keys](./img/authorized_keys_info.png)
@@ -230,14 +237,17 @@ gdb -tui，添加参数-tui代码可以可视化看到代码。如果不添加-t
 ![wsl-gcc-debug](./img/wsl-gcc-debug.png)
 
 ```
-5. 在CMake设置界面中，选择配置类型为Debug，工具集选择Linux_x64，依据远程的Linux机器安装的系统。点开高级设置，CMake生成器选择Unix Makefiles。然后选择保存CMake设置。
-其他参数设置可以暂时按默认值设置，或者详细查看具体参数设置，结合项目本身需要再进行设置。
+5. 在CMake设置界面中，选择配置类型为Debug，工具集选择Linux_x64，依据远程的Linux机器安装的系统。
+点开高级设置，CMake生成器选择Unix Makefiles。
+然后选择保存CMake设置。其他参数设置可以暂时按默认值设置，
+或者详细查看具体参数设置，结合项目本身需要再进行设置。
 ```
 ![wsl-gcc-debug](./img/wsl-config.png)
 ![wsl-gcc-debug](./img/unix_makefiles.png)
 
 ```
-6. 保存好设置后，切换到设置的WSL-GCC-Debug配置，然后在vs中打开CMakeLists.txt文件，会提示cmake生成，点击生成，vs即开始自动读取cmakelists.txt文件开始构建编译工程。
+6. 保存好设置后，切换到设置的WSL-GCC-Debug配置，然后在vs中打开CMakeLists.txt文件，会提示cmake生成，
+点击生成，vs即开始自动读取cmakelists.txt文件开始构建编译工程。
 如果没有自动构建cmake工程，则可以手动构建。点击菜单栏-项目-配置缓存，构建项目。
 ```
 ![choose-debug-configure](./img/choose-debug-configure.png)
