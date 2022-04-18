@@ -261,9 +261,90 @@ gdb -tui，添加参数-tui代码可以可视化看到代码。如果不添加-t
 ![add-remote-account](./img/add-remote-account.png)     
 
 ```
-2. 在CMake设置中，找到远程计算机名称，在下拉列表中找到刚才新增的远程账户登录信息。
+2. 添加CMake设置
+选择菜单栏项目-->CMake设置
+```
+![choose-cmakesetting](./img/choose-cmakesetting.png) 
+
+```
+3. 选择调试类型
+Linux-GCC-Debug
+```
+![linux-gcc-debug](./img/linux-gcc-debug.png) 
+
+```
+4. 在CMake设置中，找到远程计算机名称，在下拉列表中找到刚才新增的远程账户登录信息。
 ```
 ![choose-remote-account](./img/choose-remote-account.png) 
+
+```
+5. 完成基础的CMake设置后
+如果没有自动加载构建CMake工程，可选择菜单栏项目，然后选择配置缓存，
+vs会立即重新构建工程。
+```
+![manual-start-cmake](./img/manual-start-cmake.png) 
+
+```
+6. 调试
+工程构建完毕后，可选择需要调试的程序，然后在代码中打上断点，开始调试
+```
+![vs-remote-linux-debug](./img/vs-remote-linux-debug.png) 
+
+
+#### vs加载Linux远程进程调试
+- `SSH远程连接`
+```
+1. 选中菜单栏中调试选项，再选择附加到进程
+```
+![vs-ssh-remote-debug](./img/vs-ssh-remote-debug.png) 
+
+```
+2. 选择SSH
+```
+![choose-ssh](./img/choose-ssh.png) 
+
+```
+3. 输入IP及用户名/密码
+```
+![input-account](./img/input-account.png) 
+
+```
+4. 接受主机密钥
+```
+![ssh-choose-yes](./img/ssh-choose-yes.png) 
+
+```
+5. 搜索需要调试的进程
+```
+![search-process](./img/search-process.png) 
+
+```
+6. 选择附加进程，勾选Native(GDB), 点击确定
+```
+![choose-attach](./img/choose-attach.png)
+
+
+```
+6. 如果有弹窗error提示。
+operate permission problem
+ubuntu attach失败
+```
+![remote-error](./img/remote-error.png)
+
+```
+7. 解决方式
+在远程Linux机器上输入如下命令，命令正常响应后，
+再按上述步骤进行vs远程ssh连接
+echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+```
+
+```
+8. 查看Linux调试程序加载的动态库
+此时，已代表vs attach上远程Linux程序，拖入代码到vs中，即可打断点调试。
+或者重新用vs打开代码文件夹，再按上述步骤进行attach也行。
+```
+![remote-debug-load-module](./img/remote-debug-load-module.png)
+
 
 - `总结`
 ```
