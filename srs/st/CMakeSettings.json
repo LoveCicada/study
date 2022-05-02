@@ -1,0 +1,17 @@
+﻿{
+  "configurations": [
+    {
+      "buildCommandArgs": "",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "cmakeCommandArgs": "",
+      "cmakeExecutable": "cmake",
+      "configurationType": "Debug",
+      "ctestCommandArgs": "",
+      "generator": "Unix Makefiles",
+      "inheritEnvironments": [ "linux_x64" ],
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "name": "WSL-GCC-Debug",
+      "wslPath": "${defaultWSLPath}"
+    }
+  ]
+}
