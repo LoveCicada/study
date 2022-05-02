@@ -169,7 +169,9 @@ s代表进入函数调用堆栈。
 
 ```
 4. Linux上默认生成的密钥-公钥所在路径是 ~/.ssh
-生成密钥对：ssh-keygen -A
+生成密钥对：ssh-keygen -t rsa -C "test@email.com"
+如果上述创建ssh命令失败，尝试使用如下命令
+ssh-keygen -A
 ```
 ![ssh-generate-key](./img/ssh-generate-key.png)
 
