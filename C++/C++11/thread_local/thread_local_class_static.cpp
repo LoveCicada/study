@@ -65,6 +65,14 @@ int main()
 }
 
 /**
+ * @see https://murphypei.github.io/blog/2020/02/thread-local.html
+ * @brief 
+ * m_thread_local_static_value 是 thread_local，虽然其也是 static 的，
+ * 但是每个线程中有一个，每次线程中的所有调用共享这个变量。
+ * b_static 是真正的 static，全局只有一个，所有线程共享这个变量。
+ */
+
+/**
  * @result 
  * 
     B construct this: 0x7f581a091d88
