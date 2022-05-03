@@ -156,6 +156,10 @@ void  Scheduler(void)
 {
      if (setjmp(SCHEDULER) == 0)
           longjmp(MAIN, 1);
+
+     printf("%s, Current: %d, Current->Next: %d\n",
+		__func__, Current->Name, Current->Next->Name);
+
      Current = Current->Next;
      longjmp(Current->Environment, 1);         
 }
