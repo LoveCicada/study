@@ -17,3 +17,6 @@ g++ -o ./bin/minSubArrayLen minSubArrayLen.cpp -g -O0
 
 echo "generateMatrix"
 g++ -o ./bin/generateMatrix generateMatrix.cpp -g -O0
+
+echo "removeElements_list"
+g++ -o ./bin/removeElements_list removeElements_list.cpp -g -O0
