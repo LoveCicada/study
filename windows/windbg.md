@@ -22,3 +22,17 @@
 
 #### detach程序
 ![attach程序](./img/detach_exe.png)
+
+#### 查看加载/未加载的dll
+```
+lm
+```
+![attach程序](./img/lm.png)
+
+#### 查看指定dll加载情况
+```
+lmvm CXETimelinePef
+lmvm命令可以查看任意一个已加载的DLL/EXE的详细信息，以及symbol的情况, 
+特别提醒的是，不要加后缀名（无论EXE/DLL）
+```
+![attach程序](./img/lmvm.png)
