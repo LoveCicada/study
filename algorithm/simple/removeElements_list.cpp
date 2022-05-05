@@ -38,6 +38,25 @@ ListNode* removeElements(ListNode* head, int val){
     return head;
 }
 
+ListNode* removeElements2(ListNode* head, int val){
+    ListNode* virtualHead = new ListNode(0);
+    virtualHead->next = head;
+    ListNode* cur = virtualHead;
+    while(cur->next != NULL){
+        if(cur->next->val == val){
+            ListNode* p = cur->next;
+            cur->next = cur->next->next;
+            delete p;
+        }else{
+            cur = cur->next;
+        }
+    }
+
+    head = virtualHead->next;
+    delete virtualHead;
+    return head;
+}
+
 ListNode* generateListNode(const vector<int>& v)
 {
     if(v.size() <= 0){
@@ -89,9 +108,17 @@ int main()
     vector<int> v(array, array + sizeof(array)/sizeof(array[0]));
     ListNode* p = generateListNode(v);
     printList(p);
-    removeElements(p, 2);
+    //removeElements(p, 2);
+    removeElements2(p, 2);
     printList(p);
     deleteListNode(p);
 
     return 0;
 }
+
+/**
+ * @result
+ * 
+ *  0 1 2 2 4 2 6
+    0 1 4 6
+ */

@@ -18,26 +18,22 @@
 class Solution {
 public:
     ListNode* removeElements(ListNode* head, int val) {
-        // 删除头节点
-        while(head != NULL && head->val == val){
-            ListNode *p = head;
-            head = head->next;
-            delete p;
-        }
-
-        // 删除非头节点
-        ListNode* pCur = head;
-        while(pCur != NULL && pCur->next != NULL){
-            if(pCur->next->val == val){
-                // 删除下一个节点
-                ListNode *q = pCur->next;
-                pCur->next = pCur->next->next;
-                delete q;
+        
+        ListNode* virtualHead = new ListNode(0);
+        virtualHead->next = head;
+        ListNode* cur = virtualHead;
+        while(cur->next != NULL) {
+            if(cur->next->val == val){
+                ListNode* p = cur->next;
+                cur->next = cur->next->next;
+                delete p;
             }else{
-                pCur = pCur->next;
+                cur = cur->next;
             }
         }
 
+        head = virtualHead->next;
+        delete virtualHead;
         return head;
     }
 };
