@@ -56,7 +56,7 @@ bool GetColorSpaceSize(ColorSpace ColorSpace, int nW, int nH,
     case ColorSpace::YUV422P:
         yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
         break;    
-    case ColorSpace::YUYV:      //! YUYV等价于YUV422交错
+    case ColorSpace::YUYV:      //! YUYV锟饺硷拷锟斤拷YUV422锟斤拷锟斤拷
         yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
         break;
     default:
@@ -270,6 +270,15 @@ public:
         return m_h;
     }
 
+    void SetBufferZero()
+    {
+        if( ColorSpace::YUV422P == m_colorSpace ){
+            memset(m_pY, 0, m_ySize);
+            memset(m_pU, 128, m_uSize);
+            memset(m_pV, 128, m_vSize);
+        }
+    }
+
 private:
     unsigned char* m_pData;
     unsigned char* m_pY;
@@ -371,13 +380,13 @@ public:
             }
             else if (dstYuv.GetColorSpace() == ColorSpace::YUYV)
             {
-                 //! YUYV交错存储, 可以把YUV看成一个整体, 类似RGB
-                 //! 处理buffer时，可以单个像素点(YUV)来处理
-                 //! Y U V三者的高度是相同的
-                 //! 每一行的字节数 = w * 2字节
+                 //! YUYV锟斤拷锟斤拷锟芥储, 锟斤拷锟皆帮拷YUV锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷, 锟斤拷锟斤拷RGB
+                 //! 锟斤拷锟斤拷buffer时锟斤拷锟斤拷锟皆碉拷锟斤拷锟斤拷锟截碉拷(YUV)锟斤拷锟斤拷锟斤拷
+                 //! Y U V锟斤拷锟竭的高讹拷锟斤拷锟斤拷同锟斤拷
+                 //! 每一锟叫碉拷锟街斤拷锟斤拷 = w * 2锟街斤拷
                 for (int nStartH = rt.GetStartY(); nStartH < rt.GetEndY(); nStartH++) {
                     
-                    //! 8bit YUYV 字节数是2
+                    //! 8bit YUYV 锟街斤拷锟斤拷锟斤拷2
                     unsigned char* pYSrc = srcYuv.GetY() + srcYuv.GetWidth() * 2 * nStartH + rt.GetStartX() * 2;
                     unsigned char* pYDst = dstYuv.GetY() + dstYuv.GetWidth() * 2 * (nStartH - rt.GetStartX());
                     memcpy(pYDst, pYSrc, dstYuv.GetWidth() * 2);
@@ -392,6 +401,29 @@ public:
     }
 
 };
+
+void generateYuv(const string& file, ColorSpace colorSpace, int _w, int _h)
+{   
+    YUVData yuv(ColorSpace::YUYV, _w, _h);
+    ofstream _ofs;
+    _ofs.open(file, ios_base::binary | ios_base::trunc | ios::out);
+    _ofs.write((char*)(yuv.GetY()), yuv.GetYSzie());
+    _ofs.write((char*)(yuv.GetU()), yuv.GetUSzie());
+    _ofs.write((char*)(yuv.GetV()), yuv.GetVSzie());
+    _ofs.close();
+}
+
+void generateYuvBlack(const string& file, ColorSpace colorSpace, int _w, int _h, bool bBlack)
+{   
+    YUVData yuv(ColorSpace::YUYV, _w, _h);
+    yuv.SetBufferZero();
+    ofstream _ofs;
+    _ofs.open(file, ios_base::binary | ios_base::trunc | ios::out);
+    _ofs.write((char*)(yuv.GetY()), yuv.GetYSzie());
+    _ofs.write((char*)(yuv.GetU()), yuv.GetUSzie());
+    _ofs.write((char*)(yuv.GetV()), yuv.GetVSzie());
+    _ofs.close();
+}
 
 
 int main(int argc, char* argv[])
@@ -457,5 +489,16 @@ int main(int argc, char* argv[])
     ofs.write((char*)(yuv422p_out.GetV()), yuv422p_out.GetVSzie());
     ofs.close();
 
+    generateYuv("f1.yuv", ColorSpace::YUV422P, 1920, 1080);
+    generateYuvBlack("f2.yuv", ColorSpace::YUV422P, 1920, 1080, true);
+
     return 0;
 }
+
+/*
+* @brief
+
+ffmpeg.exe -y -s 1920x1080 -pix_fmt yuv422p -i .\f1.yuv f1.jpg
+ffmpeg.exe -y -s 1920x1080 -pix_fmt yuv422p -i .\f2.yuv f2.jpg
+
+*/
