@@ -56,7 +56,7 @@ bool GetColorSpaceSize(ColorSpace ColorSpace, int nW, int nH,
     case ColorSpace::YUV422P:
         yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
         break;    
-    case ColorSpace::YUYV:      //! YUYV�ȼ���YUV422����
+    case ColorSpace::YUYV:      //! YUYV等价于YUV422交错
         yLineSize = nW;  uLineSize = nW >> 1; vLineSize = nW >> 1; bRet = true;
         break;
     default:
@@ -380,13 +380,13 @@ public:
             }
             else if (dstYuv.GetColorSpace() == ColorSpace::YUYV)
             {
-                 //! YUYV�����洢, ���԰�YUV����һ������, ����RGB
-                 //! ����bufferʱ�����Ե������ص�(YUV)������
-                 //! Y U V���ߵĸ߶�����ͬ��
-                 //! ÿһ�е��ֽ��� = w * 2�ֽ�
+                 //! YUYV交错存储, 可以把YUV看成一个整体, 类似RGB
+                 //! 处理buffer时，可以单个像素点(YUV)来处理
+                 //! Y U V三者的高度是相同的
+                 //! 每一行的字节数 = w * 2字节
                 for (int nStartH = rt.GetStartY(); nStartH < rt.GetEndY(); nStartH++) {
                     
-                    //! 8bit YUYV �ֽ�����2
+                    //! 8bit YUYV 字节数是2
                     unsigned char* pYSrc = srcYuv.GetY() + srcYuv.GetWidth() * 2 * nStartH + rt.GetStartX() * 2;
                     unsigned char* pYDst = dstYuv.GetY() + dstYuv.GetWidth() * 2 * (nStartH - rt.GetStartX());
                     memcpy(pYDst, pYSrc, dstYuv.GetWidth() * 2);
@@ -425,6 +425,11 @@ void generateYuvBlack(const string& file, ColorSpace colorSpace, int _w, int _h,
     _ofs.close();
 }
 
+void test()
+{
+    generateYuv("f1.yuv", ColorSpace::YUV422P, 1920, 1080);
+    generateYuvBlack("f2.yuv", ColorSpace::YUV422P, 1920, 1080, true);
+}
 
 int main(int argc, char* argv[])
 {
@@ -488,9 +493,6 @@ int main(int argc, char* argv[])
     ofs.write((char*)(yuv422p_out.GetU()), yuv422p_out.GetUSzie());
     ofs.write((char*)(yuv422p_out.GetV()), yuv422p_out.GetVSzie());
     ofs.close();
-
-    generateYuv("f1.yuv", ColorSpace::YUV422P, 1920, 1080);
-    generateYuvBlack("f2.yuv", ColorSpace::YUV422P, 1920, 1080, true);
 
     return 0;
 }
