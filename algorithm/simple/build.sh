@@ -23,3 +23,6 @@ g++ -o ./bin/removeElements_list removeElements_list.cpp -g -O0
 
 echo "MyLinkedList"
 g++ -o ./bin/MyLinkedList MyLinkedList.cpp -g -O0
+
+echo "reverse_list"
+g++ -o ./bin/reverse_list reverse_list.cpp -g -O0
