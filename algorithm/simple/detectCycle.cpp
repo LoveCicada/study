@@ -13,31 +13,30 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-ListNode* removeNthFromEnd(ListNode* head, int n) {
-    ListNode* virtualHead = new ListNode(0);
-    virtualHead->next = head;
-    ListNode* slow = virtualHead;
-    ListNode* fast = virtualHead;
-
-    while(n-- && fast != nullptr) {
-        fast = fast->next;
-    }
-
-    fast = fast->next;
-    while(fast != nullptr) {
-        fast = fast->next;
+ListNode* detectCycle(ListNode* head) {
+    ListNode* fast = head;
+    ListNode* slow = head;
+    while(fast != NULL && fast->next != NULL) {
+        // slow move one step
         slow = slow->next;
+        // fast move two step
+        fast = fast->next->next;
+
+        // when fast meet slow, the list exist circle
+        if(fast == slow) {
+            // the length between head and entry point 
+            // equal to between meet point and entry point
+            ListNode* idx1 = fast;
+            ListNode* idx2 = head;
+            while(idx1 != idx2) {
+                idx1 = idx1->next;
+                idx2 = idx2->next;
+            }
+            // return circle entry point
+            return idx2;
+        }
     }
-
-    //delete slow->next;
-    ListNode* pD = slow->next;
-    slow->next = slow->next->next;
-    delete pD;
-
-    ListNode* p = virtualHead->next;
-    delete virtualHead;
-    return p;
-
+    return NULL;
 }
 
 ListNode* generateListNode(const vector<int>& v)
@@ -91,7 +90,7 @@ int main()
     vector<int> v(array, array + sizeof(array)/sizeof(array[0]));
     ListNode* p = generateListNode(v);
     printList(p);
-    ListNode* cur = removeNthFromEnd(p, val);
+    ListNode* cur = detectCycle(p);
     printList(cur);
     deleteListNode(p);
 
@@ -101,6 +100,6 @@ int main()
 /**
  * @result
  * 
-    1 2 3 4 5 6 7   
-    1 2 3 4 5 7 
+ *  0 1 2 2 4 2 6
+    0 1 4 6
  */

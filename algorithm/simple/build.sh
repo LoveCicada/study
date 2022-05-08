@@ -29,3 +29,9 @@ g++ -o ./bin/reverse_list reverse_list.cpp -g -O0
 
 echo "removeNthFromEnd"
 g++ -o ./bin/removeNthFromEnd removeNthFromEnd.cpp -g -O0
+
+echo "detectCycle"
+g++ -o ./bin/detectCycle detectCycle.cpp -g -O0
+
+echo "hasCycle"
+g++ -o ./bin/hasCycle hasCycle.cpp -g -O0
