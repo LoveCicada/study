@@ -35,3 +35,6 @@ g++ -o ./bin/detectCycle detectCycle.cpp -g -O0
 
 echo "hasCycle"
 g++ -o ./bin/hasCycle hasCycle.cpp -g -O0
+
+echo "isAnagram"
+g++ -o ./bin/isAnagram isAnagram.cpp -g -O0
