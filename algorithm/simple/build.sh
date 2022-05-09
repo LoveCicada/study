@@ -41,3 +41,6 @@ g++ -o ./bin/isAnagram isAnagram.cpp -g -O0
 
 echo "intersection"
 g++ -o ./bin/intersection intersection.cpp -g -O0
+
+echo "twoSum"
+g++ -o ./bin/twoSum twoSum.cpp -g -O0
