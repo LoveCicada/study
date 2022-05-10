@@ -47,3 +47,6 @@ g++ -o ./bin/twoSum twoSum.cpp -g -O0
 
 echo "fourSumCount"
 g++ -o ./bin/fourSumCount fourSumCount.cpp -g -O0
+
+echo "reverseString"
+g++ -o ./bin/reverseString reverseString.cpp -g -O0
