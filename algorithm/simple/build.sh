@@ -51,5 +51,8 @@
 # echo "reverseString"
 # g++ -o ./bin/reverseString reverseString.cpp -g -O0
 
-echo "reverseStr"
-g++ -o ./bin/reverseStr reverseStr.cpp -g -O0
+# echo "reverseStr"
+# g++ -o ./bin/reverseStr reverseStr.cpp -g -O0
+
+echo "reverseWords"
+g++ -o ./bin/reverseWords reverseWords.cpp -g -O0
