@@ -54,5 +54,8 @@
 # echo "reverseStr"
 # g++ -o ./bin/reverseStr reverseStr.cpp -g -O0
 
-echo "reverseWords"
-g++ -o ./bin/reverseWords reverseWords.cpp -g -O0
+# echo "reverseWords"
+# g++ -o ./bin/reverseWords reverseWords.cpp -g -O0
+
+echo "printByOrder"
+g++ -o ./bin/printByOrder printByOrder.cpp -std=c++11 -lpthread -g -O0 
