@@ -14,8 +14,8 @@
 #include <iostream>
 #include <functional>
 #include <thread>
-
 #include <semaphore>
+
 using namespace std;
 
 void printFirst()

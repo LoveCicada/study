@@ -5,36 +5,45 @@
  */
 #include <functional>
 #include <semaphore.h>
-
+#include <mutex>
+#include <condition_variable>
+using namespace std;
 // @lc code=start
 class Foo {
-protected:
-    sem_t m_firstSem;
-    sem_t m_secondSem;
+private:
+    bool m_bSecond;
+    bool m_bThird;
+    std::mutex m_mtx;
+    std::condition_variable m_cv;
 public:
     Foo() {
-        sem_init(&m_firstSem, 0, 0);
-        sem_init(&m_secondSem, 0, 0);
+        m_bSecond = false;
+        m_bThird = false;
     }
 
     void first(function<void()> printFirst) {
-        
+        std::unique_lock<std::mutex> lk(m_mtx);
         // printFirst() outputs "first". Do not change or remove this line.
         printFirst();
-        sem_post(&m_firstSem);
+        m_bSecond = true;
+        m_cv.notify_all();
     }
 
     void second(function<void()> printSecond) {
-        sem_wait(&m_firstSem);
+        std::unique_lock<std::mutex> lk(m_mtx);
+        m_cv.wait(lk, [this](){return m_bSecond;});
         // printSecond() outputs "second". Do not change or remove this line.
         printSecond();
-        sem_post(&m_secondSem);
+        m_bThird = true;
+        m_cv.notify_one();
     }
 
     void third(function<void()> printThird) {
-        sem_wait(&m_secondSem);
+        std::unique_lock<std::mutex> lk(m_mtx);
+        m_cv.wait(lk, [this](){return m_bThird;});
         // printThird() outputs "third". Do not change or remove this line.
         printThird();
+        m_cv.notify_one();
     }
 };
 // @lc code=end
