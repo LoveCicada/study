@@ -63,5 +63,8 @@
 # echo "printByOrder2"
 # g++ -o ./bin/printByOrder2 printByOrder2.cpp -std=c++20 -lpthread -g -O0 
 
-echo "printByOrder3"
-g++ -o ./bin/printByOrder3 printByOrder3.cpp -std=c++11 -lpthread -g -O0 
+# echo "printByOrder3"
+# g++ -o ./bin/printByOrder3 printByOrder3.cpp -std=c++11 -lpthread -g -O0 
+
+echo "alternatePrint"
+g++ -o ./bin/alternatePrint alternatePrint.cpp -std=c++11 -lpthread -g -O0 
