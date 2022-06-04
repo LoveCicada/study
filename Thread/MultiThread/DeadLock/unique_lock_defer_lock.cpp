@@ -11,9 +11,9 @@ int b = 20;
 std::mutex mtxa;
 std::mutex mtxb;
 
-
 void thread_funcA()
-{	// 拥有锁，但不去调动加锁 。 只获取拥有权，不调动加锁
+{	
+	// 拥有锁，但不去调动加锁 。 只获取拥有权，不调动加锁
 	std::unique_lock<std::mutex> uqka(mtxa, std::defer_lock);
 	std::unique_lock<std::mutex> uqkb(mtxb, std::defer_lock);
 	std::lock(uqka, uqkb);	// 前两者都拥有锁之后，再加锁
@@ -25,7 +25,8 @@ void thread_funcA()
 	cout << "T_A : " << c << endl;
 }
 void thread_funcB()
-{	// 拥有锁，但不去调动加锁 。 只获取拥有权，不调动加锁
+{	
+	// 拥有锁，但不去调动加锁 。 只获取拥有权，不调动加锁
 	std::unique_lock<std::mutex> uqkb(mtxb, std::defer_lock);
 	std::unique_lock<std::mutex> uqka(mtxa, std::defer_lock);
 	std::lock(uqka, uqkb);	// 前两者都拥有锁之后，再加锁

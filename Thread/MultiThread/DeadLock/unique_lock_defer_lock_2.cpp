@@ -38,7 +38,7 @@ void testA(string str)
     this_thread::sleep_for(std::chrono::milliseconds(1000)); 
     
     // 前两者都拥有锁之后，再加锁
-    std::lock(g_mtxA, g_mtxB);
+    std::lock(lkA, lkB);
 
     std::cout << "g_idx: " << ++g_idx 
                 << " tid name: " << str 
@@ -59,7 +59,7 @@ void testB(string str)
     this_thread::sleep_for(std::chrono::milliseconds(1000)); 
     
     // 前两者都拥有锁之后，再加锁
-    std::lock(g_mtxA, g_mtxB);
+    std::lock(lkA, lkB);
 
     std::cout << "g_idx: " << ++g_idx 
                 << " tid name: " << str 
