@@ -7,10 +7,10 @@
 int WINAPI _tWinMain(HINSTANCE hInstExe, HINSTANCE, LPTSTR szCmdLine, int nCmdShow)
 {
     //Create a file-mapping object;the handle has read/write access. 
-    HANDLE hFileMapRW=CreateFileMapping(INVALID_HANDLE_VALUE, NULL,     PAGE_READWRITE, 0, 10240, NULL);
+    HANDLE hFileMapRW=CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 10240, NULL);
     //Create another handle to the file-mapping object;the handle   has read-only access.  
     HANDLE hFileMapRO;  
-    DuplicateHandle(GetCurrentProcess(), hFileMapRW,    GetCurrentProcess(), &hFileMapRO, FILE_MAP_READ, FALSE,0);
+    DuplicateHandle(GetCurrentProcess(), hFileMapRW, GetCurrentProcess(), &hFileMapRO, FILE_MAP_READ, FALSE,0);
     //Call the function that should only read from the file mapping. 
     ReadFromTheFileMapping(hFileMapRO);
     //Close the read-only file-mapping object.  
@@ -21,4 +21,10 @@ int WINAPI _tWinMain(HINSTANCE hInstExe, HINSTANCE, LPTSTR szCmdLine, int nCmdSh
 ```
 
 > 内存映射文件是由一个文件到进程地址空间的映射。使用内存映射文件处理存储于磁盘上的文件时，将不必再对文件执行I/O操作，使得内存映射文件在处理大数据量的文件时能起到相当重要的作用。Win32系统允许多个进程（运行在同一计算机上）使用内存映射文件来共享数据。这种函数最适用于需要读取文件并且对文件内包含的信息做语法分析的应用程序，如：对输入文件进行语法分析的彩色语法编辑器，编译器等。映射文件的另一个重要应用就是用来支持永久命名的共享内存。要在两个应用程序之间共享内存，可以在一个应用程序中创建一个文件并映射之，然后另一个应用程序可以通过打开和映射此文件把它作为共享的内存来使用。
+
+[【Windows via C/C++】第3章 内核对象 (2)](https://blog.csdn.net/HPP_CSDN/article/details/113031469)
+
+[【Windows via C/C++】目录](https://blog.csdn.net/HPP_CSDN/article/details/110475595)
+
+[windows笔记-跨越进程边界共享内核对象【复制对象句柄】](https://www.cnblogs.com/fangyukuan/archive/2010/08/31/1813949.html)
 
