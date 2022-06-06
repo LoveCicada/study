@@ -180,6 +180,28 @@ overlay：水印的位置，距离原视频左侧的距离：距离原视频上�
 
 ```
 
+- FFMPEG NVIDIA硬件加速 编解码器使用方法
+```
+h265编码测试
+(1). ffmpeg -s 1920x1080 -pix_fmt yuv420p -i BQTerrace_1920x1080_60.yuv -vcodec hevc_nvenc -r 60 -y 2_60.265
+(2). ffmpeg -s 1920x1080 -pix_fmt yuv420p -i BQTerrace_1920x1080_60.yuv -vcodec hevc_nvenc -r 30 -y 2_30.265
+
+h264编码测试
+(3). ffmpeg -s 1920x1080 -pix_fmt yuv420p -i BQTerrace_1920x1080_60.yuv -vcodec h264_nvenc -r 60 -y 2_60.264
+(4). ffmpeg -s 1920x1080 -pix_fmt yuv420p -i BQTerrace_1920x1080_60.yuv -vcodec h264_nvenc -r 30 -y 2_30.264
+
+h264转h265
+(5). ffmpeg -i 1_60.264 -vcodec hevc_nvenc -r 60 -y 2_60_264to265.265
+(6). ffmpeg -i 1_30.264 -vcodec hevc_nvenc -r 30 -y 2_30_264to265.265
+
+h265转h264
+(7). ffmpeg -i 1_60.265 -vcodec h264_nvenc -r 60 -y 2_60_265to264.264
+(8). ffmpeg -i 1_30.265 -vcodec h264_nvenc -r 30 -y 2_30_265to264.264
+```
+[FFMPEG NVIDIA硬件加速总结](https://blog.csdn.net/u014162133/article/details/109182592?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-109182592-blog-124584519.pc_relevant_antiscanv2&spm=1001.2101.3001.4242.1&utm_relevant_index=3)
+
+
+
 
 
 
