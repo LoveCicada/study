@@ -32,19 +32,36 @@ ffmpeg -formats > formats.txt
 ffmpeg -filters > filters.txt
 ```
 
+- 查看YUV数据
 ```
-查看YUV数据
 ffplay -f rawvideo -pixel_format yuv422p10le -video_size 3840x2160 .\spilt.yuv
 yuv422p10le：颜色空间
 ```
 
+- YUV转jpg
 ```
-YUV转jpg
 ffmpeg -y -s 3840x2160 -pix_fmt yuv420p -i cudaAfter.yuv image.jpg
 ```
 
+- jpg转YUV
 ```
-截取视频并保存为图片
+ffmpeg.exe -i .\bk.jpg -pix_fmt yuvj420p bk.yuv
+```
+
+- FFMPEG JPG转YUV命令
+```
+jpg转nv21
+ffmpeg -i image_1920x1080.jpg -pix_fmt nv21 image_1920x1080.nv21.yuv
+jpg转bgr24
+ffmpeg -i image_1920x1080.jpg -pix_fmt bgr24 image_1920x1080.bgr24.rgb
+jpg转bgr32
+ffmpeg -i image_1920x1080.jpg -pix_fmt bgr32 image_1920x1080.bgr32.rgb
+nv21转jpg
+ffmpeg -y -s 1920x1080 -pix_fmt nv21 -i image.nv21.yuv image.jpg
+```
+
+- 截取视频并保存为图片
+```
 ffmpeg -i luna_test-audio.mp4 -r 25 -ss 00:00:00 -t 00:00:05 %03d.jpg
 
 ffmpeg -i luna_test-audio.mp4 -r 25 -ss 00:00:00 -t 00:00:05 %03d.ppm
