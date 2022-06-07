@@ -274,6 +274,15 @@ public:
     {
         if( ColorSpace::YUV422P == m_colorSpace ){
             memset(m_pY, 0, m_ySize);
+            memset(m_pU, 0, m_uSize);
+            memset(m_pV, 0, m_vSize);
+        }
+    }
+
+    void SetBufferBlack()
+    {
+        if( ColorSpace::YUV422P == m_colorSpace ){
+            memset(m_pY, 16, m_ySize);
             memset(m_pU, 128, m_uSize);
             memset(m_pV, 128, m_vSize);
         }
@@ -404,7 +413,7 @@ public:
 
 void generateYuv(const string& file, ColorSpace colorSpace, int _w, int _h)
 {   
-    YUVData yuv(ColorSpace::YUYV, _w, _h);
+    YUVData yuv(ColorSpace::YUV422P, _w, _h);
     ofstream _ofs;
     _ofs.open(file, ios_base::binary | ios_base::trunc | ios::out);
     _ofs.write((char*)(yuv.GetY()), yuv.GetYSzie());
@@ -415,8 +424,8 @@ void generateYuv(const string& file, ColorSpace colorSpace, int _w, int _h)
 
 void generateYuvBlack(const string& file, ColorSpace colorSpace, int _w, int _h, bool bBlack)
 {   
-    YUVData yuv(ColorSpace::YUYV, _w, _h);
-    yuv.SetBufferZero();
+    YUVData yuv(ColorSpace::YUV422P, _w, _h);
+    yuv.SetBufferBlack();
     ofstream _ofs;
     _ofs.open(file, ios_base::binary | ios_base::trunc | ios::out);
     _ofs.write((char*)(yuv.GetY()), yuv.GetYSzie());
@@ -427,7 +436,9 @@ void generateYuvBlack(const string& file, ColorSpace colorSpace, int _w, int _h,
 
 void test()
 {
+    std::cout << "generateYuv" << std::endl;
     generateYuv("f1.yuv", ColorSpace::YUV422P, 1920, 1080);
+    std::cout << "generateYuvBlack" << std::endl;
     generateYuvBlack("f2.yuv", ColorSpace::YUV422P, 1920, 1080, true);
 }
 
@@ -487,12 +498,16 @@ int main(int argc, char* argv[])
     yuvCrop.Crop(yuv422p, yuv422p_out, rtLeftTop);
 #endif
 
+#if 0
     ofstream ofs;
     ofs.open(outpath, ios_base::binary | ios::trunc|ios::out|ios::in);
     ofs.write((char*)(yuv422p_out.GetY()), yuv422p_out.GetYSzie());
     ofs.write((char*)(yuv422p_out.GetU()), yuv422p_out.GetUSzie());
     ofs.write((char*)(yuv422p_out.GetV()), yuv422p_out.GetVSzie());
     ofs.close();
+#endif
+
+    test();
 
     return 0;
 }
