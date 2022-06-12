@@ -22,7 +22,10 @@ class Color;
 class Pen
 {
 public:
-    virtual ~Pen() {}
+    virtual ~Pen() 
+    {
+        cout << __func__ << " " << this << endl;
+    }
 
     virtual void draw(const string& name) = 0;
 
@@ -44,7 +47,10 @@ private:
 class Color
 {
 public:
-    virtual ~Color() {}
+    virtual ~Color() 
+    {
+        cout << __func__ << " " << this << endl;
+    }
 
     virtual void bepaint(const string& penType, const string& name) = 0;
 };
@@ -52,6 +58,12 @@ public:
 class BigPen : public Pen
 {
 public:
+
+    ~BigPen()
+    {
+        cout << __func__ << " " << this << endl;
+    }
+
     void draw(const string& name)
     {
         string pen_type = "大号钢笔绘制";
@@ -62,6 +74,12 @@ public:
 class SmallPencil : public Pen 
 {
 public:
+
+    ~SmallPencil()
+    {
+        cout << __func__ << " " << this << endl;
+    }
+
     void draw(std::string name) 
     {
         std::string pen_type = "小号铅笔绘制";
@@ -72,6 +90,12 @@ public:
 class Red : public Color
 {
 public:
+
+    ~Red()
+    {
+        cout << __func__ << " " << this << endl;
+    }
+
     void bepaint(const string& penType, const string& name) override
     {
         cout << penType << " 红色的 " << name << "." << endl;
@@ -81,6 +105,12 @@ public:
 class Green : public Color
 {
 public:
+
+    ~Green()
+    {
+        cout << __func__ << " " << this << endl;
+    }
+
     void bepaint(const string& penType, const string& name) override
     {
         cout << penType << " 绿色的 " << name << "." << endl;
@@ -89,13 +119,25 @@ public:
 
 int main(int argc, char * argv[])
 {
-    shared_ptr<Color> pColor(new Red());
-    shared_ptr<Pen> pPen(new BigPen());
+    
+    {
+        shared_ptr<Color> pColor(new Red());
+        shared_ptr<Pen> pPen(new BigPen());
 
-    pPen->setColor(pColor);
-    pPen->draw("地球");
+        pPen->setColor(pColor);
+        pPen->draw("地球");
+    }
 
     return 0;
 }
 
 //! @see https://blog.csdn.net/m0_46655373/article/details/123948257
+
+/**
+ * @result 
+ *  大号钢笔绘制 红色的 地球.
+    ~BigPen 013343C8
+    ~Pen 013343C8
+    ~Red 013351E8
+    ~Color 013351E8
+ */
