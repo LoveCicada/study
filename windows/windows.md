@@ -18,3 +18,10 @@ tasklist|findstr "9088"
 ```
 taskkill /T /F /PID 9088 
 ```
+
+- `WSL2启动关闭`
+```
+管理员权限运行powershell
+net stop LxssManager
+net start LxssManager
+```
