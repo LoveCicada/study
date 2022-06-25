@@ -96,3 +96,37 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted 
 # deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
 ```
+
+***
+### Ubuntu20.04 新系统远程环境搭建 
+- SSH
+```bash
+#!/bin/bash
+
+#安装ssh客户端和服务端
+sudo apt-get install openssh-client
+sudo apt-get install openssh-server
+
+#启动ssh
+sudo service ssh start
+
+#查看ssh状态
+ps -e | grep ssh
+pa -aux | grep ssh
+
+#查看本机
+ipifconfig
+
+#ssh连接
+ssh name@ip -22
+```
+
+[在Ubuntu 20.04服务器上安装TigerVNC并配置VNC的详细步骤](https://ywnz.com/linuxyffq/8969.html)
+
+[搭建 Ubuntu 可视化界面-腾讯云服务器官方文档](https://cloud.tencent.com/document/product/213/46001#null)
+- VNC
+```bash
+
+```
+
+***
