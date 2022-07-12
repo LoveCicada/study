@@ -72,6 +72,7 @@ PermitRootLogin yes
 sudo /etc/init.d/ssh restart
 ```
 
+<<<<<<< HEAD
 ### ubuntu18.04新系统开发环境配置
 ```bash
 # 添加用户到sudo用户列表中
@@ -94,12 +95,47 @@ cat /etc/passwd
 sudo apt-get install git
 
 # 安装ssh
+=======
+- `ubuntu20.4更换国内镜像源`
+cd /etc/apt
+sudo mv sources.list sources.list.bac 
+sudo vim sources.list
+
+sudo apt update
+sudo apt upgrade
+
+```bash
+#-----------------------------清华源-------------------------------------
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+
+# 预发布软件源，不建议启用
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+```
+
+***
+### Ubuntu20.04 新系统远程环境搭建 
+- SSH
+```bash
+#!/bin/bash
+
+#安装ssh客户端和服务端
+>>>>>>> 9a7530dfc17e60124822a9d2cc8db3b58bed628f
 sudo apt-get install openssh-client
 sudo apt-get install openssh-server
 
 #启动ssh
 sudo service ssh start
 
+<<<<<<< HEAD
 # C/C++
 sudo apt-get install build-essential
 
@@ -108,3 +144,25 @@ sudo apt-get install --reinstall pkg-config cmake-data
 
 
 ```
+=======
+#查看ssh状态
+ps -e | grep ssh
+pa -aux | grep ssh
+
+#查看本机
+ipifconfig
+
+#ssh连接
+ssh name@ip -22
+```
+
+[在Ubuntu 20.04服务器上安装TigerVNC并配置VNC的详细步骤](https://ywnz.com/linuxyffq/8969.html)
+
+[搭建 Ubuntu 可视化界面-腾讯云服务器官方文档](https://cloud.tencent.com/document/product/213/46001#null)
+- VNC
+```bash
+
+```
+
+***
+>>>>>>> 9a7530dfc17e60124822a9d2cc8db3b58bed628f
