@@ -1,4 +1,6 @@
 #! /bin/bash
 
-echo "decorator"
-g++ -o ./bin/main main.cpp
+
+
+echo "decorator3"
+g++ -o ./bin/main3 main3.cpp

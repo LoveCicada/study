@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "decorator.h"
+#include "decorator3.h"
 using namespace std;
 
 int main(int argc, char **argv)
