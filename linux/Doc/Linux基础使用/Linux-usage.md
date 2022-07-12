@@ -72,6 +72,30 @@ PermitRootLogin yes
 sudo /etc/init.d/ssh restart
 ```
 
+<<<<<<< HEAD
+### ubuntu18.04新系统开发环境配置
+```bash
+# 添加用户到sudo用户列表中
+su -
+vim /etc/sudooers
+
+# 1. 先cd到/etc/sudoers目录下
+# 2. 由于sudoers文件为只读权限，所以需要添加写入权限，chmod u+w sudoers
+# 3. vim sudoers
+# 4. 找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL。
+#     username指代你想加入sudo组的用户名。
+# 5. 把sudoers文件的权限修改回来。chmod u-w sudoers
+# 6. 这样普通用户可以执行sudo命令了。
+
+# tab命令无法补全
+cat /etc/passwd
+# 将/bin/sh  改为/bin/bash
+
+# 安装git
+sudo apt-get install git
+
+# 安装ssh
+=======
 - `ubuntu20.4更换国内镜像源`
 cd /etc/apt
 sudo mv sources.list sources.list.bac 
@@ -104,12 +128,23 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted 
 #!/bin/bash
 
 #安装ssh客户端和服务端
+>>>>>>> 9a7530dfc17e60124822a9d2cc8db3b58bed628f
 sudo apt-get install openssh-client
 sudo apt-get install openssh-server
 
 #启动ssh
 sudo service ssh start
 
+<<<<<<< HEAD
+# C/C++
+sudo apt-get install build-essential
+
+# 修复版本编译冲突
+sudo apt-get install --reinstall pkg-config cmake-data
+
+
+```
+=======
 #查看ssh状态
 ps -e | grep ssh
 pa -aux | grep ssh
@@ -130,3 +165,4 @@ ssh name@ip -22
 ```
 
 ***
+>>>>>>> 9a7530dfc17e60124822a9d2cc8db3b58bed628f
