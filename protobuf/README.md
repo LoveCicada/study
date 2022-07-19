@@ -1,5 +1,5 @@
 
-### protobuf编译
+### protobuf学习
 
 - 下载
 [proto-buf-github](https://github.com/protocolbuffers/protobuf/releases)
@@ -36,7 +36,7 @@ protoc.exe --version
 
 - 案例使用
 1. 编写protobuf文件，例如msg.proto
-2. 编译
+2. 生成protobuf_cpp文件
 ```bash
 # 在当前目录下新建out文件夹
 protoc.exe msg.proto --cpp_out=./out
