@@ -43,3 +43,5 @@ protoc.exe msg.proto --cpp_out=./out
 ```
 3. 进入demo文件夹，新建build文件，然后cmake编译
 4. 编译时如果报错，可暂时把错误警告关闭，改为/W0
+5. 本案例编译的protobuf库为带有zlib特效的x64Windows库
+6. 运行时，将dll所在路径添加到环境变量中，或者把库拷贝到执行程序目录下
