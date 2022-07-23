@@ -1,0 +1,1 @@
+# g++ -o ./bin/getResolution getResolution.cpp
