@@ -49,3 +49,20 @@ git clean -nxfd
 git clean -nf
 git clean -nfd
 ```
+
+### `git切换分支`
+
+- `git查看远程所有分支`
+```
+git branch -a
+```
+
+- `git查看当前分支`
+```
+git branch
+```
+
+- `git切换分支`
+```
+git checkout -b control origin/control
+```
