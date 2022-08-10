@@ -23,6 +23,7 @@ public:
 	class Observer
 	{
 	public:
+		virtual ~Observer(){}
 		virtual void OnCall(const string &str) = 0;
 	};
 
