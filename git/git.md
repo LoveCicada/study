@@ -1,5 +1,12 @@
 ### git基础使用
 
+ ### `git提交代码`
+ ```
+git add . 把本地增删改添加到暂存区
+git commit -m "comment" 提交到本地仓库，添加注释
+git push origin master 推送到远程master分支
+ ``` 
+
 ### `git 放弃本地修改`
 - `未使用 git add 缓存代码时`
 ```
