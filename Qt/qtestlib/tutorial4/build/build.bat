@@ -1,0 +1,1 @@
+qmake.exe -tp vc .\..\tutorial4.pro
