@@ -21,3 +21,13 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+
+/**
+ * @test 
+ * ./HttpServerDemo
+ * 
+ * curl -v http://127.0.0.1:8888/hello
+ * 
+ * curl -v http://ip:port/hello
+ * 
+ */
