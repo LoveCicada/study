@@ -32,6 +32,8 @@ bool CXProcessLinux::Start()
     {
         //! child process
         cout << __func__ << " " << __LINE__ << " " << "child process" << endl;
+        m_processInfo.pid = getpid();
+        m_processInfo.ppid = getppid();
     }
     else if(pid == -1)
     {
