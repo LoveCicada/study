@@ -47,3 +47,6 @@ endif ()
 
 add_executable(HttpServerDemo HttpServerDemo.cpp)
 target_link_libraries(HttpServerDemo ${WFREST_LIB})
+
+add_executable(HttpServerDemo2 HttpServerDemo2.cpp)
+target_link_libraries(HttpServerDemo2 ${WFREST_LIB})
