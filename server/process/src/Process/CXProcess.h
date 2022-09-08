@@ -13,8 +13,10 @@
  */
 
 #include <string>
+#include <vector>
 #include <cstdint>
 using std::string;
+using std::vector;
 
 class CXProcess
 {
@@ -23,13 +25,15 @@ public:
     {
     public:
         string name;
-        string args;
+        string cmd;
+        vector<string> args;
 
     public:
         ProcessParams()
         {
             name = "";
-            args = "";
+            cmd = "";
+            args.clear();
         }
     };
 
@@ -53,11 +57,16 @@ public:
     virtual ~CXProcess() {}
 
 public:
+    static CXProcess* Create();
+
+public:
     virtual bool Init(const ProcessParams& params) = 0;
     virtual bool Release() = 0;
     virtual bool Start() = 0;
     virtual bool Stop() = 0;
-
+    virtual bool Wait() = 0;
+    virtual bool GetResults(vector<string> &vs) = 0;
+    virtual void PrintResults(std::vector<std::string> &vs) = 0;
 protected:
     ProcessParams m_processParams;
     ProcessInfo m_processInfo;
