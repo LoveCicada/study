@@ -81,7 +81,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-#if 1
+#if 0
     CXSubTask::ExecParam execParam;
     if(argc >= 2)
     {

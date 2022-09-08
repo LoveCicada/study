@@ -2,8 +2,10 @@
 #include "workflow/WFFacilities.h"
 #include <csignal>
 #include "wfrest/HttpServer.h"
+#include "wfrest/json.hpp"
 
 using namespace wfrest;
+using Json = nlohmann::json;
 
 static WFFacilities::WaitGroup wait_group(1);
 
@@ -42,6 +44,19 @@ int main()
         // reference, no copy here
         std::string& body = req->body();
         fprintf(stderr, "post data : %s\n", body.c_str());
+
+ #if 0       
+        std::string str1 = "I got it--> !\n";
+        std::string str2 = "I got it---> !\n";
+        std::string str = str1 + str2;
+        resp->String(str);
+#else
+        Json json;
+        json["test"] = 123;
+        json["json"] = "test json";
+        resp->Json(json);
+#endif
+        
     });
 
     if (svr.track().start(8888) == 0)
