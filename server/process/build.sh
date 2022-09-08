@@ -2,4 +2,6 @@
 #! /bin/bash
 
 echo "main"
-gcc -o ./bin/main main.c 
+cd build
+cmake ..
+make -j4
