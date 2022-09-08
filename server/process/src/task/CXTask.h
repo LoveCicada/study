@@ -23,7 +23,8 @@ public:
 
     class Output
     {
-
+    public:
+        vector<string> outputResult;
     };
 
     class ExecParam
@@ -37,14 +38,16 @@ public:
 public:
     //! create CXProcess to process subTask
     bool Run();
-
+    bool GetOutput(Output& output);
 
 public:
     vector<Input> m_inputVec;
     vector<Output> m_outputVec;
+    Output m_pOutput;
     ExecParam m_execParam;
 };
 
+typedef vector<CXSubTask::Output> OutputVec;
 typedef vector<CXSubTask> CXSubTaskVec;
 typedef shared_ptr<CXSubTask> CXSubTaskPtr;
 typedef vector<CXSubTaskPtr> CXSubTaskPtrVec;
@@ -63,12 +66,14 @@ public:
     bool DelTask(CXSubTaskPtr& pTask);
 public:
     bool Run();
-
+    bool GetOutputVec(OutputVec& outputVec);
 public:
     CXSubTaskPtrVec m_pTaskVec;
-
+    OutputVec m_pOutputVec;
 };
 
+//! multiple Task flow result
+typedef vector<OutputVec> OutputVecGroup;
 typedef vector<CXTask> CXTaskVec;
 typedef shared_ptr<CXTask> CXTaskPtr;
 typedef vector<CXTaskPtr> CXTaskPtrVec;

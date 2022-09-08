@@ -140,6 +140,20 @@ int main(int argc, char* argv[])
     taskManager.m_pTaskVec = pTaskPtrVec;
     taskManager.Run();
 
+    OutputVecGroup outputVecGroup;
+    taskManager.GetOutputVecGroup(outputVecGroup);
+    for(const auto& outputVec : outputVecGroup)
+    {
+        for(const auto& output : outputVec)
+        {
+            for (const auto &str : output.outputResult)
+            {
+                std::cout << str << std::endl;
+            }
+        }
+    }
+
+
     return 0;
 }
 

@@ -15,6 +15,10 @@ CXTaskManager::~CXTaskManager()
 
 }
 
+void CXTaskManager::SetCallBack(OnOutputVecGroup pfn)
+{
+    m_pfnOutputVecGroup = pfn;
+}
 
 bool CXTaskManager::AddTask(CXTaskPtr& pTask)
 {
@@ -49,6 +53,32 @@ void CXTaskManager::Run()
             //!
             cout << __FUNCTION__ << ": " << __LINE__ << " fail" << endl;
         }
+        OutputVec outputVec;
+        bRet = pTask->GetOutputVec(outputVec);
+        if(!bRet)
+        {
+            //!
+            cout << __FUNCTION__ << ": " << __LINE__ << " fail" << endl;
+        }
+        m_outputVecGroup.push_back(std::move(outputVec));
     }
 
+    NotifyOutputVecGroup(m_outputVecGroup);
+}
+
+bool CXTaskManager::GetOutputVecGroup(OutputVecGroup& outputVecGroup)
+{
+    bool bRet = true;
+
+    outputVecGroup = m_outputVecGroup;
+
+    return bRet;
+}
+
+void CXTaskManager::NotifyOutputVecGroup(const OutputVecGroup& outputVecGroup)
+{
+    if(m_pfnOutputVecGroup)
+    {
+        m_pfnOutputVecGroup(outputVecGroup);
+    }
 }

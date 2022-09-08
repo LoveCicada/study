@@ -33,21 +33,29 @@ bool CXSubTask::Run()
         cout << __FUNCTION__ << ": " << __LINE__ << " fail" << endl;
     }
 
-    vector<string> vs;
-    bRet = p->GetResults(vs);
+    bRet = p->GetResults(m_pOutput.outputResult);
     if(!bRet)
     {
         cout << __FUNCTION__ << ": " << __LINE__ << " fail" << endl;
     }
 
-//#ifdef _DEBUG
-    p->PrintResults(vs); 
-//#endif
+#ifdef _DEBUG
+    p->PrintResults(m_pOutput.outputResult); 
+#endif
 
     if(p)
     {
         delete p;
     }
+
+    return bRet;
+}
+
+bool CXSubTask::GetOutput(Output& output)
+{
+    bool bRet = true;
+
+    output = m_pOutput;
 
     return bRet;
 }
@@ -91,7 +99,25 @@ bool CXTask::Run()
             //!
             cout << __FUNCTION__ << ": " << __LINE__ << " fail" << endl;
         }
+
+        CXSubTask::Output output;
+        bRet = pTask->GetOutput(output);
+        if(!bRet)
+        {
+            //!
+            cout << __FUNCTION__ << ": " << __LINE__ << " fail" << endl;
+        }
+        m_pOutputVec.push_back(std::move(output));
     }
 
     return bRet;    
+}
+
+bool CXTask::GetOutputVec(OutputVec& outputVec)
+{
+    bool bRet = true;
+
+    outputVec = m_pOutputVec;
+
+    return bRet;  
 }
