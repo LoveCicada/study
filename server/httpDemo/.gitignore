@@ -1,0 +1,6 @@
+/build
+/out
+.vscode
+.vs
+httpDemo
+CMakeSettings.json

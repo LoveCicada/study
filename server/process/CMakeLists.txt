@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(PROJECT_NAME "KeyboardEventRecordTool")
+set(PROJECT_NAME "process")
 project(${PROJECT_NAME} VERSION 1.0.0)
 
 # remove last end of "/"
