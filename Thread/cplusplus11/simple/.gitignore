@@ -1,2 +1,3 @@
 #忽略bin文件夹
 /bin/*
+/.vscode

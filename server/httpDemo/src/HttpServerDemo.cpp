@@ -92,8 +92,43 @@ int main()
 
         Json jsonReq;
         jsonReq = req->json();
-        
-        buildTask();
+        bool bArray = jsonReq.is_array();
+        if(bArray)
+        {
+            cout << "Array" << endl;
+        }
+        bool bObject = jsonReq.is_object();
+        if(bObject)
+        {
+            cout << "Object" << endl;
+            auto array = jsonReq["taskList"];
+            bArray = array.is_array();
+            if(bArray)
+            {
+                cout << "Array" << endl;
+            }
+        }
+#if 1
+        CXTaskManager taskManagerTest;
+        taskManagerTest.Json2TaskData(jsonReq);
+        taskManagerTest.BuildTask();
+        taskManagerTest.Run();
+
+        OutputVecGroup outputVecGroup;
+        taskManagerTest.GetOutputVecGroup(outputVecGroup);
+        for(const auto& outputVec : outputVecGroup)
+        {
+            for(const auto& output : outputVec)
+            {
+                for (const auto &str : output.outputResult)
+                {
+                    std::cout << str << std::endl;
+                }
+            }
+        }
+#else
+        //buildTask();
+#endif
 
  #if 0       
         std::string str1 = "I got it--> !\n";
@@ -105,6 +140,8 @@ int main()
         json["task"] = 123;
         json["result"] = "task result";
         resp->Json(json);
+        json.dump();
+
 #endif
         
     });

@@ -1,9 +1,9 @@
 
 
 #include "CXTaskManager.h"
+
 #include <iostream>
 using namespace std;
-
 
 CXTaskManager::CXTaskManager()
 {
@@ -71,6 +71,67 @@ bool CXTaskManager::GetOutputVecGroup(OutputVecGroup& outputVecGroup)
     bool bRet = true;
 
     outputVecGroup = m_outputVecGroup;
+
+    return bRet;
+}
+
+bool CXTaskManager::BuildTask()
+{
+    bool bRet = true;
+
+    m_pTaskVec.clear();
+
+    for(auto& pTaskData : m_pTaskDataVec)
+    {
+        CXTaskPtr pTaskPtr(new CXTask);
+        for(auto& pSubTaskData : pTaskData->m_SubTaskDataPtrVec)
+        {
+            CXSubTaskPtr pSubTaskPtr(new CXSubTask);
+            CXSubTask::ExecParam execParam;
+            // pSubTaskData->codeLanguage;
+            execParam.args.push_back(pSubTaskData->algorithmAddress);
+            execParam.cmd = pSubTaskData->cmd;
+            pSubTaskPtr->m_execParam = execParam;
+            pTaskPtr->m_pTaskVec.push_back(pSubTaskPtr);
+        }
+        m_pTaskVec.push_back(pTaskPtr);
+    }
+
+    return bRet;
+}
+
+bool CXTaskManager::Json2TaskData(Json& json)
+{
+    bool bRet = true;
+    m_pTaskDataVec.clear();
+
+    bool bArray = json.is_array();
+    if(bArray)
+    {
+        cout << "Array" << endl;
+    }
+    bool bObject = json.is_object();
+    if(bObject)
+    {
+        cout << "Object" << endl;
+        auto array = json["taskList"];
+        bArray = array.is_array();
+        if(bArray)
+        {
+            cout << "Array" << endl;
+        }
+        int nSize = (int)array.size();
+        for(int n = 0; n < nSize; ++n)
+        {
+            CXSubTaskDataPtr pSubTaskDataPtr(new CXSubTaskData);
+            auto obj = array[n];
+            pSubTaskDataPtr->cmd = obj["cmd"];
+            pSubTaskDataPtr->algorithmAddress = obj["algorithmAddress"];
+            CXTaskDataPtr pTaskDataPtr(new CXTaskData);
+            pTaskDataPtr->m_SubTaskDataPtrVec.push_back(pSubTaskDataPtr);
+            m_pTaskDataVec.push_back(pTaskDataPtr);
+        }
+    }
 
     return bRet;
 }
