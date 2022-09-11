@@ -2,6 +2,7 @@
 #pragma once
 
 #include <thread>
+#include <mutex>
 #include <vector>
 #include <queue>
 #include <future>
@@ -15,10 +16,12 @@ namespace tp
     using std::atomic;
     using std::future;
     using std::thread;
+    using std::mutex;
     using std::unique;
     using std::vector;
     using std::queue;
     using std::unique_ptr;
+    using std::unique_lock;
     using std::packaged_task;
     /**
      * @brief safe release thread
@@ -27,7 +30,7 @@ namespace tp
     class ThreadGuard
     {
     public:
-        explicit ThreadGuard(vector<thread> &_threads)
+        explicit ThreadGuard(vector<thread>& _threads)
             : m_threads(_threads)
         {
         }
@@ -44,7 +47,7 @@ namespace tp
         }
 
     private:
-        vector<thread> m_threads;
+        vector<thread>& m_threads;
     };
 
     /**
@@ -158,11 +161,12 @@ namespace tp
         {
             while (!m_bFinished)
             {
+                unique_lock<mutex> lk(m_mtx);
                 if (!m_queue.empty())
                 {
-                    auto t = m_queue.front();
-                    m_queue.pop();
+                    auto&& t = m_queue.front();
                     t();
+                    m_queue.pop();
                 }
                 else
                 {
@@ -176,6 +180,7 @@ namespace tp
         queue<FunctionWrapper> m_queue;
         vector<thread> m_threads;
         ThreadGuard m_threadGuard;
+        mutex m_mtx;
     };
 
 }
