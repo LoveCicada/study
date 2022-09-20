@@ -23,3 +23,8 @@ cmake ..
 make 
 sudo make install
 ```
+
+- doc
+```
+https://zhuanlan.zhihu.com/p/387380942
+```

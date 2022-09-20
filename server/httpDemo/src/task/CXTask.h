@@ -27,6 +27,13 @@ public:
         vector<string> outputResult;
     };
 
+    class Result
+    {
+    public:
+        int nLine;
+        string str;
+    };
+    
     class ExecParam
     {
     public:

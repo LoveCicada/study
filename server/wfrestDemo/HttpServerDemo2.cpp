@@ -3,6 +3,9 @@
 #include <csignal>
 #include "wfrest/HttpServer.h"
 #include "wfrest/json.hpp"
+#include <thread>
+#include <chrono>
+#include <sstream>
 
 using namespace wfrest;
 using Json = nlohmann::json;
@@ -41,10 +44,15 @@ int main()
     // curl -v http://ip:port/post -d 'post hello world'
     svr.POST("/post", [](const HttpReq *req, HttpResp *resp)
     {
+
+        std::thread::id _tid = std::this_thread::get_id();
+        std::stringstream ss;
+        ss << _tid;
         // reference, no copy here
         std::string& body = req->body();
-        fprintf(stderr, "post data : %s\n", body.c_str());
-
+        fprintf(stderr, "post data : %s, _tid: %s\n", body.c_str(), ss.str().c_str());
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
  #if 0       
         std::string str1 = "I got it--> !\n";
         std::string str2 = "I got it---> !\n";

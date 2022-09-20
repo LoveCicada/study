@@ -34,8 +34,11 @@ public:
     bool BuildTask();
     //! json --> task
     bool Json2TaskData(Json& json);
+    //! result --> json
+    bool Result2Json(Json& json);
 private:
     void NotifyOutputVecGroup(const OutputVecGroup& outputVecGroup);
+    void ToJson(Json& j, const CXSubTask::Result& result);
 
 public:
     CXTaskPtrVec m_pTaskVec;

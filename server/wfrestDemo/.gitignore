@@ -2,3 +2,6 @@
 .vscode
 HttpServerDemo
 HttpServerDemo2
+/out
+/.vs
+/CMakeSettings.json

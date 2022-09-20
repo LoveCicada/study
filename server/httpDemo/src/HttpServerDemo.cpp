@@ -136,11 +136,16 @@ int main()
         std::string str = str1 + str2;
         resp->String(str);
 #else
+
+        std::string strJson = "string result";
         Json json;
         json["task"] = 123;
         json["result"] = "task result";
-        resp->Json(json);
-        json.dump();
+        json["str"] = strJson;
+
+        Json jsonResult;
+        taskManagerTest.Result2Json(jsonResult);
+        resp->Json(jsonResult);
 
 #endif
         
