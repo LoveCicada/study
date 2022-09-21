@@ -1,0 +1,77 @@
+{
+    "taskListOutput": [
+        {
+            "index": 0,
+            "task": [
+                {
+                    "subIndex": 0,
+                    "subTaskResult": [
+                        {
+                            "line": 0,
+                            "result": "df9:"
+                        },
+                        {
+                            "line": 1,
+                            "result": "     name     sex  age city  year"
+                        },
+                        {
+                            "line": 2,
+                            "result": "0     li  female   20   北京  1994"
+                        },
+                        {
+                            "line": 3,
+                            "result": "1  zhang  female   21   上海  1995"
+                        }
+                    ]
+                },
+                {
+                    "subIndex": 1,
+                    "subTaskResult": [
+                        {
+                            "line": 0,
+                            "result": "df9:"
+                        },
+                        {
+                            "line": 1,
+                            "result": "     name     sex  age city  year"
+                        },
+                        {
+                            "line": 2,
+                            "result": "0     li  female   20   北京  1994"
+                        },
+                        {
+                            "line": 3,
+                            "result": "1  zhang  female   21   上海  1995"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "index": 1,
+            "task": [
+                {
+                    "subIndex": 0,
+                    "subTaskResult": [
+                        {
+                            "line": 0,
+                            "result": "df9:"
+                        },
+                        {
+                            "line": 1,
+                            "result": "     name     sex  age city  year"
+                        },
+                        {
+                            "line": 2,
+                            "result": "0     li  female   20   北京  1994"
+                        },
+                        {
+                            "line": 3,
+                            "result": "1  zhang  female   21   上海  1995"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

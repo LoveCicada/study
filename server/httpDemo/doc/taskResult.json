@@ -1,0 +1,128 @@
+{
+    "consoleOutput": [
+        {
+            "consoleResult": [
+                {
+                    "line": 0,
+                    "result": "df8:"
+                },
+                {
+                    "line": 1,
+                    "result": "     name     sex  age city  year"
+                },
+                {
+                    "line": 2,
+                    "result": "0     li  female   20   北京  1994"
+                },
+                {
+                    "line": 3,
+                    "result": "1  zhang  female   21   上海  1995"
+                },
+                {
+                    "line": 4,
+                    "result": "df9:"
+                },
+                {
+                    "line": 5,
+                    "result": "   name     sex  age city  year"
+                },
+                {
+                    "line": 6,
+                    "result": "0   li  female   20   北京  1994"
+                },
+                {
+                    "line": 7,
+                    "result": "df10:"
+                },
+                {
+                    "line": 8,
+                    "result": "     name     sex   age city    year"
+                },
+                {
+                    "line": 9,
+                    "result": "0     li  female  20.0   北京  1994.0"
+                },
+                {
+                    "line": 10,
+                    "result": "1  zhang  female  21.0   上海  1995.0"
+                },
+                {
+                    "line": 11,
+                    "result": "2    NaN     NaN   NaN  NaN     NaN"
+                },
+                {
+                    "line": 12,
+                    "result": "3    NaN     NaN   NaN  NaN     NaN"
+                },
+                {
+                    "line": 13,
+                    "result": "4    NaN     NaN   NaN  NaN     NaN"
+                }
+            ]
+        },
+        {
+            "consoleOutput": [
+                {
+                    "consoleResult": [
+                        {
+                            "line": 0,
+                            "result": "df8:"
+                        },
+                        {
+                            "line": 1,
+                            "result": "     name     sex  age city  year"
+                        },
+                        {
+                            "line": 2,
+                            "result": "0     li  female   20   北京  1994"
+                        },
+                        {
+                            "line": 3,
+                            "result": "1  zhang  female   21   上海  1995"
+                        },
+                        {
+                            "line": 4,
+                            "result": "df9:"
+                        },
+                        {
+                            "line": 5,
+                            "result": "   name     sex  age city  year"
+                        },
+                        {
+                            "line": 6,
+                            "result": "0   li  female   20   北京  1994"
+                        },
+                        {
+                            "line": 7,
+                            "result": "df10:"
+                        },
+                        {
+                            "line": 8,
+                            "result": "     name     sex   age city    year"
+                        },
+                        {
+                            "line": 9,
+                            "result": "0     li  female  20.0   北京  1994.0"
+                        },
+                        {
+                            "line": 10,
+                            "result": "1  zhang  female  21.0   上海  1995.0"
+                        },
+                        {
+                            "line": 11,
+                            "result": "2    NaN     NaN   NaN  NaN     NaN"
+                        },
+                        {
+                            "line": 12,
+                            "result": "3    NaN     NaN   NaN  NaN     NaN"
+                        },
+                        {
+                            "line": 13,
+                            "result": "4    NaN     NaN   NaN  NaN     NaN"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

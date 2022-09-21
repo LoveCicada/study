@@ -1,0 +1,26 @@
+
+{
+
+    "taskList": [
+        {
+            "index": 0,
+            "algorithmName": "1.py",
+            "subFlowName": "taskQuery00",
+            "algorithmAddress": "/mnt/d/code/private/test/linux/subProcess/1.py",
+            "cmd": "python3",
+            "input": "input00",
+            "output": "output00",
+            "codeLanguage": "python"
+        },
+        {
+            "index": 1,
+            "algorithmName": "1.py",
+            "subFlowName": "taskQuery00",
+            "algorithmAddress": "/mnt/d/code/private/test/linux/subProcess/1.py",
+            "cmd": "python3",
+            "input": "input00",
+            "output": "output00",
+            "codeLanguage": "python"
+        }
+    ]
+}

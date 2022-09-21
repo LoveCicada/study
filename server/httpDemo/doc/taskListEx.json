@@ -1,0 +1,54 @@
+{
+    "taskList": [
+        {
+            "index": 0,
+            "task": [
+                {
+                    "subIndex": 0,
+                    "algorithmName": "1.py",
+                    "subFlowName": "taskQuery01",
+                    "algorithmAddress": "/mnt/d/code/private/test/linux/subProcess/1.py",
+                    "cmd": "python3",
+                    "input": "input00",
+                    "output": "output00",
+                    "codeLanguage": "python"
+                },
+                {
+                    "subIndex": 1,
+                    "algorithmName": "1.py",
+                    "subFlowName": "taskQuery01",
+                    "algorithmAddress": "/mnt/d/code/private/test/linux/subProcess/1.py",
+                    "cmd": "python3",
+                    "input": "input01",
+                    "output": "output01",
+                    "codeLanguage": "python"
+                }
+            ]
+        },
+        {
+            "index": 1,
+            "task": [
+                {
+                    "subIndex": 0,
+                    "algorithmName": "1.py",
+                    "subFlowName": "taskQuery00",
+                    "algorithmAddress": "/mnt/d/code/private/test/linux/subProcess/1.py",
+                    "cmd": "python3",
+                    "input": "input00",
+                    "output": "output00",
+                    "codeLanguage": "python"
+                },
+                {
+                    "subIndex": 1,
+                    "algorithmName": "1.py",
+                    "subFlowName": "taskQuery01",
+                    "algorithmAddress": "/mnt/d/code/private/test/linux/subProcess/1.py",
+                    "cmd": "python3",
+                    "input": "input01",
+                    "output": "output01",
+                    "codeLanguage": "python"
+                }
+            ]
+        }
+    ]
+}
