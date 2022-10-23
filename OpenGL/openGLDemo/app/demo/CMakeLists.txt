@@ -45,3 +45,7 @@ target_compile_definitions(${TARGET_NAME} PRIVATE
     NOMINMAX
 )
 
+add_custom_command(
+    TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/lib/glfw3.dll" $<TARGET_FILE_DIR:${TARGET_NAME}>
+)
