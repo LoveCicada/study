@@ -13,7 +13,6 @@ VXControlMainWnd::VXControlMainWnd(QWidget* p)
 	setMouseTracking(true);
 
 	m_pVXControlWnd = new VXControlWnd();
-	m_pVXControlWnd->setFixedSize(280, 280);
 
 	m_pScroll = new QScrollArea(this);
 	m_pScroll->setFrameShape(QFrame::NoFrame);
@@ -53,4 +52,21 @@ void VXControlMainWnd::mouseMoveEvent(QMouseEvent* e)
 	}
 
 	QWidget::mouseMoveEvent(e);
+}
+
+void VXControlMainWnd::resizeEvent(QResizeEvent* event)
+{
+	QRect rt = rect();
+	QRect rtCtrl = rt;
+
+	constexpr int nXoffset = 80;
+	constexpr int nYoffset = 60;
+
+	QRect rtScroll = rtCtrl.adjusted(nXoffset * 2, nYoffset * 2, -nXoffset * 2, -nYoffset * 2);
+	m_pScroll->setGeometry(rtScroll);
+
+	QRect rtControlWnd = rtCtrl.adjusted(nXoffset, nYoffset, -nXoffset, -nYoffset);
+	m_pVXControlWnd->setGeometry(rtControlWnd);
+
+	QWidget::resizeEvent(event);
 }
