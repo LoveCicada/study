@@ -51,11 +51,13 @@ void VXCustomWidget::OnBtnFullClicked()
 	if (this->parentWidget()->isFullScreen())
 	{
 		this->parentWidget()->setWindowState(windowState() & ~Qt::WindowFullScreen);
+		emit ShowWindowFullScreen();
 	}
 	else
 	{
 		hide();
 		this->parentWidget()->setWindowState(windowState() | Qt::WindowFullScreen);
+		emit ShowWindowFullScreen();
 	}
 }
 

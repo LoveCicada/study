@@ -2,11 +2,13 @@
 #include <QApplication>
 #include <QTimer>
 #include <QPainter>
+#include "VXFramelessHelper.h"
 #include "VXCustomWidget.h"
 #include "VXControlMainWnd.h"
 
 VXClientMainWnd::VXClientMainWnd(QWidget *parent)
     : QWidget(parent)
+	, m_pFramelessHelper(nullptr)
 {
 	initCtrl();
 }
@@ -21,6 +23,11 @@ void VXClientMainWnd::initCtrl()
 	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
 	setMouseTracking(true);
 
+	m_pFramelessHelper = new VXFramelessHelper();
+	m_pFramelessHelper->activateOn(this);
+	m_pFramelessHelper->setWidgetResizable(true);
+	m_pFramelessHelper->setWidgetDbClickable(true);
+
 	m_pVB = new QVBoxLayout(this);
 	m_pVB->setSpacing(0);
 	m_pVB->setMargin(0);
@@ -32,6 +39,9 @@ void VXClientMainWnd::initCtrl()
 	m_pVB->addWidget(m_pTitleBar);
 	m_pVB->addWidget(m_pControlMainWnd);
 	
+	//! signal 
+	connect(m_pTitleBar, &VXCustomWidget::ShowWindowFullScreen, this, &VXClientMainWnd::OnShowFullScreen);
+
 }
 
 void VXClientMainWnd::originalScaleLayout()
@@ -76,6 +86,18 @@ void VXClientMainWnd::OnOriginal()
 void VXClientMainWnd::OnAdapt()
 {
 	adaptLayout();
+}
+
+void VXClientMainWnd::OnShowFullScreen()
+{
+	if (isFullScreen())
+	{
+		m_pFramelessHelper->removeFrom(this);
+	}
+	else
+	{
+		m_pFramelessHelper->activateOn(this);
+	}
 }
 
 void VXClientMainWnd::paintEvent(QPaintEvent* e)

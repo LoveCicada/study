@@ -16,6 +16,7 @@
 #include <QPainter>
 #include <QStyleOptionButton>
 
+class VXFramelessHelper;
 class VXCustomWidget;
 class VXControlMainWnd;
 
@@ -40,12 +41,13 @@ public slots:
     void OnShow();
     void OnOriginal();
     void OnAdapt();
-
+    void OnShowFullScreen();
 protected:
     virtual void paintEvent(QPaintEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
 
 private:
+    VXFramelessHelper* m_pFramelessHelper = nullptr;
     QVBoxLayout* m_pVB = nullptr;
     VXCustomWidget* m_pTitleBar = nullptr;
     

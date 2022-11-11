@@ -22,6 +22,9 @@ private slots:
 	void OnBtnMaxClicked();
 	void OnBtnCloseClicked();
 
+signals:
+	void ShowWindowFullScreen();
+
 protected:
 	virtual void paintEvent(QPaintEvent* e) override;
 	virtual void leaveEvent(QEvent* e) override;
