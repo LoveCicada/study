@@ -11,6 +11,6 @@ public:
 	~VXControlWnd();
 
 protected:
-	void paintEvent(QPaintEvent* e);
-
+	virtual void paintEvent(QPaintEvent* e) override;
+	virtual void mouseMoveEvent(QMouseEvent* e) override;
 };

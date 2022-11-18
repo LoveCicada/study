@@ -5,6 +5,11 @@
 #include "VXControlMainWnd.h"
 #include "VXControlWnd.h"
 
+#include <ratio>
+#include <chrono>
+#include <iostream>
+using namespace std;
+
 VXControlMainWnd::VXControlMainWnd(QWidget* p)
 	: QWidget(p)
 	, m_pVXControlWnd(nullptr)
@@ -39,6 +44,10 @@ void VXControlMainWnd::paintEvent(QPaintEvent* e)
 
 void VXControlMainWnd::mouseMoveEvent(QMouseEvent* e)
 {
+	uint64_t ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	cout << ts_ms << " {}{}{}{} VXControlMainWnd::mouseMoveEvent" << endl;
+
+
 	QWidget::mouseMoveEvent(e);
 }
 

@@ -23,7 +23,7 @@ void VXClientMainWnd::initCtrl()
 	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
 	setMouseTracking(true);
 
-	m_pFramelessHelper = new VXFramelessHelper();
+	m_pFramelessHelper = new VXFramelessHelper(this);
 	m_pFramelessHelper->activateOn(this);
 	m_pFramelessHelper->setWidgetResizable(true);
 	m_pFramelessHelper->setWidgetDbClickable(true);
@@ -127,5 +127,6 @@ void VXClientMainWnd::mouseMoveEvent(QMouseEvent* e)
 		}
 	}
 
+	printf(" *-*-*-* VXClientMainWnd::mouseMoveEvent\n");
 	QWidget::mouseMoveEvent(e);
 }

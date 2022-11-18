@@ -6,6 +6,11 @@
 #include <QApplication>
 #include "VXFramelessHelper.h"
 
+#include <ratio>
+#include <chrono>
+#include <iostream>
+using namespace std;
+
 /*****VXFramelessHelper*****/
 VXFramelessHelper::VXFramelessHelper(QObject *parent)
     : QObject(parent),
@@ -468,6 +473,10 @@ void WidgetData::handleMouseReleaseEvent(QMouseEvent *event)
 
 void WidgetData::handleMouseMoveEvent(QMouseEvent *event)
 {
+    uint64_t ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    cout << ts_ms << " ><><><> WidgetData::handleMouseMoveEvent" << endl;
+
+
     if (m_bLeftButtonPressed)
     {
         if (d->m_bWidgetResizable && m_pressedMousePos.m_bOnEdges)
