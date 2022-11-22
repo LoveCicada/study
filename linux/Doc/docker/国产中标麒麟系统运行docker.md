@@ -25,3 +25,13 @@ docker run --privileged --rm tonistiigi/binfmt --install all
 ```bash
 docker buildx build -t <image-name> --platform=linux/arm64,linux/amd64 .
 ```
+
+
+#### 测试
+```bash
+docker pull xcbeyond/multi-arch-test:latest
+```
+
+```bash
+docker pull lovecicada/multi-arch-test:latest
+```
