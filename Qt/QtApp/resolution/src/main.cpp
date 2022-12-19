@@ -9,8 +9,247 @@
 #include <utility>
 #include <sstream>
 #include <fstream>
+#include <string>
 using namespace std;
 
+//////////////////////////////////////////////////////////
+
+struct Rect
+{
+    int nW;
+    int nH;
+};
+
+void CalcResultionRectSize(const Rect& src, Rect& dst, int resW = 1680, int resH = 1050)
+{
+    double wRate = (double)src.nW / (double)resW;
+    double hRate = (double)src.nH / (double)resH;
+
+    //double minRate = wRate < hRate ? wRate : hRate;
+    if (wRate > hRate)
+    {
+        //! dst.nH = src.nH / resH * resH = src.nH;
+        dst.nH = hRate * resH;
+        
+        //! dst.nW = resW * resH / resH;
+        dst.nW = (resW * dst.nH / resH);
+    }
+    else
+    {
+        //! dst.nW = src.nW / resW * resW = src.nW;
+        dst.nW = wRate * resW;
+
+        //! 
+        dst.nH = (resH * dst.nW / resW);
+    }
+
+    cout << "src: w= " << src.nW << " h= " << src.nH
+        << " dst: w= " << dst.nW << " h= " << dst.nH
+        << endl;
+}
+
+void CalcResultionRectSizeEx(const Rect& src, Rect& dst, int resW = 1680, int resH = 1050)
+{
+    double wRate = (double)src.nW / (double)resW;
+    double hRate = (double)src.nH / (double)resH;
+
+    //double minRate = wRate < hRate ? wRate : hRate;
+    if (wRate > hRate)
+    {
+        dst.nH = src.nH;
+        dst.nW = (resW * src.nH / resH);
+    }
+    else
+    {
+        dst.nW = src.nW;
+        dst.nH = (resH * src.nW / resW);
+    }
+
+    cout << "src: w= " << src.nW << " h= " << src.nH
+        << " dst: w= " << dst.nW << " h= " << dst.nH
+        << endl;
+}
+
+void RenderRect(const QRect& resRt, const QRect& srcRt, QRect& dstRt)
+{
+    double wRate = (double)srcRt.width() / (double)resRt.width();
+    double hRate = (double)srcRt.height() / (double)resRt.height();
+
+    if (wRate > hRate)
+    {
+        dstRt.setHeight(srcRt.height());
+        dstRt.setWidth(resRt.width() * srcRt.height() / resRt.height());
+    }
+    else
+    {
+        dstRt.setWidth(srcRt.width());
+        dstRt.setHeight(resRt.height() * srcRt.width() / resRt.width());
+    }
+
+    qDebug() << "srcRt: " << srcRt;
+    qDebug() << "dstRt: " << dstRt;
+
+    //! vertical
+    if (dstRt.height() < srcRt.height())
+    {
+        int nYoffset = (srcRt.height() - dstRt.height()) / 2;
+        dstRt.setTop(dstRt.top() + nYoffset);
+        dstRt.setBottom(dstRt.bottom() - nYoffset);
+    }
+
+    //! horizon
+    if (dstRt.width() < srcRt.width())
+    {
+        int nXoffset = (srcRt.width() - dstRt.width()) / 2;
+        dstRt.setLeft(dstRt.left() + nXoffset);
+        dstRt.setRight(dstRt.right() - nXoffset);
+    }
+
+    qDebug() << "srcRt: " << srcRt;
+    qDebug() << "dstRt: " << dstRt;
+
+}
+
+void testRectSize()
+{
+    Rect src, dst;
+    src.nW = 1339;
+    src.nH = 799;
+    CalcResultionRectSizeEx(src, dst);
+
+    src.nW = 1593;
+    src.nH = 963;
+    CalcResultionRectSizeEx(src, dst);
+}
+
+void testRenderRect()
+{
+    QRect resRt;
+    resRt.setWidth(1680);
+    resRt.setHeight(1050);
+    QRect srcRt(0, 0, 1920, 1080);
+    QRect dstRt;
+    RenderRect(resRt, srcRt, dstRt);
+}
+
+void testRect2()
+{
+    qDebug() << "---------------------";
+    QRect rt(0, 0, 1680, 1050);
+    qDebug() << "rt: " << rt;
+
+    int nXoffset = 20;
+    rt.adjust(nXoffset, 0, -nXoffset, 0);
+    qDebug() << "rt: " << rt;
+}
+
+//////////////////////////////////////////////////////
+
+std::map<std::string, std::string> ParseCliParam(int argc, char* argv[])
+{
+    std::map<std::string, std::string> ret;
+
+    std::vector<std::string> vecArgs(argv, argv + argc);
+    std::string currentKey;
+
+    for (auto strArg : vecArgs)
+    {
+        if (strArg._Starts_with("-"))
+        {
+            currentKey = strArg.substr(1, strArg.length() - 1);
+            ret[currentKey] = "";
+        }
+        else
+        {
+            auto it = ret.find(currentKey);
+            if (it != ret.end())
+            {
+                if (it->second.empty())
+                {
+                    ret[currentKey] = strArg;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+
+void funParseCliParam()
+{
+
+
+
+    //std::map<std::string, std::string> cli = ParseCliParam(argc, argv);
+}
+
+
+
+///////////////////////////////////////////////////////
+
+class VXLoginUserInfo
+{
+public:
+
+    VXLoginUserInfo()
+    {
+        Init();
+    }
+    ~VXLoginUserInfo() {}
+
+    void Init()
+    {
+        serverName = "";
+        serverPassword = "";
+    }
+
+    bool operator==(const VXLoginUserInfo& _v)
+    {
+        if ((this->serverName == _v.serverName) && (this->serverPassword == _v.serverPassword))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+public:
+    string serverName;
+    string serverPassword;
+
+};
+
+typedef vector<VXLoginUserInfo> VXLoginUserInfoVec;
+
+void findMatch()
+{
+    VXLoginUserInfoVec vec;
+    VXLoginUserInfo info;
+    info.serverName = "cicada";
+    info.serverPassword = "love0309";
+    vec.push_back(info);
+
+    info.serverName = "test";
+    info.serverPassword = "love0309";
+    //vec.push_back(info);
+
+    bool bMatch = false;
+    auto _itor = std::find(vec.begin(), vec.end(), info);
+    if (_itor != vec.end())
+    {
+        //! found
+        bMatch = true;
+        std::cout << "found" << std::endl;
+    }
+    else
+    {
+        //! not found
+        bMatch = false;
+        std::cout << "not found" << std::endl;
+    }
+
+}
 
 void f2()
 {
@@ -206,18 +445,63 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Getresolution();
+    //Getresolution();
 
-    //Match(1680, 1050);
-    //Match(1920, 1080);
-    Match(1440, 1080);
+    ////Match(1680, 1050);
+    ////Match(1920, 1080);
+    //Match(1440, 1080);
 
 
-    cout << "----------------" << endl;
-    fun();
-    f1();
-    f2();
+    //cout << "----------------" << endl;
+    //fun();
+    //f1();
+    //f2();
 
+    //testRectSize();
+
+    //testRenderRect();
+    //testRect2();
+    //findMatch();
+
+    //! resolution.exe -username {aaa} -ip {172.16.200.199} -port {5600} -password {bbb}
+
+    {
+        std::map<std::string, std::string> cli = ParseCliParam(argc, argv);
+
+
+        while (true)
+        {
+
+        }
+
+        //!
+        auto itor = cli.find("ip");
+        if (itor != cli.end())
+        {
+            std::cout << "ip: " << itor->second << std::endl;
+        }
+
+        itor = cli.find("password");
+        if (itor != cli.end())
+        {
+            std::cout << "password: " << itor->second << std::endl;
+        }
+
+        itor = cli.find("port");
+        if (itor != cli.end())
+        {
+            std::cout << "port: " << itor->second << std::endl;
+        }
+
+        itor = cli.find("username");
+        if (itor != cli.end())
+        {
+            std::cout << "username: " << itor->second << std::endl;
+        }
+
+
+        std::cout << endl;
+    }
 
     return a.exec();
 }
