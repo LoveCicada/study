@@ -12,6 +12,25 @@
 #include <string>
 using namespace std;
 
+
+//////////////////////////////////////////////////////////
+void testInt()
+{
+    int nSize1 = sizeof(unsigned long);
+    int nSize2 = sizeof(unsigned long int);
+    int nSize3 = sizeof(unsigned long long);
+    int nSize4 = sizeof(unsigned int);
+    int nSize5 = sizeof(int32_t);
+
+    cout << "unsigned long: " << nSize1 << endl;
+    cout << "unsigned long int: " << nSize2 << endl;
+    cout << "unsigned long long: " << nSize3 << endl;
+    cout << "unsigned int: " << nSize4 << endl;
+    cout << "int32_t: " << nSize5 << endl;
+}
+
+
+
 //////////////////////////////////////////////////////////
 
 struct Rect
@@ -464,6 +483,9 @@ int main(int argc, char *argv[])
     //findMatch();
 
     //! resolution.exe -username {aaa} -ip {172.16.200.199} -port {5600} -password {bbb}
+
+    testInt();
+    cout << "________________________" << endl;
 
     {
         std::map<std::string, std::string> cli = ParseCliParam(argc, argv);
