@@ -27,7 +27,7 @@ void Widget::initCtrl()
 
 	m_pLabelLoading = new QLabel();
 	m_pLabelLoading->setText("Label");
-	m_pMoveLoading = new QMovie("D:\\file\\ui\\loading.gif");
+	m_pMoveLoading = new QMovie("D:\\ownerCode\\test\Qt\\QtGui\\showGif\\img\\connect.gif");
 	m_pLabelLoading->setMovie(m_pMoveLoading);
 
 	connect(m_pBtnStart, &QPushButton::clicked, this, &Widget::OnStart);
@@ -41,13 +41,33 @@ void Widget::initCtrl()
 	m_pHB->addWidget(m_pBtnCloseExe);
 	m_pHB->addWidget(m_pLabelLoading);
 
-	this->setStyleSheet("background-color:rgb(211,111,211)");
+	this->setStyleSheet("background-color:rgb(211,111,211)");//(211,111,211) --> (255,255,255)
 }
 
 void Widget::OnStart()
 {
 	m_pLabelLoading->show();
 	m_pMoveLoading->start();
+
+	//! test
+	QString info("D:/code/remotedesktop-dyf/remotedesktop/src/modules/media/");
+	qDebug() << "info: " << info;
+	QString path = info;
+	if (path.at(path.length() - 1) == '/')
+	{
+		//path.remove(path.length() - 1);
+		path.truncate(path.lastIndexOf(QChar('/')));
+	}
+		
+	qDebug() << "path: " << path;
+	int nPos = path.lastIndexOf('/');
+	QString folderName = path.right(path.length() - 1 - nPos);
+	qDebug() << "folderName: " << folderName;
+
+	Qt::Alignment alig;
+	qDebug() << "alig: " << alig;
+
+
 }
 
 void Widget::OnStop()
