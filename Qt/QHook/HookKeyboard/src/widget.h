@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "VXCKeyAssistantFactory.h"
 
+
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -19,6 +20,8 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent* e) override;
     virtual void focusInEvent(QFocusEvent* e) override;
     virtual void focusOutEvent(QFocusEvent* e) override;
+    virtual bool nativeEvent(const QByteArray& eventType, void* message, long* result) override;
+
 
 private:
     CKeyAssistantPtr m_pCKeyAssistant;

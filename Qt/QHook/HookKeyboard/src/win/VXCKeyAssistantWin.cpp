@@ -28,6 +28,50 @@ static LRESULT CALLBACK KeyBoardProc(int code, WPARAM wParam, LPARAM lParam)
         {
         case WM_KEYDOWN:
         case WM_SYSKEYDOWN:
+        {
+            p = (PKBDLLHOOKSTRUCT)lParam;
+            //LOG_DEBUG("KeyBoard Hook=[flags: {}, vkCode: {}, scanCode: {}, dwExtraInfo: {}]", p->flags, p->vkCode, p->scanCode, p->dwExtraInfo);
+            cout << "[Hook]: "
+                << " flags: " << hex << p->flags
+                << " dwExtraInfo: " << hex << p->dwExtraInfo
+                << " scanCode: " << hex << p->scanCode
+                << " vkCode: " << hex << p->vkCode
+                << " wParam: " << hex << wParam
+                << " lParam: " << hex << lParam
+                << endl;
+
+            stringstream ss;
+            ss << "[Hook]: "
+                << " flags: " << hex << p->flags
+                << " dwExtraInfo: " << hex << p->dwExtraInfo
+                << " scanCode: " << hex << p->scanCode
+                << " vkCode: " << hex << p->vkCode
+                << " wParam: " << hex << wParam
+                << " lParam: " << hex << lParam
+                << endl;
+
+            string str = ss.str();
+            LOG(str);
+
+            //! alt + tab
+            if ((p->vkCode == VK_TAB) && ((p->flags & LLKHF_ALTDOWN) != 0))
+            {
+
+            }
+            //! left/right win + l, L key value = 0x4C
+            else if ((p->vkCode == 0x4C))
+            {
+
+            }
+            //! ctrl + alt + delete
+            else if (p->vkCode == VK_DELETE)
+            {
+            }
+
+            //! ctrl + alt + tab
+            
+        }
+        break;
         case WM_KEYUP:
         case WM_SYSKEYUP:
             p = (PKBDLLHOOKSTRUCT)lParam;
@@ -73,6 +117,9 @@ static LRESULT CALLBACK KeyBoardProc(int code, WPARAM wParam, LPARAM lParam)
 
             break;
         }
+
+        //! true:cap
+        return false;
     }
 
     return ::CallNextHookEx(g_hKeyBoard, code, wParam, lParam);
