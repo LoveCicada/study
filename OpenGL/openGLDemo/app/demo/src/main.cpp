@@ -8,6 +8,40 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
+/*
+* @brief glfw常用回调事件
+* @see https://www.caxkernel.com/6046.html
+* 1. 按键输入
+* 2. 字符输入
+* 3. 组合键输入
+* 4. 鼠标按键触发
+* 5. 光标移动触发
+* 6. 光标进入/离开触发
+* 7. 鼠标滚轮触发
+*/
+
+// 按键输入
+static void KeyInputCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+// 字符输入
+static void CharInputCallback(GLFWwindow* window, unsigned int codepoint);
+
+// 组合键输入
+static void CharModCallback(GLFWwindow* window, unsigned int codepoint, int mods);
+
+// 鼠标按键触发
+static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
+// 光标移动触发
+static void CursorposCallback(GLFWwindow* window, double xpos, double ypos);
+
+// 光标进入/离开触发
+static void CursorEnterCallback(GLFWwindow* window, int entered);
+
+// 鼠标滚轮触发
+static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -36,6 +70,16 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+   
+    ////////////////////////////////////
+    glfwSetKeyCallback(window, KeyInputCallback);
+    glfwSetCharCallback(window, CharInputCallback);
+    glfwSetCharModsCallback(window, CharModCallback);
+    glfwSetMouseButtonCallback(window, MouseButtonCallback);
+    glfwSetCursorPosCallback(window, CursorposCallback);
+    glfwSetCursorEnterCallback(window, CursorEnterCallback);
+    glfwSetScrollCallback(window, ScrollCallback);
+    //////////////////////////////////
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
@@ -167,4 +211,98 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+}
+
+void KeyInputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    std::cout << __FUNCTION__ << std::endl;
+}
+
+void CharInputCallback(GLFWwindow* window, unsigned int codepoint)
+{
+    std::cout << __FUNCTION__ << std::endl;
+}
+
+void CharModCallback(GLFWwindow* window, unsigned int codepoint, int mods)
+{
+    std::cout << __FUNCTION__ << std::endl;
+}
+
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+    std::string strMouseLeftBtn = " Mouse Left Button ";
+    std::string strMouseRightBtn = " Mouse Right Button ";
+    std::string strMouseMidBtn = " Mouse Mid Button ";
+    std::string strMouseType;
+
+    if (0 == button)
+    {
+        strMouseType += strMouseLeftBtn;
+    }
+    else if (1 == button)
+    {
+        strMouseType += strMouseRightBtn;
+    }
+    else if (2 == button)
+    {
+        strMouseType += strMouseMidBtn;
+    }
+    else
+    {
+        std::cout << __FUNCTION__ << " unknown button type" << std::endl;
+    }
+
+    std::string strMousePress = "Press";
+    std::string strMouseRelease = "Release";
+    std::string strMouseStatus;
+    if (0 == action)
+    {
+        strMouseStatus += strMousePress;
+    }
+    else if (1 == action)
+    {
+        strMouseStatus += strMouseRelease;
+    }
+    else
+    {
+        std::cout << __FUNCTION__ << " unknown button status" << std::endl;
+    }
+
+    std::cout << __FUNCTION__ << strMouseType + strMouseStatus << std::endl;
+
+    
+
+}
+
+void CursorposCallback(GLFWwindow* window, double xpos, double ypos)
+{
+    std::cout << __FUNCTION__ << std::endl;
+}
+
+void CursorEnterCallback(GLFWwindow* window, int entered)
+{
+    std::string strCursorLeaveStatus = " leave ";
+    std::string strCursorEnterStatus = " enter ";
+    std::string strCursorEnterType;
+
+    if (0 == entered)
+    {
+        strCursorEnterType += strCursorLeaveStatus;
+    }
+    else if (1 == entered)
+    {
+        strCursorEnterType += strCursorEnterStatus;
+    }
+    else
+    {
+        std::cout << __FUNCTION__ << " unknown cursor status" << std::endl;
+    }
+
+
+    std::cout << __FUNCTION__ << strCursorEnterType << std::endl;
+}
+
+void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    std::cout << __FUNCTION__ << std::endl;
 }
