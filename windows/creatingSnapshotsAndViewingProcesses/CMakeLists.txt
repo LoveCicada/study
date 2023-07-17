@@ -1,0 +1,3 @@
+cmake_minimum_required(VERSION 3.10)
+project(creatingSnapshotsAndViewingProcesses)
+add_executable(creatingSnapshotsAndViewingProcesses main.cpp)
